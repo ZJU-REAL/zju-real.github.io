@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REAL Lab @ Zhejiang University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="home">
+
+<!-- Floating background animation (viewport-wide, behind all content) -->
+<div class="bg-float" aria-hidden="true">
+  <!-- Two extra drifting halos (scattered around the viewport) -->
+  <!--
+  <div class="bg-halo bg-halo-1"></div>
+  <div class="bg-halo bg-halo-2"></div>
+  -->
+  <!-- Giant R E A L letters, each drifting slowly -->
+  <!--
+  <span class="bg-letter bg-letter-r">R</span>
+  <span class="bg-letter bg-letter-e">E</span>
+  <span class="bg-letter bg-letter-a">A</span>
+  <span class="bg-letter bg-letter-l">L</span>
+  -->
+
+
+  <!-- Soft gradient dial + centered robot (right side) -->
+  <svg class="bg-orbit" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Outer soft halo (large radial, very faint) -->
+      <radialGradient id="orbit-halo-outer" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#8aa3c2" stop-opacity="0.09" />
+        <stop offset="70%"  stop-color="#8aa3c2" stop-opacity="0.035" />
+        <stop offset="100%" stop-color="#8aa3c2" stop-opacity="0" />
+      </radialGradient>
+      <!-- Inner focused glow (smaller, slightly stronger) -->
+      <radialGradient id="orbit-halo-inner" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#8aa3c2" stop-opacity="0.16" />
+        <stop offset="60%"  stop-color="#8aa3c2" stop-opacity="0.08" />
+        <stop offset="100%" stop-color="#8aa3c2" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+
+    <!-- Two gradient halos stacked -->
+    <circle class="orbit-halo orbit-halo-outer" cx="300" cy="300" r="290" fill="url(#orbit-halo-outer)" />
+    <circle class="orbit-halo orbit-halo-inner" cx="300" cy="300" r="210" fill="url(#orbit-halo-inner)" />
+
+    <!-- Scene: robot on the left + three envs stacked on the right + curved interaction streams. -->
+    <g class="peek-scene">
+      <!-- Robot (left) — head centered vertically in viewBox, shifted left -->
+      <g class="peek-robot">
+        <g class="peek-robot-body">
+          <!-- Antennas -->
+          <rect class="robot-antenna" x="178" y="208" width="4" height="32" rx="2" transform="rotate(-14 180 224)" />
+          <circle class="robot-antenna-tip" cx="180" cy="206" r="7" />
+          <rect class="robot-antenna" x="258" y="208" width="4" height="32" rx="2" transform="rotate(14 260 224)" />
+          <circle class="robot-antenna-tip" cx="260" cy="206" r="7" />
+
+          <!-- Head -->
+          <rect class="robot-head" x="148" y="235" width="144" height="118" rx="26" />
+
+          <!-- ZJU Qiushi Eagle emblem above the robot's head (5× larger, follows head tilt). Eagle center aligned to (220, 163), resting just above the antennas so it doesn't cover the face. -->
+          <g class="zju-eagle" transform="translate(175, 118) scale(1.0225)">
+            <path d="M44.1474 66.4569L39.1672 58.8578C40.6965 58.0705 40.5071 55.6155 39.197 55.4113C37.7385 55.1828 36.5775 55.1126 35.5542 52.8197H37.9267L37.1984 50.831C34.4838 51.0694 33.93 50.315 32.6429 48.1947L36.0336 48.0786L35.3481 46.3481C31.6532 46.5195 30.6784 45.6136 29.7558 43.5082L34.061 43.3573L33.129 41.2984C28.7201 41.4214 27.7869 41.2966 26.1701 38.3151L31.647 38.2884L30.8746 36.327C25.8826 36.5424 24.6359 36.0538 23.2227 33.5572L34.4435 33.2734C36.0789 33.2318 37.9459 34.3463 38.6339 35.8296L39.9831 38.741L41.403 33.8409C42.1351 31.3164 47.6523 32.2316 49.428 33.9117L46.0907 35.1187L47.7237 39.0949C48.9071 36.3257 50.3569 33.2722 53.4762 33.2722H64.484C63.6371 35.7042 61.5925 36.9168 57.1482 36.1301L56.3671 38.189L61.8564 38.1723C60.5426 41.2351 59.0847 41.6201 55.0018 41.1556L54.1493 43.2145L58.5191 43.3567C57.6784 45.2976 56.1566 46.458 52.7833 46.0545L52.073 48.0593L55.5525 48.0432C54.5553 50.482 53.9115 51.0265 50.74 50.8837L50.0129 52.8718L52.5194 52.8811C51.4658 55.004 51.1535 55.256 48.9046 55.4554C47.5678 55.5739 46.9718 57.7141 48.7519 58.9826L44.1474 66.4569Z" fill-rule="evenodd" clip-rule="evenodd"/>
+          </g>
+
+          <!-- Eyes -->
+          <ellipse class="robot-eye" cx="192" cy="285" rx="15" ry="17" />
+          <ellipse class="robot-eye" cx="248" cy="285" rx="15" ry="17" />
+
+          <!-- Pupils (JS-tracked) -->
+          <g class="robot-pupils" id="robot-pupils">
+            <circle class="robot-pupil" cx="192" cy="288" r="6" />
+            <circle class="robot-pupil" cx="248" cy="288" r="6" />
+          </g>
+
+          <!-- Mouth: smiling arc -->
+          <path class="robot-mouth" d="M 204 320 Q 220 338 236 320" fill="none" />
+        </g>
+      </g>
+
+      <!-- =========== ENV 1: CODE (top) =========== -->
+      <g class="peek-env peek-env-code">
+        <rect class="env-frame" x="410" y="90" width="130" height="100" rx="8" />
+        <rect class="env-titlebar" x="410" y="90" width="130" height="14" rx="8" />
+        <rect class="env-titlebar-fill" x="410" y="98" width="130" height="6" />
+        <circle class="env-tl env-tl-r" cx="419" cy="97" r="2.2" />
+        <circle class="env-tl env-tl-y" cx="427" cy="97" r="2.2" />
+        <circle class="env-tl env-tl-g" cx="435" cy="97" r="2.2" />
+        <rect class="env-code-line" x="420" y="118" width="60" height="4" rx="1.5" />
+        <rect class="env-code-line" x="430" y="130" width="82" height="4" rx="1.5" />
+        <rect class="env-code-line" x="430" y="142" width="48" height="4" rx="1.5" />
+        <rect class="env-code-line" x="420" y="154" width="74" height="4" rx="1.5" />
+        <rect class="env-code-line" x="430" y="166" width="40" height="4" rx="1.5" />
+        <rect class="env-cursor" x="475" y="165" width="2" height="8" />
+      </g>
+
+      <!-- =========== ENV 2: PHONE (middle) =========== -->
+      <g class="peek-env peek-env-phone">
+        <!-- Phone body (tall rounded rect with iPhone proportions) -->
+        <rect class="phone-body" x="438" y="234" width="74" height="122" rx="14" />
+        <!-- Screen inset -->
+        <rect class="phone-screen" x="443" y="245" width="64" height="100" rx="8" />
+        <!-- Notch (top center) -->
+        <rect class="phone-notch" x="463" y="245" width="24" height="5" rx="2.5" />
+        <!-- Home indicator (bottom pill) -->
+        <rect class="phone-home" x="462" y="352" width="26" height="2" rx="1" />
+        <!-- App icons on screen (2 × 3 grid) -->
+        <rect class="phone-app" x="449" y="258" width="12" height="12" rx="3" />
+        <rect class="phone-app" x="467" y="258" width="12" height="12" rx="3" />
+        <rect class="phone-app phone-app-active" x="485" y="258" width="12" height="12" rx="3" />
+        <rect class="phone-app" x="449" y="278" width="12" height="12" rx="3" />
+        <rect class="phone-app" x="467" y="278" width="12" height="12" rx="3" />
+        <rect class="phone-app" x="485" y="278" width="12" height="12" rx="3" />
+        <rect class="phone-app" x="449" y="298" width="12" height="12" rx="3" />
+        <rect class="phone-app" x="467" y="298" width="12" height="12" rx="3" />
+        <rect class="phone-app" x="485" y="298" width="12" height="12" rx="3" />
+        <!-- A text bar at the bottom of the screen (like a bottom sheet) -->
+        <rect class="phone-bar" x="449" y="322" width="48" height="4" rx="2" />
+        <rect class="phone-bar phone-bar-dim" x="449" y="330" width="30" height="3" rx="1.5" />
+        <!-- Tap ring pulse on the active app -->
+        <circle class="phone-tap" cx="491" cy="264" r="4" />
+        <!-- Finger/pointer indicator tapping the active app -->
+        <g class="phone-pointer" transform="translate(497, 269)">
+          <polygon points="0,0 0,14 5,10 8,16 11,15 9,9 14,9" />
+        </g>
+      </g>
+
+      <!-- =========== ENV 3: 3D SCENE (bottom) =========== -->
+      <!-- Scene center (475, 460). Iso unit: 16 horiz / 8 vert per tile. -->
+      <g class="peek-env peek-env-scene3d">
+        <g class="scene-shrink">
+        <!-- Two back walls (left wall rises up-left, right wall rises up-right) -->
+        <polygon class="scene-wall scene-wall-left"  points="395,460 475,420 475,370 395,410" />
+        <polygon class="scene-wall scene-wall-right" points="555,460 475,420 475,370 555,410" />
+
+        <!-- Isometric floor (diamond) -->
+        <polygon class="scene-floor" points="475,420 555,460 475,500 395,460" />
+
+        <!-- Floor grid lines (iso) -->
+        <g class="scene-floor-grid">
+          <line x1="459" y1="428" x2="539" y2="468" />
+          <line x1="443" y1="436" x2="523" y2="476" />
+          <line x1="427" y1="444" x2="507" y2="484" />
+          <line x1="411" y1="452" x2="491" y2="492" />
+          <line x1="491" y1="428" x2="411" y2="468" />
+          <line x1="507" y1="436" x2="427" y2="476" />
+          <line x1="523" y1="444" x2="443" y2="484" />
+          <line x1="539" y1="452" x2="459" y2="492" />
+        </g>
+
+        <!-- Cube (target object) back-left -->
+        <g class="scene-cube">
+          <polygon class="scene-cube-top"   points="440,446 456,454 440,462 424,454" />
+          <polygon class="scene-cube-left"  points="424,454 440,462 440,478 424,470" />
+          <polygon class="scene-cube-right" points="456,454 440,462 440,478 456,470" />
+        </g>
+
+        <!-- Bed — shifted back-left (iso-y toward back-left wall), headboard close to the back-left wall -->
+        <g class="scene-bed">
+          <!-- Mattress top (iso diamond) -->
+          <polygon class="bed-top"      points="480,430 520,450 480,470 440,450" />
+          <!-- Mattress front-left face -->
+          <polygon class="bed-side-l"   points="440,450 480,470 480,480 440,460" />
+          <!-- Mattress front-right face -->
+          <polygon class="bed-side-r"   points="520,450 480,470 480,480 520,460" />
+
+          <!-- Headboard — vertical panel on the back-left edge of the bed (back-left side = the one touching the back-left wall) -->
+          <polygon class="bed-headboard" points="440,450 480,430 480,410 440,430" />
+        </g>
+
+        <!-- Robot proxy on the floor (small dot with halo) -->
+        <circle class="scene-agent-halo" cx="418" cy="480" r="7" />
+        <circle class="scene-agent-dot"  cx="418" cy="480" r="3.5" />
+        </g>
+      </g>
+
+      <!-- Wall clock on the RIGHT back wall with 3 hands (hour, minute, second). Matrix d=-2 means local-y=+1 maps to screen-y=-2 (up on screen). So hands point to local (0,+1) to appear pointing "up" on the tilted wall. -->
+      <g class="wall-clock-outer" transform="matrix(0.88 0 0 0.88 57 55.2)">
+        <g class="wall-clock" transform="matrix(-2 -1 0 -2 515 418)" opacity="0.55">
+          <circle class="clock-face" r="5" fill="#e8eff6" stroke="#0a4d8c" stroke-width="0.9" />
+          <!-- Hour hand — pointing to 9 o'clock (local -x direction) -->
+          <line class="clock-hand clock-hour"   x1="0" y1="0" x2="-2.6" y2="0" stroke="#2f5578" stroke-width="0.55" stroke-linecap="round" />
+          <!-- Minute hand — pointing to 12 o'clock (local +y in "up-on-wall" convention) -->
+          <line class="clock-hand clock-minute" x1="0" y1="0" x2="0" y2="4.0" stroke="#2f5578" stroke-width="0.4" stroke-linecap="round" />
+          <!-- Second hand — pointing to 6 o'clock (local -y, "down-on-wall"), ticks once per second -->
+          <line class="clock-hand clock-second" x1="0" y1="0" x2="0" y2="-4.5" stroke="#c85a5a" stroke-width="0.25" stroke-linecap="round">
+            <animateTransform attributeName="transform" attributeType="XML" type="rotate"
+              values="0;6;12;18;24;30;36;42;48;54;60;66;72;78;84;90;96;102;108;114;120;126;132;138;144;150;156;162;168;174;180;186;192;198;204;210;216;222;228;234;240;246;252;258;264;270;276;282;288;294;300;306;312;318;324;330;336;342;348;354;360"
+              dur="60s" repeatCount="indefinite" calcMode="discrete" />
+          </line>
+          <circle class="clock-center" r="0.5" fill="#2f5578" />
+        </g>
+      </g>
+
+      <!-- =========== Curved interaction streams (robot ↔ each env) =========== -->
+      <!-- Robot connector point: right edge of head, middle-ish y=294 -->
+      <!-- Code (top): curve from (292, 270) to (410, 140) -->
+      <path class="flow-path flow-path-code" d="M 292 270 C 340 240, 370 180, 410 140" fill="none" />
+      <!-- GUI (middle): curve from (292, 294) to (410, 294) -->
+      <path class="flow-path flow-path-gui" d="M 292 294 C 340 294, 370 294, 410 294" fill="none" />
+      <!-- Map (bottom): curve from (292, 318) to (410, 450) -->
+      <path class="flow-path flow-path-map" d="M 292 318 C 340 350, 370 410, 410 450" fill="none" />
+
+      <!-- Flow dots: 1 per stream, robot → env direction only -->
+      <circle class="flow-dot flow-code-out-1" r="3" />
+      <circle class="flow-dot flow-gui-out-1" r="3" />
+      <circle class="flow-dot flow-map-out-1" r="3" />
+    </g>
+  </svg>
+
+  <!-- Small geometric particles -->
+  <svg class="bg-particles" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <circle class="p p-1" cx="180" cy="160" r="4" />
+    <circle class="p p-2" cx="450" cy="700" r="3" />
+    <rect   class="p p-3" x="880" y="220" width="6" height="6" />
+    <circle class="p p-4" cx="1050" cy="540" r="5" />
+    <polygon class="p p-5" points="620,100 630,118 610,118" />
+    <rect   class="p p-6" x="300" y="480" width="5" height="5" />
+    <circle class="p p-7" cx="760" cy="800" r="3" />
+    <line   class="p p-8" x1="990" y1="90" x2="1010" y2="110" />
+  </svg>
+</div>
+
+<script>
+  // Eye-tracking: move the pupils group toward the mouse cursor
+  (function() {
+    const pupils = document.getElementById('robot-pupils');
+    if (!pupils) return;
+    // Radius of motion inside the eye socket (in SVG viewBox units)
+    const MAX = 5;
+    let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+    let rafScheduled = false;
+
+    function onMove(e) {
+      // Use the orbit SVG's bounding box as the reference frame
+      const orbit = document.querySelector('.bg-orbit');
+      if (!orbit) return;
+      const rect = orbit.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.hypot(dx, dy) || 1;
+      // Normalize to unit vector, scale by MAX
+      targetX = (dx / dist) * MAX;
+      targetY = (dy / dist) * MAX;
+      if (!rafScheduled) {
+        rafScheduled = true;
+        requestAnimationFrame(tick);
+      }
+    }
+
+    function tick() {
+      // Smooth lerp toward target
+      currentX += (targetX - currentX) * 0.12;
+      currentY += (targetY - currentY) * 0.12;
+      pupils.setAttribute('transform', `translate(${currentX}, ${currentY})`);
+      if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
+        requestAnimationFrame(tick);
+      } else {
+        rafScheduled = false;
+      }
+    }
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+  })();
+</script>
+
+<nav class="topbar">
+  <div class="inner">
+    <div class="brand"><a href="index.html">REAL Lab</a></div>
+    <input type="checkbox" id="nav-toggle-home" class="nav-toggle" aria-label="Toggle menu">
+    <label for="nav-toggle-home" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="join.html">Join</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="home-main">
+
+  <section class="hero" id="top">
+    <div class="hero-content">
+      <h1 class="headline-stack">
+        <span class="line"><span class="badge">R</span><span class="sep">·</span><span class="word">Reasoning</span></span>
+        <span class="line"><span class="badge">E</span><span class="sep">·</span><span class="word">Embodied</span></span>
+        <span class="line"><span class="badge">A</span><span class="sep">·</span><span class="word">Agentic</span></span>
+        <span class="line"><span class="badge">L</span><span class="sep">·</span><span class="word">Learnable <span class="ai">AI</span></span></span>
+      </h1>
+      <p class="affiliation">
+        We are <span class="affil-name">REAL Lab @ Zhejiang University</span> <img class="zju-eagle-logo" src="assets/qiushi-eagle.svg" alt="ZJU Qiushi Eagle" />
+      </p>
+      <p class="mission">
+        We develop AI systems that reason reliably, operate in the physical and digital world, act as Agentic AI, and continually self-evolve.
+      </p>
+      <div class="social">
+        <a href="https://github.com/ZJU-REAL" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://huggingface.co/ZJU-REAL" target="_blank" rel="noopener">HuggingFace</a>
+        <a href="join.html">Open Positions</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

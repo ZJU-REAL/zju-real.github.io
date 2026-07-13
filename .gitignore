@@ -1,6 +1,9 @@
 # Local development notes (not published)
 CLAUDE.md
 
+# Raw people-info source (local only; edited by hand to drive people.html)
+infos/
+
 # OS / editor cruft
 .DS_Store
 Thumbs.db

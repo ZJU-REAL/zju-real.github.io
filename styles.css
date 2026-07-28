@@ -775,6 +775,15 @@ body.home nav.topbar { position: sticky; z-index: 10; }
   line-height: 1.75;
   color: var(--ink-soft);
 }
+.about ul {
+  margin: 0 0 18px;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+}
+.about ul li { margin-bottom: 6px; }
+.about ul li strong { color: var(--ink); }
 
 /* ---------- Research pillars ---------- */
 .pillars {

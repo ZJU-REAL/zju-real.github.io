@@ -58,16 +58,18 @@ nav.topbar .brand {
   letter-spacing: 0.02em;
   color: var(--ink);
 }
+nav.topbar .brand { display: flex; align-items: center; }
 nav.topbar .brand a {
   color: var(--ink);
   border: none;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
+  line-height: 1;
 }
 nav.topbar .brand-mark {
-  width: 26px;
-  height: 26px;
+  width: 34px;
+  height: 34px;
   display: block;
   flex: none;
 }
@@ -1797,7 +1799,7 @@ footer .footer-logo {
   /* Nav becomes a hamburger dropdown */
   nav.topbar .inner { padding: 12px 16px; position: relative; }
   nav.topbar .brand { font-size: 16px; }
-  nav.topbar .brand-mark { width: 22px; height: 22px; }
+  nav.topbar .brand-mark { width: 28px; height: 28px; }
   nav.topbar .nav-burger { display: block; }
   nav.topbar ul {
     position: absolute;

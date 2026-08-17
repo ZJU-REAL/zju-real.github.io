@@ -42,399 +42,323 @@
   <section class="page-header">
     <h1>Projects</h1>
     <p class="lead">
-      Open-source frameworks built and maintained by REAL Lab.<br>
+      Open-source frameworks, methods, and benchmarks built and maintained by REAL Lab.<br>
       Full list of repositories: <a href="https://github.com/ZJU-REAL" target="_blank" rel="noopener">github.com/ZJU-REAL</a>.
     </p>
   </section>
 
   <section>
+    <div class="filter-bar" role="group" aria-label="Filter projects by topic">
+      <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">All<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="framework" aria-pressed="false">Framework<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="agentic" aria-pressed="false">Agentic AI<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="gui" aria-pressed="false">GUI Agents<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="reasoning" aria-pressed="false">Reasoning<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="spatial" aria-pressed="false">Embodied &amp; Spatial<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="rl" aria-pressed="false">Reinforcement Learning<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="benchmark" aria-pressed="false">Benchmark<span class="n"></span></button>
+      <button type="button" class="filter-chip" data-filter="resource" aria-pressed="false">Resource<span class="n"></span></button>
+    </div>
 
-    <article class="project-block">
-      <header class="project-head">
-        <div class="project-title">
-          <img class="project-logo" src="images/projects/clawgui-logo.png" alt="ClawGUI logo" loading="lazy">
-          <span class="project-tagline">A Unified Framework for Training, Evaluating, and Deploying GUI Agents</span>
+    <div class="project-grid" id="project-grid">
+    <article class="project-card is-featured" data-tags="framework agentic gui rl">
+      <div class="card-media"><video controls preload="metadata" playsinline muted poster="images/projects/clawgui-framework.png"><source src="images/projects/clawgui-xiaoxiaole.mp4" type="video/mp4"></video></div>
+      <div class="card-body">
+      <div class="card-top">
+          <h3 class="card-name"><a href="https://github.com/ZJU-REAL/ClawGUI" target="_blank" rel="noopener">ClawGUI</a></h3>
+          <a class="star-badge" href="https://github.com/ZJU-REAL/ClawGUI/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/ClawGUI" aria-label="GitHub stars for ZJU-REAL/ClawGUI"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
         </div>
-        <div class="project-badges">
-          <a class="repo-link" href="https://github.com/ZJU-REAL/ClawGUI" target="_blank" rel="noopener" aria-label="GitHub repository">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-            <span>ZJU-REAL/ClawGUI</span>
-          </a>
-          <a class="star-badge" href="https://github.com/ZJU-REAL/ClawGUI/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/ClawGUI" aria-label="GitHub stars">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="star-count">—</span>
-          </a>
-        </div>
-      </header>
-
-      <p class="project-summary">
-        Full-stack framework for GUI agents: online RL training in parallel emulators, standardized evaluation across 6 benchmarks, and one-command deployment to real Android, HarmonyOS, and iOS devices.
-      </p>
-
-      <div class="project-figure">
-        <img src="images/projects/clawgui-framework.png" alt="ClawGUI system architecture" loading="lazy">
-      </div>
-
-      <div class="project-videos">
-        <figure>
-          <video controls preload="metadata" playsinline muted>
-            <source src="images/projects/clawgui-xiaoxiaole.mp4" type="video/mp4">
-          </video>
-          <figcaption>ClawGUI-Agent controls a real phone via natural language</figcaption>
-        </figure>
-        <figure>
-          <video controls preload="metadata" playsinline muted>
-            <source src="images/projects/clawgui-rl.mp4" type="video/mp4">
-          </video>
-          <figcaption>ClawGUI-RL trains a GUI agent with online reinforcement learning</figcaption>
-        </figure>
-      </div>
-
-      <div class="contributors" data-repo="ZJU-REAL/ClawGUI" aria-label="Contributors">
-        <span class="contributors-label">Contributors</span>
-        <div class="contributors-avatars"></div>
-        <a class="contributors-link" href="https://github.com/ZJU-REAL/ClawGUI/graphs/contributors" target="_blank" rel="noopener">View all →</a>
-      </div>
-
-      <div class="project-links">
-        <a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/ClawGUI" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.11784" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>Paper</span>
-        </a>
-        <a class="link-chip" href="https://zju-real.github.io/ClawGUI-Page/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span>Project Page</span>
-        </a>
-        <a class="link-chip link-chip-hf" href="https://huggingface.co/SugarVapeur/OpenGUI-2B" target="_blank" rel="noopener">
-          <span class="link-chip-emoji" aria-hidden="true">🤗</span>
-          <span>Model</span>
-        </a>
-        <a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/johnzqlu/clawgui-eval" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg>
-          <span>Dataset</span>
-        </a>
-        <a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/LYNsue7fuISJjB447D_SxA" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
-          <span>量子位</span>
-        </a>
+        <p class="card-desc">Full-stack framework for GUI agents: online RL training in parallel emulators, standardized evaluation across six benchmarks, and one-command deployment to real Android, HarmonyOS, and iOS devices.</p>
+        <div class="card-tags"><span class="tag-chip">Framework</span><span class="tag-chip">Agentic AI</span><span class="tag-chip">GUI Agents</span><span class="tag-chip">Reinforcement Learning</span></div>
+        <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/ClawGUI" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.11784" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/ClawGUI-Page/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/SugarVapeur/OpenGUI-2B" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Model</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/johnzqlu/clawgui-eval" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a><a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/LYNsue7fuISJjB447D_SxA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg><span>量子位</span></a></div>
       </div>
     </article>
 
-    <article class="project-block">
-      <header class="project-head">
-        <div class="project-title">
-          <img class="project-logo" src="images/projects/easysteer-logo.png" alt="EasySteer logo" loading="lazy">
-          <span class="project-tagline">A Unified Framework for High-Performance and Extensible LLM Steering</span>
+    <article class="project-card is-featured" data-tags="framework reasoning">
+      <div class="card-media"><div class="video-frame"><iframe src="https://www.youtube.com/embed/3rRGzZmhrXg" title="EasySteer demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+      <div class="card-body">
+      <div class="card-top">
+          <h3 class="card-name"><a href="https://github.com/ZJU-REAL/EasySteer" target="_blank" rel="noopener">EasySteer</a></h3>
+          <a class="star-badge" href="https://github.com/ZJU-REAL/EasySteer/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/EasySteer" aria-label="GitHub stars for ZJU-REAL/EasySteer"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
         </div>
-        <div class="project-badges">
-          <a class="repo-link" href="https://github.com/ZJU-REAL/EasySteer" target="_blank" rel="noopener" aria-label="GitHub repository">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-            <span>ZJU-REAL/EasySteer</span>
-          </a>
-          <a class="star-badge" href="https://github.com/ZJU-REAL/EasySteer/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/EasySteer" aria-label="GitHub stars">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="star-count">—</span>
-          </a>
-        </div>
-      </header>
-
-      <p class="project-summary">
-        High-throughput LLM activation steering built on vLLM. Apply semantic intervention vectors at inference time without modifying weights &mdash; 10.8&ndash;22.3&times; faster than prior frameworks, with pre-computed vectors for 8 domains and an interactive web demo.
-      </p>
-
-      <div class="project-figure">
-        <img src="images/projects/easysteer-arch.png" alt="EasySteer architecture" loading="lazy">
-      </div>
-
-      <div class="project-videos">
-        <figure class="video-embed">
-          <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/3rRGzZmhrXg" title="EasySteer demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-          </div>
-          <figcaption>EasySteer demo &mdash; interactive vector testing and multi-turn chat</figcaption>
-        </figure>
-      </div>
-
-      <div class="contributors" data-repo="ZJU-REAL/EasySteer" aria-label="Contributors">
-        <span class="contributors-label">Contributors</span>
-        <div class="contributors-avatars"></div>
-        <a class="contributors-link" href="https://github.com/ZJU-REAL/EasySteer/graphs/contributors" target="_blank" rel="noopener">View all →</a>
-      </div>
-
-      <div class="project-links">
-        <a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/EasySteer" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2509.25175" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>Paper</span>
-        </a>
-        <a class="link-chip link-chip-hf" href="https://huggingface.co/spaces/zjuxhl/EasySteer" target="_blank" rel="noopener">
-          <span class="link-chip-emoji" aria-hidden="true">🤗</span>
-          <span>Demo</span>
-        </a>
-        <a class="link-chip" href="https://hub.docker.com/r/xuhaolei/easysteer/tags" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="4" height="4"/><rect x="8" y="9" width="4" height="4"/><rect x="13" y="9" width="4" height="4"/><rect x="8" y="4" width="4" height="4"/><rect x="13" y="4" width="4" height="4"/><path d="M22 12c0 4-3 6-7 6H4c-1 0-2-1-2-2v-3h20z"/></svg>
-          <span>Docker</span>
-        </a>
-        <a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/dxuJHvXOfzA1euvFUPN_vg" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
-          <span>机器之心</span>
-        </a>
+        <p class="card-desc">High-throughput LLM activation steering built on vLLM. Apply semantic intervention vectors at inference time without touching weights, 10.8&ndash;22.3&times; faster than prior frameworks, with pre-computed vectors for eight domains.</p>
+        <div class="card-tags"><span class="tag-chip">Framework</span><span class="tag-chip">Reasoning</span></div>
+        <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/EasySteer" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2509.25175" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/EasySteer/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/spaces/zjuxhl/EasySteer" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Demo</span></a><a class="link-chip" href="https://hub.docker.com/r/xuhaolei/easysteer/tags" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="4" height="4"/><rect x="8" y="9" width="4" height="4"/><rect x="13" y="9" width="4" height="4"/><rect x="8" y="4" width="4" height="4"/><rect x="13" y="4" width="4" height="4"/><path d="M22 12c0 4-3 6-7 6H4c-1 0-2-1-2-2v-3h20z"/></svg><span>Docker</span></a><a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/dxuJHvXOfzA1euvFUPN_vg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg><span>机器之心</span></a></div>
       </div>
     </article>
 
-    <article class="project-block">
-      <header class="project-head">
-        <div class="project-title">
-          <h3 class="project-name">Awesome-GUI-Agents</h3>
-          <span class="project-tagline">A curated collection of resources, tools, and frameworks for developing GUI Agents</span>
-        </div>
-        <div class="project-badges">
-          <a class="repo-link" href="https://github.com/ZJU-REAL/Awesome-GUI-Agents" target="_blank" rel="noopener" aria-label="GitHub repository">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-            <span>ZJU-REAL/Awesome-GUI-Agents</span>
-          </a>
-          <a class="star-badge" href="https://github.com/ZJU-REAL/Awesome-GUI-Agents/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/Awesome-GUI-Agents" aria-label="GitHub stars">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="star-count">—</span>
-          </a>
-        </div>
-      </header>
-
-      <p class="project-summary">
-        A continuously updated reading list and resource hub for GUI agent research &mdash; covering training, grounding, datasets, and benchmarks &mdash; with weekly conference round-ups (AAAI, ICLR, NeurIPS, etc.) of newly accepted GUI agent papers.
-      </p>
-
-      <div class="project-figure">
-        <img src="images/projects/awesome-gui-overview.jpg" alt="Awesome-GUI-Agents overview" loading="lazy">
+    <article class="project-card" data-tags="framework agentic">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/HugAgentOS" target="_blank" rel="noopener">HugAgentOS</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/HugAgentOS/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/HugAgentOS" aria-label="GitHub stars for ZJU-REAL/HugAgentOS"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
       </div>
-
-      <div class="contributors" data-repo="ZJU-REAL/Awesome-GUI-Agents" aria-label="Contributors">
-        <span class="contributors-label">Contributors</span>
-        <div class="contributors-avatars"></div>
-        <a class="contributors-link" href="https://github.com/ZJU-REAL/Awesome-GUI-Agents/graphs/contributors" target="_blank" rel="noopener">View all →</a>
-      </div>
-
-      <div class="project-links">
-        <a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/Awesome-GUI-Agents" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2504.13865" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>Survey</span>
-        </a>
-      </div>
+      <p class="card-desc">A self-hosted AgentOS that treats domain ontology as the control plane for agent reasoning, decisions, and actions: agentic chat, private knowledge-base RAG, sub-agents, MCP tools, sandboxed execution, and long-term memory in one workspace.</p>
+      <div class="card-tags"><span class="tag-chip">Framework</span><span class="tag-chip">Agentic AI</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/HugAgentOS" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a></div>
     </article>
 
-    <article class="project-block">
-      <header class="project-head">
-        <div class="project-title">
-          <h3 class="project-name">GUI-G²</h3>
-          <span class="project-tagline">Gaussian Reward Modeling for GUI Grounding (AAAI 2026)</span>
-        </div>
-        <div class="project-badges">
-          <a class="repo-link" href="https://github.com/ZJU-REAL/GUI-G2" target="_blank" rel="noopener" aria-label="GitHub repository">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-            <span>ZJU-REAL/GUI-G2</span>
-          </a>
-          <a class="star-badge" href="https://github.com/ZJU-REAL/GUI-G2/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/GUI-G2" aria-label="GitHub stars">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="star-count">—</span>
-          </a>
-        </div>
-      </header>
-
-      <p class="project-summary">
-        A Gaussian dense reward framework for GUI grounding training &mdash; replacing sparse hit/miss signals with smooth, location-aware rewards that guide policies to precise, robust grounding.
-      </p>
-
-      <div class="project-figure">
-        <img src="images/projects/gui-g2-framework.png" alt="GUI-G² framework" loading="lazy">
+    <article class="project-card" data-tags="framework agentic">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/Polaris" target="_blank" rel="noopener">Polaris</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/Polaris/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/Polaris" aria-label="GitHub stars for ZJU-REAL/Polaris"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
       </div>
-
-      <div class="contributors" data-repo="ZJU-REAL/GUI-G2" aria-label="Contributors">
-        <span class="contributors-label">Contributors</span>
-        <div class="contributors-avatars"></div>
-        <a class="contributors-link" href="https://github.com/ZJU-REAL/GUI-G2/graphs/contributors" target="_blank" rel="noopener">View all →</a>
-      </div>
-
-      <div class="project-links">
-        <a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/GUI-G2" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2507.15846" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>Paper</span>
-        </a>
-        <a class="link-chip" href="https://zju-real.github.io/GUI-G2/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span>Project Page</span>
-        </a>
-        <a class="link-chip link-chip-hf" href="https://huggingface.co/inclusionAI/GUI-G2-7B" target="_blank" rel="noopener">
-          <span class="link-chip-emoji" aria-hidden="true">🤗</span>
-          <span>Model</span>
-        </a>
-        <a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/DRMtB-o9X_CzEFGkxw0Ycw" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
-          <span>报道</span>
-        </a>
-      </div>
+      <p class="card-desc">Autonomous end-to-end AI research: literature survey, idea generation and review, experiments on real GPU servers, LaTeX writing, and paper review. Every long task runs as a resumable, auditable, human-gated agent voyage.</p>
+      <div class="card-tags"><span class="tag-chip">Framework</span><span class="tag-chip">Agentic AI</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/Polaris" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip" href="https://zju-real.github.io/Polaris/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
     </article>
 
-    <article class="project-block">
-      <header class="project-head">
-        <div class="project-title">
-          <h3 class="project-name">SKILL0</h3>
-          <span class="project-tagline">In-Context Agentic Reinforcement Learning for Skill Internalization</span>
-        </div>
-        <div class="project-badges">
-          <a class="repo-link" href="https://github.com/ZJU-REAL/SkillZero" target="_blank" rel="noopener" aria-label="GitHub repository">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-            <span>ZJU-REAL/SkillZero</span>
-          </a>
-          <a class="star-badge" href="https://github.com/ZJU-REAL/SkillZero/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/SkillZero" aria-label="GitHub stars">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="star-count">—</span>
-          </a>
-        </div>
-      </header>
-
-      <p class="project-summary">
-        An in-context reinforcement learning framework for skill internalization &mdash; agents discover, store, and reuse skills as in-context experiences, then internalize them into the policy. Substantial gains over standard RL on ALFWorld and Search-QA.
-      </p>
-
-      <div class="project-figure">
-        <img src="images/projects/skillzero-method.png" alt="SKILL0 method overview" loading="lazy">
+    <article class="project-card" data-tags="framework agentic rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/SDAR" target="_blank" rel="noopener">SDAR</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/SDAR/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/SDAR" aria-label="GitHub stars for ZJU-REAL/SDAR"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
       </div>
-
-      <div class="contributors" data-repo="ZJU-REAL/SkillZero" aria-label="Contributors">
-        <span class="contributors-label">Contributors</span>
-        <div class="contributors-avatars"></div>
-        <a class="contributors-link" href="https://github.com/ZJU-REAL/SkillZero/graphs/contributors" target="_blank" rel="noopener">View all →</a>
-      </div>
-
-      <div class="project-links">
-        <a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/SkillZero" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.02268" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>Paper</span>
-        </a>
-        <a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/HNPZamXp6wUB6Q7LfoXQsw" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
-          <span>报道</span>
-        </a>
-      </div>
+      <p class="card-desc">Self-Distilled Agentic Reinforcement Learning with a gating mechanism. The first open-source codebase to unify agentic RL with on-policy self-distillation, and the base for a growing family of follow-up methods.</p>
+      <div class="card-tags"><span class="tag-chip">Framework</span><span class="tag-chip">Agentic AI</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/SDAR" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2605.15155" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a></div>
     </article>
 
-    <article class="project-block">
-      <header class="project-head">
-        <div class="project-title">
-          <h3 class="project-name">UI-S1</h3>
-          <span class="project-tagline">Advancing GUI Automation via Semi-online Reinforcement Learning (ACL 2026)</span>
-        </div>
-        <div class="project-badges">
-          <a class="repo-link" href="https://github.com/X-PLUG/MobileAgent/tree/main/UI-S1" target="_blank" rel="noopener" aria-label="GitHub repository">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-            <span>X-PLUG/MobileAgent/UI-S1</span>
-          </a>
-          <a class="star-badge" href="https://github.com/X-PLUG/MobileAgent/stargazers" target="_blank" rel="noopener" data-repo="X-PLUG/MobileAgent" aria-label="GitHub stars">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="star-count">—</span>
-          </a>
-        </div>
-      </header>
-
-      <p class="project-summary">
-        Semi-online RL &mdash; a new paradigm that simulates online RL using offline trajectories, training MLLM-based GUI agents with enhanced multi-turn interaction. UI-S1-7B reaches SOTA among open-source 7B models on both the semi-online (SOP) and online (AndroidWorld) metrics.
-      </p>
-
-      <div class="project-figure">
-        <img src="images/projects/ui-s1-method.png" alt="UI-S1 semi-online RL paradigm" loading="lazy">
+    <article class="project-card" data-tags="agentic rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/SkillZero" target="_blank" rel="noopener">SKILL0</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/SkillZero/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/SkillZero" aria-label="GitHub stars for ZJU-REAL/SkillZero"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
       </div>
-
-      <div class="project-links">
-        <a class="link-chip link-chip-github" href="https://github.com/X-PLUG/MobileAgent/tree/main/UI-S1" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2509.11543" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>Paper</span>
-        </a>
-        <a class="link-chip link-chip-hf" href="https://huggingface.co/mPLUG/UI-S1-7B" target="_blank" rel="noopener">
-          <span class="link-chip-emoji" aria-hidden="true">🤗</span>
-          <span>Model</span>
-        </a>
-        <a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/mPLUG/UI_S1_dataset" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg>
-          <span>Dataset</span>
-        </a>
-      </div>
+      <p class="card-desc">In-context agentic reinforcement learning for skill internalization: agents discover, store, and reuse skills as in-context experience, then internalize them into the policy. Substantial gains over standard RL on ALFWorld and Search-QA.</p>
+      <div class="card-tags"><span class="tag-chip">Agentic AI</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/SkillZero" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.02268" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/HNPZamXp6wUB6Q7LfoXQsw" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg><span>报道</span></a></div>
     </article>
 
-    <article class="project-block">
-      <header class="project-head">
-        <div class="project-title">
-          <h3 class="project-name">HuggingGPT</h3>
-          <span class="project-tagline">Solving AI Tasks with ChatGPT and its Friends in Hugging Face (NeurIPS 2023)</span>
-        </div>
-        <div class="project-badges">
-          <a class="repo-link" href="https://github.com/microsoft/JARVIS" target="_blank" rel="noopener" aria-label="GitHub repository">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-            <span>microsoft/JARVIS</span>
-          </a>
-          <a class="star-badge" href="https://github.com/microsoft/JARVIS/stargazers" target="_blank" rel="noopener" data-repo="microsoft/JARVIS" aria-label="GitHub stars">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="star-count">—</span>
-          </a>
-        </div>
-      </header>
-
-      <p class="project-summary">
-        Uses an LLM as a controller and the Hugging Face model hub as collaborative executors. The system plans tasks, selects expert models, executes them, and generates the response &mdash; turning language into a universal interface for invoking numerous AI models.
-      </p>
-
-      <div class="project-figure">
-        <img src="images/projects/hugginggpt-overview.png" alt="HuggingGPT overview" loading="lazy">
+    <article class="project-card" data-tags="framework agentic">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/microsoft/JARVIS" target="_blank" rel="noopener">HuggingGPT</a><span class="card-venue">NeurIPS 2023</span></h3>
+        <a class="star-badge" href="https://github.com/microsoft/JARVIS/stargazers" target="_blank" rel="noopener" data-repo="microsoft/JARVIS" aria-label="GitHub stars for microsoft/JARVIS"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
       </div>
-
-      <div class="contributors" data-repo="microsoft/JARVIS" aria-label="Contributors">
-        <span class="contributors-label">Contributors</span>
-        <div class="contributors-avatars"></div>
-        <a class="contributors-link" href="https://github.com/microsoft/JARVIS/graphs/contributors" target="_blank" rel="noopener">View all →</a>
-      </div>
-
-      <div class="project-links">
-        <a class="link-chip link-chip-github" href="https://github.com/microsoft/JARVIS" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2303.17580" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>HuggingGPT</span>
-        </a>
-        <a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2401.06201" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          <span>EasyTool</span>
-        </a>
-        <a class="link-chip link-chip-hf" href="https://huggingface.co/spaces/microsoft/HuggingGPT" target="_blank" rel="noopener">
-          <span class="link-chip-emoji" aria-hidden="true">🤗</span>
-          <span>Demo</span>
-        </a>
-      </div>
+      <p class="card-desc">An LLM as controller, the Hugging Face hub as executors. The system plans tasks, selects expert models, runs them, and composes the response, turning language into a universal interface for invoking many AI models.</p>
+      <div class="card-tags"><span class="tag-chip">Framework</span><span class="tag-chip">Agentic AI</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/microsoft/JARVIS" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2303.17580" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>HuggingGPT</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2401.06201" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>EasyTool</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/spaces/microsoft/HuggingGPT" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Demo</span></a></div>
     </article>
 
+    <article class="project-card" data-tags="resource gui">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/Awesome-GUI-Agents" target="_blank" rel="noopener">Awesome-GUI-Agents</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/Awesome-GUI-Agents/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/Awesome-GUI-Agents" aria-label="GitHub stars for ZJU-REAL/Awesome-GUI-Agents"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">A continuously updated reading list and resource hub for GUI agent research, covering training, grounding, datasets, and benchmarks, with weekly round-ups of newly accepted papers from AAAI, ICLR, NeurIPS, and more.</p>
+      <div class="card-tags"><span class="tag-chip">Resource</span><span class="tag-chip">GUI Agents</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/Awesome-GUI-Agents" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2504.13865" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Survey</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="gui rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/GUI-G2" target="_blank" rel="noopener">GUI-G²</a><span class="card-venue">AAAI 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/GUI-G2/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/GUI-G2" aria-label="GitHub stars for ZJU-REAL/GUI-G2"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Gaussian reward modeling for GUI grounding: dense, location-aware rewards replace sparse hit/miss signals and guide policies toward precise, robust grounding.</p>
+      <div class="card-tags"><span class="tag-chip">GUI Agents</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/GUI-G2" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2507.15846" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/GUI-G2/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/inclusionAI/GUI-G2-7B" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Model</span></a><a class="link-chip link-chip-news" href="https://mp.weixin.qq.com/s/DRMtB-o9X_CzEFGkxw0Ycw" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg><span>报道</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="gui rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/GUI-RCPO" target="_blank" rel="noopener">GUI-RCPO</a><span class="card-venue">AAAI 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/GUI-RCPO/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/GUI-RCPO" aria-label="GitHub stars for ZJU-REAL/GUI-RCPO"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Test-time reinforcement learning for GUI grounding: region-consistency rewards let a model refine its own grounding at inference time, with no labels required.</p>
+      <div class="card-tags"><span class="tag-chip">GUI Agents</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/GUI-RCPO" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2508.05615" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="gui rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/X-PLUG/MobileAgent/tree/main/UI-S1" target="_blank" rel="noopener">UI-S1</a><span class="card-venue">ACL 2026</span></h3>
+        <a class="star-badge" href="https://github.com/X-PLUG/MobileAgent/stargazers" target="_blank" rel="noopener" data-repo="X-PLUG/MobileAgent" aria-label="GitHub stars for X-PLUG/MobileAgent"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Semi-online RL simulates online training from offline trajectories, giving MLLM-based GUI agents stronger multi-turn interaction. UI-S1-7B is state of the art among open 7B models on both semi-online and online metrics.</p>
+      <div class="card-tags"><span class="tag-chip">GUI Agents</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/X-PLUG/MobileAgent/tree/main/UI-S1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2509.11543" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/mPLUG/UI-S1-7B" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Model</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/mPLUG/UI_S1_dataset" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="gui agentic">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/UI-Copilot" target="_blank" rel="noopener">UI-Copilot</a><span class="card-venue">ACL 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/UI-Copilot/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/UI-Copilot" aria-label="GitHub stars for ZJU-REAL/UI-Copilot"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Long-horizon GUI automation via tool-integrated policy optimization, letting an agent stay on task across many steps instead of drifting after a handful of actions.</p>
+      <div class="card-tags"><span class="tag-chip">GUI Agents</span><span class="tag-chip">Agentic AI</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/UI-Copilot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.13822" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="benchmark gui agentic">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/KnowU-Bench" target="_blank" rel="noopener">KnowU-Bench</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/KnowU-Bench/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/KnowU-Bench" aria-label="GitHub stars for ZJU-REAL/KnowU-Bench"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">An evaluation suite for interactive, proactive, and personalized mobile agents, measuring how well an assistant uses what it knows about the user in realistic phone tasks.</p>
+      <div class="card-tags"><span class="tag-chip">Benchmark</span><span class="tag-chip">GUI Agents</span><span class="tag-chip">Agentic AI</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/KnowU-Bench" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.08455" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/KnowU-Bench/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="reasoning">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/InftyThink" target="_blank" rel="noopener">InftyThink</a><span class="card-venue">ICLR 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/InftyThink/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/InftyThink" aria-label="GitHub stars for ZJU-REAL/InftyThink"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Breaking the length limits of long-context reasoning by interleaving reasoning with intermediate summarization, buying unbounded reasoning depth at bounded context cost.</p>
+      <div class="card-tags"><span class="tag-chip">Reasoning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/InftyThink" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2503.06692" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/InftyThink/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/ZJU-REAL/InftyThink" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="reasoning rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/InftyThink-Plus" target="_blank" rel="noopener">InftyThink+</a><span class="card-venue">ICML 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/InftyThink-Plus/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/InftyThink-Plus" aria-label="GitHub stars for ZJU-REAL/InftyThink-Plus"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Effective and efficient infinite-horizon reasoning learned end to end with reinforcement learning, rather than imposed by a fixed summarization schedule.</p>
+      <div class="card-tags"><span class="tag-chip">Reasoning</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/InftyThink-Plus" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2602.06960" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/InftyThink-Plus/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="reasoning">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/Self-Braking-Tuning" target="_blank" rel="noopener">Self-Braking-Tuning</a><span class="card-venue">NeurIPS 2025</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/Self-Braking-Tuning/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/Self-Braking-Tuning" aria-label="GitHub stars for ZJU-REAL/Self-Braking-Tuning"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Lets large reasoning models break free from overthinking: the model learns to brake its own chain of thought once further reasoning stops paying off.</p>
+      <div class="card-tags"><span class="tag-chip">Reasoning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/Self-Braking-Tuning" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2505.14604" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/SBT/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="reasoning">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/Mind-the-Gap" target="_blank" rel="noopener">Mind the Gap</a><span class="card-venue">NeurIPS 2025</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/Mind-the-Gap/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/Mind-the-Gap" aria-label="GitHub stars for ZJU-REAL/Mind-the-Gap"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Bridging thought leaps in chain-of-thought data, recovering the missing intermediate steps that make CoT tuning markedly more reliable.</p>
+      <div class="card-tags"><span class="tag-chip">Reasoning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/Mind-the-Gap" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2505.14684" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/CoT-Bridge/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="agentic rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/BEACON" target="_blank" rel="noopener">BEACON</a><span class="card-venue">ICML 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/BEACON/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/BEACON" aria-label="GitHub stars for ZJU-REAL/BEACON"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Milestone-guided policy learning for long-horizon language agents, turning a single sparse outcome reward into dense milestone-level supervision.</p>
+      <div class="card-tags"><span class="tag-chip">Agentic AI</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/BEACON" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2605.06078" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/BEACON/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="agentic rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/Code-A1" target="_blank" rel="noopener">Code-A1</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/Code-A1/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/Code-A1" aria-label="GitHub stars for ZJU-REAL/Code-A1"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Adversarial co-evolution of a code LLM and a test LLM through reinforcement learning: sharper tests push the coder, and a stronger coder demands sharper tests.</p>
+      <div class="card-tags"><span class="tag-chip">Agentic AI</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/Code-A1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2603.15611" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/Code-A1/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="reasoning rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/CoVerRL" target="_blank" rel="noopener">CoVerRL</a><span class="card-venue">ACL 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/CoVerRL/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/CoVerRL" aria-label="GitHub stars for ZJU-REAL/CoVerRL"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Breaking the consensus trap in label-free reasoning through generator-verifier co-evolution, so self-training does not simply reinforce the majority answer.</p>
+      <div class="card-tags"><span class="tag-chip">Reasoning</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/CoVerRL" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2603.17775" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/CoVerRL/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="reasoning">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/GRIL" target="_blank" rel="noopener">GRIL</a><span class="card-venue">ACL 2026 Findings</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/GRIL/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/GRIL" aria-label="GitHub stars for ZJU-REAL/GRIL"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Pause or fabricate? Training language models for grounded reasoning, so they stop when the evidence runs out instead of inventing what comes next.</p>
+      <div class="card-tags"><span class="tag-chip">Reasoning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/GRIL" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.19656" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="spatial reasoning">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/SpatialLadder" target="_blank" rel="noopener">SpatialLadder</a><span class="card-venue">ICLR 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/SpatialLadder/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/SpatialLadder" aria-label="GitHub stars for ZJU-REAL/SpatialLadder"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Progressive training for spatial reasoning in vision-language models, climbing from object localization to multi-step spatial inference one rung at a time.</p>
+      <div class="card-tags"><span class="tag-chip">Embodied &amp; Spatial</span><span class="tag-chip">Reasoning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/SpatialLadder" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2510.08531" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/SpatialLadder/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/hongxingli/SpatialLadder-3B" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Model</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="spatial rl">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/SpatialEvo" target="_blank" rel="noopener">SpatialEvo</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/SpatialEvo/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/SpatialEvo" aria-label="GitHub stars for ZJU-REAL/SpatialEvo"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Self-evolving spatial intelligence: deterministic geometric environments generate their own supervision, so models sharpen spatial reasoning without human annotation.</p>
+      <div class="card-tags"><span class="tag-chip">Embodied &amp; Spatial</span><span class="tag-chip">Reinforcement Learning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/SpatialEvo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2604.14144" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/lidingm/SpatialEvo-3B" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Model</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="benchmark spatial">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/ViewSpatial-Bench" target="_blank" rel="noopener">ViewSpatial-Bench</a><span class="card-venue">ECCV 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/ViewSpatial-Bench/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/ViewSpatial-Bench" aria-label="GitHub stars for ZJU-REAL/ViewSpatial-Bench"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Evaluating multi-perspective spatial localization in vision-language models: can a model reason about a scene from a viewpoint other than the camera&rsquo;s?</p>
+      <div class="card-tags"><span class="tag-chip">Benchmark</span><span class="tag-chip">Embodied &amp; Spatial</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/ViewSpatial-Bench" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2505.21500" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/ViewSpatial-Page/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/lidingm/ViewSpatial-Bench" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="benchmark agentic spatial">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/OmniEmbodied" target="_blank" rel="noopener">OmniEmbodied</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/OmniEmbodied/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/OmniEmbodied" aria-label="GitHub stars for ZJU-REAL/OmniEmbodied"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Benchmarking agent reasoning in embodied tasks: physical interaction, tool use, and multi-agent coordination inside interactive simulated scenes.</p>
+      <div class="card-tags"><span class="tag-chip">Benchmark</span><span class="tag-chip">Agentic AI</span><span class="tag-chip">Embodied &amp; Spatial</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/OmniEmbodied" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2508.05614" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/OmniEmbodied/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/wangzx1210/OmniEAR" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="reasoning spatial">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/Perceive-to-Reason" target="_blank" rel="noopener">Perceive-to-Reason</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/Perceive-to-Reason/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/Perceive-to-Reason" aria-label="GitHub stars for ZJU-REAL/Perceive-to-Reason"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Decoupling perception from reasoning for fine-grained visual reasoning, so a model does not have to see and think in the same overloaded step.</p>
+      <div class="card-tags"><span class="tag-chip">Reasoning</span><span class="tag-chip">Embodied &amp; Spatial</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/Perceive-to-Reason" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2607.01191" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/hongxingli/P2R-4B" target="_blank" rel="noopener"><span class="link-chip-emoji" aria-hidden="true">🤗</span><span>Model</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="benchmark reasoning">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/GSM8K-V" target="_blank" rel="noopener">GSM8K-V</a></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/GSM8K-V/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/GSM8K-V" aria-label="GitHub stars for ZJU-REAL/GSM8K-V"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Can vision-language models solve grade-school math word problems presented visually? A vision-grounded counterpart to GSM8K that separates reading from reasoning.</p>
+      <div class="card-tags"><span class="tag-chip">Benchmark</span><span class="tag-chip">Reasoning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/GSM8K-V" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2509.25160" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/GSM8K-V/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/ZJU-REAL/GSM8K-V" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="benchmark">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/SVGenius" target="_blank" rel="noopener">SVGenius</a><span class="card-venue">ACM MM 2025</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/SVGenius/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/SVGenius" aria-label="GitHub stars for ZJU-REAL/SVGenius"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Benchmarking LLMs in SVG understanding, editing, and generation across graded difficulty levels drawn from real-world vector graphics.</p>
+      <div class="card-tags"><span class="tag-chip">Benchmark</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/SVGenius" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2506.03139" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/SVGenius/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/xiaoooobai/SVGenius" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a></div>
+    </article>
+
+    <article class="project-card" data-tags="benchmark reasoning">
+      <div class="card-top">
+        <h3 class="card-name"><a href="https://github.com/ZJU-REAL/VerifyBench" target="_blank" rel="noopener">VerifyBench</a><span class="card-venue">ICLR 2026</span></h3>
+        <a class="star-badge" href="https://github.com/ZJU-REAL/VerifyBench/stargazers" target="_blank" rel="noopener" data-repo="ZJU-REAL/VerifyBench" aria-label="GitHub stars for ZJU-REAL/VerifyBench"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="star-count">—</span></a>
+      </div>
+      <p class="card-desc">Benchmarking reference-based reward systems for large language models: how reliably do verifiers actually judge whether an answer is correct?</p>
+      <div class="card-tags"><span class="tag-chip">Benchmark</span><span class="tag-chip">Reasoning</span></div>
+      <div class="card-links"><a class="link-chip link-chip-github" href="https://github.com/ZJU-REAL/VerifyBench" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.56 0-.28-.01-1.02-.02-2.01-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18A11.05 11.05 0 0 1 12 6.8c.98.01 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.82 1.17 3.08 0 4.41-2.7 5.38-5.27 5.67.41.35.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.79.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a><a class="link-chip link-chip-paper" href="https://arxiv.org/abs/2505.15801" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Paper</span></a><a class="link-chip" href="https://zju-real.github.io/VerifyBench/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Project Page</span></a><a class="link-chip link-chip-hf" href="https://huggingface.co/datasets/ZJU-REAL/VerifyBench" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg><span>Dataset</span></a></div>
+    </article>
+    </div>
+
+    <p class="filter-empty" id="filter-empty" hidden>No projects match this filter.</p>
   </section>
 
 </main>
@@ -451,155 +375,71 @@
 </footer>
 
 <script>
-  // ---------- sessionStorage helpers ----------
-  // Cache GitHub API responses for the lifetime of the tab so refreshes don't burn
-  // through the anonymous 60-req/hr rate limit. Key includes a version so a code
-  // change can invalidate stale shapes.
-  const CACHE_VERSION = 'v1';
-  function cacheGet(key) {
-    try {
-      const raw = sessionStorage.getItem(CACHE_VERSION + ':' + key);
-      return raw ? JSON.parse(raw) : null;
-    } catch (e) { return null; }
-  }
-  function cacheSet(key, value) {
-    try { sessionStorage.setItem(CACHE_VERSION + ':' + key, JSON.stringify(value)); }
-    catch (e) { /* quota or private mode: ignore */ }
-  }
-
-  // ---------- Star counts ----------
-  (function() {
-    const badges = document.querySelectorAll('.star-badge[data-repo]');
-    badges.forEach(badge => {
-      const repo = badge.dataset.repo;
-      const count = badge.querySelector('.star-count');
-      const cacheKey = 'stars:' + repo;
-
-      function setCount(n) {
+  // ---------- Star counts (sessionStorage-cached to spare the anonymous rate limit) ----------
+  (function () {
+    var CACHE = 'v2:stars:';
+    document.querySelectorAll('.star-badge[data-repo]').forEach(function (badge) {
+      var repo = badge.dataset.repo;
+      var out = badge.querySelector('.star-count');
+      function render(n) {
         if (typeof n !== 'number') return;
-        count.textContent = n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : n.toString();
+        out.textContent = n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
       }
-
-      // Render cached value immediately if present
-      const cached = cacheGet(cacheKey);
-      if (cached && typeof cached.count === 'number') {
-        setCount(cached.count);
-      }
-
+      try {
+        var hit = sessionStorage.getItem(CACHE + repo);
+        if (hit) render(JSON.parse(hit));
+      } catch (e) { /* private mode: ignore */ }
       fetch('https://api.github.com/repos/' + repo)
-        .then(r => r.ok ? r.json() : null)
-        .then(data => {
-          if (!data || typeof data.stargazers_count !== 'number') return;
-          cacheSet(cacheKey, { count: data.stargazers_count });
-          setCount(data.stargazers_count);
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d || typeof d.stargazers_count !== 'number') return;
+          try { sessionStorage.setItem(CACHE + repo, JSON.stringify(d.stargazers_count)); } catch (e) {}
+          render(d.stargazers_count);
         })
-        .catch(() => { /* keep cached or dash */ });
+        .catch(function () { /* keep cached value or the dash */ });
     });
   })();
 
-  // ---------- Contributor avatars ----------
-  (function() {
-    const FETCH_MAX = 20;
-    const blocks = document.querySelectorAll('.contributors[data-repo]');
-    const memCache = new WeakMap();
+  // ---------- Tag filter ----------
+  (function () {
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#project-grid .project-card'));
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.filter-chip'));
+    var empty = document.getElementById('filter-empty');
 
-    function maxForViewport() {
-      const w = window.innerWidth;
-      if (w < 420) return 4;
-      if (w < 560) return 6;
-      if (w < 720) return 8;
-      return 12;
-    }
+    function tagsOf(card) { return (card.dataset.tags || '').split(/\s+/); }
 
-    function renderApi(block, contributors) {
-      const list = block.querySelector('.contributors-avatars');
-      const max = maxForViewport();
-      list.innerHTML = '';
-      const slice = contributors.slice(0, max);
-      const frag = document.createDocumentFragment();
-      slice.forEach(c => {
-        const a = document.createElement('a');
-        a.href = c.html_url;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.className = 'contributor-avatar';
-        a.title = c.login + ' · ' + c.contributions + ' commits';
-        const img = document.createElement('img');
-        img.src = c.avatar_url + '&s=128';
-        img.alt = c.login;
-        img.loading = 'lazy';
-        a.appendChild(img);
-        frag.appendChild(a);
-      });
-      list.appendChild(frag);
-    }
-
-    // contrib.rocks fallback: serves a single SVG strip with avatars.
-    // Used when the GitHub API is rate-limited or unreachable.
-    function renderContribRocks(block) {
-      const repo = block.dataset.repo;
-      const list = block.querySelector('.contributors-avatars');
-      list.innerHTML = '';
-      const a = document.createElement('a');
-      a.href = 'https://github.com/' + repo + '/graphs/contributors';
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.className = 'contributors-rocks';
-      a.title = 'Contributors via contrib.rocks';
-      const img = document.createElement('img');
-      img.src = 'https://contrib.rocks/image?repo=' + repo + '&max=' + maxForViewport();
-      img.alt = 'Contributors to ' + repo;
-      img.loading = 'lazy';
-      a.appendChild(img);
-      list.appendChild(a);
-    }
-
-    function loadForBlock(block) {
-      const repo = block.dataset.repo;
-      const cacheKey = 'contrib:' + repo;
-      const cached = cacheGet(cacheKey);
-      if (cached && Array.isArray(cached.list) && cached.list.length) {
-        memCache.set(block, cached.list);
-        renderApi(block, cached.list);
-        return;
-      }
-      // No cache → hit the API
-      fetch('https://api.github.com/repos/' + repo + '/contributors?per_page=' + FETCH_MAX)
-        .then(r => {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          return r.json();
-        })
-        .then(data => {
-          if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
-          const list = data.filter(c => c.type === 'User').map(c => ({
-            login: c.login,
-            html_url: c.html_url,
-            avatar_url: c.avatar_url,
-            contributions: c.contributions,
-          }));
-          memCache.set(block, list);
-          cacheSet(cacheKey, { list });
-          renderApi(block, list);
-        })
-        .catch(() => {
-          // Rate-limited or unavailable → fall back to contrib.rocks SVG
-          renderContribRocks(block);
-        });
-    }
-
-    blocks.forEach(loadForBlock);
-
-    // Re-render on resize (only when API-rendered; contrib.rocks already handles inline)
-    let timer;
-    window.addEventListener('resize', () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        blocks.forEach(block => {
-          const list = memCache.get(block);
-          if (list) renderApi(block, list);
-        });
-      }, 150);
+    // Per-tag counts in the chip labels
+    chips.forEach(function (chip) {
+      var key = chip.dataset.filter;
+      var n = key === 'all' ? cards.length : cards.filter(function (c) { return tagsOf(c).indexOf(key) !== -1; }).length;
+      chip.querySelector('.n').textContent = n;
+      if (n === 0) chip.hidden = true;
     });
+
+    function apply(key) {
+      var shown = 0;
+      cards.forEach(function (card) {
+        var match = key === 'all' || tagsOf(card).indexOf(key) !== -1;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      chips.forEach(function (chip) {
+        chip.setAttribute('aria-pressed', String(chip.dataset.filter === key));
+      });
+      empty.hidden = shown > 0;
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var key = chip.dataset.filter;
+        apply(key);
+        history.replaceState(null, '', key === 'all' ? location.pathname : location.pathname + '#' + key);
+      });
+    });
+
+    // Deep link: projects.html#gui opens straight into that filter
+    var initial = (location.hash || '').replace('#', '');
+    apply(chips.some(function (c) { return c.dataset.filter === initial; }) ? initial : 'all');
   })();
 </script>
 

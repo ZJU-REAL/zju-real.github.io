@@ -867,6 +867,7 @@ body.home nav.topbar { position: sticky; z-index: 10; }
   line-height: 1.75;
 }
 .pillar-block ul li { margin-bottom: 4px; }
+.pillar-block ul li strong { color: var(--ink); font-weight: 600; }
 
 /* ---------- Projects: filter bar + card grid ---------- */
 .filter-bar {

@@ -12,3 +12,6 @@ Thumbs.db
 *~
 .vscode/
 .idea/
+
+# Local intro/promo materials for proposals & communication (not published)
+intro-materials/

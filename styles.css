@@ -1885,3 +1885,11 @@ footer .footer-logo {
   nav.topbar ul { gap: 10px; }
 }
 
+
+/* Project logos in card headers */
+.card-name { display: flex; align-items: center; flex-wrap: wrap; row-gap: 4px; }
+.card-name .card-venue { vertical-align: 0; }
+.card-logo { display: block; height: 30px; width: auto; max-width: 100%; }
+.card-logo-tall { height: 44px; }
+.card-name a:has(.card-icon) { display: inline-flex; align-items: center; }
+.card-icon { height: 22px; width: auto; margin-right: 7px; display: block; }

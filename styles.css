@@ -1906,3 +1906,8 @@ footer .footer-logo {
 
 /* PI card / left-aligned variant */
 .pi-card .person-intern { justify-content: flex-start; }
+
+/* Lead card: full-width, no media, stacked like a normal card but a touch larger */
+.project-card.is-featured.is-lead { flex-direction: column; gap: 11px; }
+.is-lead .card-name { font-size: 21px; }
+.is-lead .card-desc { font-size: 14px; max-width: 720px; }

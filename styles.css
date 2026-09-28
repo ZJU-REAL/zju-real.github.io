@@ -1885,24 +1885,3 @@ footer .footer-logo {
   nav.topbar ul { gap: 10px; }
 }
 
-/* ---------- Internship badges under a person ---------- */
-.person-intern {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 7px;
-  flex-wrap: wrap;
-}
-/* Brand-coloured marks, shown as-is: each logo already carries its own shape */
-.intern-logo {
-  width: 20px;
-  height: 20px;
-  display: block;
-  object-fit: contain;
-  transition: transform 0.15s ease;
-}
-.intern-logo:hover { transform: translateY(-1px); }
-
-/* PI card / left-aligned variant */
-.pi-card .person-intern { justify-content: flex-start; }

@@ -1891,7 +1891,8 @@ footer .footer-logo {
 .card-name .card-venue { vertical-align: 0; }
 /* Wordmark logos (name already inside the logo) replace the text title */
 .card-logo { display: block; height: 30px; width: auto; max-width: 100%; }
-.card-logo-tall { height: 44px; }
+.card-logo-easel { height: 36px; }
 .card-name a:has(.card-icon) { display: inline-flex; align-items: center; }
 .card-icon { height: 22px; width: auto; margin-right: 7px; display: block; }
 .is-featured .card-icon-lg { height: 28px; margin-right: 9px; }
+.is-featured .card-icon-xl { height: 40px; margin-right: 10px; }

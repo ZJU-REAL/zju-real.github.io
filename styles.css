@@ -1889,7 +1889,10 @@ footer .footer-logo {
 /* Project logos in card headers */
 .card-name { display: flex; align-items: center; flex-wrap: wrap; row-gap: 4px; }
 .card-name .card-venue { vertical-align: 0; }
-.card-logo { display: block; height: 30px; width: auto; max-width: 100%; }
-.card-logo-tall { height: 44px; }
+/* Logo sits on its own line above the project name */
+.card-logo-link { flex-basis: 100%; margin-bottom: 8px; border-bottom: none; }
+.card-logo-link:hover { border-bottom: none; }
+.card-logo { display: block; height: 26px; width: auto; max-width: 100%; }
+.card-logo-tall { height: 40px; }
 .card-name a:has(.card-icon) { display: inline-flex; align-items: center; }
 .card-icon { height: 22px; width: auto; margin-right: 7px; display: block; }

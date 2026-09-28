@@ -1894,5 +1894,6 @@ footer .footer-logo {
 .card-logo-link:hover { border-bottom: none; }
 .card-logo { display: block; height: 26px; width: auto; max-width: 100%; }
 .card-logo-tall { height: 40px; }
+.card-logo-mark { height: 32px; }
 .card-name a:has(.card-icon) { display: inline-flex; align-items: center; }
 .card-icon { height: 22px; width: auto; margin-right: 7px; display: block; }

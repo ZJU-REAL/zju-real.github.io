@@ -1693,11 +1693,12 @@ body.home .hero .social { width: max-content; max-width: min(640px, calc(100vw -
 }
 .join .callout {
   margin-top: 16px;
-  padding: 16px 18px;
-  background: var(--accent-soft);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 4px 4px 0;
+  padding: 16px 22px;
+  background: linear-gradient(135deg, #F7FAFF, #EEF4FD);
+  border: 1px solid rgba(0, 78, 162, 0.14);
+  border-radius: 14px;
   font-size: 14px;
+  line-height: 1.75;
   color: var(--ink-soft);
 }
 .join .callout strong { color: var(--accent); }
@@ -1953,4 +1954,29 @@ footer .footer-logo {
   .dir-table thead { display: none; }
   .dir-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .dir-table td { display: block; width: auto !important; padding: 2px 0; border: none; }
+}
+
+/* Page hero panel: title + lead on the left, page illustration on the right */
+.page-header:has(.page-hero) { padding-top: 40px; }
+.page-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: 12px;
+  padding: 34px 26px 34px 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 88% -10%, rgba(18, 109, 255, 0.16), transparent 52%),
+    radial-gradient(circle at 62% 120%, rgba(25, 211, 167, 0.16), transparent 48%),
+    linear-gradient(135deg, #F7FAFF, #EDF3FF);
+}
+.page-hero.text-only { grid-template-columns: 1fr; padding: 40px; }
+.page-hero h1 { margin: 0 0 12px; }
+.page-hero .lead { max-width: none; text-wrap: pretty; }
+.page-hero-art { display: block; width: 100%; height: auto; }
+@media (max-width: 720px) {
+  .page-hero { grid-template-columns: 1fr; padding: 28px 22px; }
+  .page-hero.text-only { padding: 28px 22px; }
+  .page-hero-art { max-width: 340px; margin: 6px auto 0; }
 }

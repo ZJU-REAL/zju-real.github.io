@@ -2096,6 +2096,7 @@ footer a { border-bottom: none; }
 .pm-item svg { width: 11.7px; height: 11.7px; flex-shrink: 0; }
 .pm-icon { width: auto; height: 12px; }
 .pm-word { width: auto; height: 13px; }
+.pm-word-sm { height: 10.5px; }
 @media (prefers-reduced-motion: reduce) { .pm-track { animation: none; } .pm-strip { overflow-x: auto; } }
 
 /* About: interactive pillar explorer (left rail, right panel) */

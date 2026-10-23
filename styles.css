@@ -1967,9 +1967,9 @@ footer .footer-logo {
   border-radius: 20px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 88% -10%, rgba(18, 109, 255, 0.16), transparent 52%),
-    radial-gradient(circle at 62% 120%, rgba(25, 211, 167, 0.16), transparent 48%),
-    linear-gradient(135deg, #F7FAFF, #EDF3FF);
+    radial-gradient(circle at 88% -10%, rgba(18, 109, 255, 0.08), transparent 52%),
+    radial-gradient(circle at 62% 120%, rgba(25, 211, 167, 0.08), transparent 48%),
+    linear-gradient(135deg, #FAFCFF, #F3F7FE);
 }
 .page-hero.text-only { grid-template-columns: 1fr; padding: 40px; }
 .page-hero h1 { margin: 0 0 12px; }

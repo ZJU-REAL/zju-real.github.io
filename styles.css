@@ -749,7 +749,15 @@ body.home .hero .social { width: max-content; max-width: min(640px, calc(100vw -
   color: var(--accent);
   font-weight: 800;
   margin-left: 6px;
+  background: linear-gradient(90deg, #004EA2, #13808C, #4A6FA5, #2E7D5B);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
+.hero .headline-stack .sep { display: none; }
+.hero .headline-stack .badge { border-radius: 8px; }
+.hero .headline-stack .line:nth-child(1) .badge { background: #004EA2; }
+.hero .headline-stack .line:nth-child(2) .badge { background: #13808C; }
+.hero .headline-stack .line:nth-child(3) .badge { background: #4A6FA5; }
+.hero .headline-stack .line:nth-child(4) .badge { background: #2E7D5B; }
 .hero .affiliation {
   font-size: 18px;
   font-weight: 600;

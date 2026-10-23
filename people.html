@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261023j">
+<link rel="stylesheet" href="styles.css?v=20261023k">
 </head>
 <body>
 
@@ -394,11 +394,30 @@
     const slides = document.querySelectorAll('.lab-slide');
     if (slides.length < 2) return;
     let current = 0;
-    setInterval(() => {
+    const box = slides[0].parentElement;
+    const nav = document.createElement('div');
+    nav.className = 'lab-dots';
+    const dots = [...slides].map((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'lab-dot';
+      b.setAttribute('aria-label', 'Show photo ' + (i + 1));
+      b.addEventListener('click', () => { go(i); restart(); });
+      nav.appendChild(b);
+      return b;
+    });
+    box.appendChild(nav);
+    const go = i => {
       slides[current].classList.remove('is-active');
-      current = (current + 1) % slides.length;
+      dots[current].removeAttribute('aria-current');
+      current = i;
       slides[current].classList.add('is-active');
-    }, 4000);
+      dots[current].setAttribute('aria-current', 'true');
+    };
+    let timer;
+    const restart = () => { clearInterval(timer); timer = setInterval(() => go((current + 1) % slides.length), 4000); };
+    go(0);
+    restart();
   })();
 </script>
 

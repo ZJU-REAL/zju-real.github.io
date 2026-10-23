@@ -77,14 +77,20 @@ nav.topbar ul {
   list-style: none;
   margin: 0; padding: 0;
   display: flex;
-  gap: 22px;
+  gap: 4px;
 }
 nav.topbar ul a {
+  display: block;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
   color: var(--ink-soft);
   border: none;
+  transition: background .15s ease, color .15s ease;
 }
-nav.topbar ul a:hover { color: var(--accent); }
-nav.topbar ul a.active { color: var(--ink); border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+nav.topbar ul a:hover { background: #F2F6FC; color: #004EA2; }
+nav.topbar ul a.active { background: #E8F0FB; color: #004EA2; font-weight: 700; }
 
 /* Hamburger toggle (hidden visually but accessible; the <label> triggers it) */
 nav.topbar .nav-toggle {
@@ -1772,6 +1778,7 @@ footer .footer-logo {
     padding: 12px 20px;
     font-size: 15px;
     border-bottom: none;
+    border-radius: 10px;
   }
   nav.topbar ul a.active {
     color: var(--accent);
@@ -2038,3 +2045,13 @@ footer .footer-logo {
 .news-list li { scroll-margin-top: 96px; }
 .news-list li.news-flash { animation: news-flash 2.4s ease-out; border-radius: 8px; }
 @keyframes news-flash { 0%, 40% { background: rgba(0, 78, 162, 0.08); } 100% { background: transparent; } }
+
+/* People slideshow: clickable dots laid over the bottom of the photo */
+.lab-dots { position: absolute; left: 0; right: 0; bottom: 12px; z-index: 2; display: flex; justify-content: center; gap: 8px; }
+.lab-dot {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+  background: rgba(255, 255, 255, 0.55); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); transition: width .25s ease, background .25s ease;
+}
+.lab-dot:hover { background: rgba(255, 255, 255, 0.85); }
+.lab-dot[aria-current="true"] { width: 22px; background: #fff; }
+.lab-dot:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }

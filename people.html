@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261023l">
+<link rel="stylesheet" href="styles.css?v=20261023m">
 </head>
 <body>
 
@@ -395,6 +395,10 @@
     if (slides.length < 2) return;
     let current = 0;
     const box = slides[0].parentElement;
+    const media = document.createElement('div');   // slideshow + dots share one grid cell, dots sit under the photo
+    media.className = 'lab-media';
+    box.parentNode.insertBefore(media, box);
+    media.appendChild(box);
     const nav = document.createElement('div');
     nav.className = 'lab-dots';
     const dots = [...slides].map((_, i) => {
@@ -406,7 +410,7 @@
       nav.appendChild(b);
       return b;
     });
-    box.appendChild(nav);
+    media.appendChild(nav);
     const go = i => {
       slides[current].classList.remove('is-active');
       dots[current].removeAttribute('aria-current');

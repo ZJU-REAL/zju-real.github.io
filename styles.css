@@ -2046,15 +2046,16 @@ footer .footer-logo {
 .news-list li.news-flash { animation: news-flash 2.4s ease-out; border-radius: 8px; }
 @keyframes news-flash { 0%, 40% { background: rgba(0, 78, 162, 0.08); } 100% { background: transparent; } }
 
-/* People slideshow: clickable dots laid over the bottom of the photo */
-.lab-dots { position: absolute; left: 0; right: 0; bottom: 12px; z-index: 2; display: flex; justify-content: center; gap: 8px; }
+/* People slideshow: small clickable dots under the photo */
+.lab-dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
 .lab-dot {
-  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
-  background: rgba(255, 255, 255, 0.55); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); transition: width .25s ease, background .25s ease;
+  width: 6px; height: 6px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+  background: #C9D6EA; transition: width .25s ease, background .25s ease;
 }
-.lab-dot:hover { background: rgba(255, 255, 255, 0.85); }
-.lab-dot[aria-current="true"] { width: 22px; background: #fff; }
-.lab-dot:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lab-dot:hover { background: #8FA9CF; }
+.lab-dot[aria-current="true"] { width: 16px; background: #004EA2; }
+.lab-dot:focus-visible { outline: 2px solid #004EA2; outline-offset: 2px; }
+@media (min-width: 721px) { .page-hero:has(.lab-dots) { padding-top: 26px; padding-bottom: 26px; } }
 
 /* Projects hero: scrolling strip of open-source projects (HTML so it can pause and link) */
 .page-hero-media { position: relative; }

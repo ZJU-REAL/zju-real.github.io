@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261023p">
+<link rel="stylesheet" href="styles.css?v=20261023q">
 </head>
 <body>
 
@@ -96,40 +96,52 @@
       <button class="px-tab" type="button" role="tab" id="px-tab-l" aria-controls="px-panel-l" aria-selected="false" tabindex="-1" style="--c:#2E7D5B"><span class="px-dot">L</span><span class="px-txt"><b>Lifelong</b><span>learns continuously</span></span></button>
     </div>
     <div class="px-panel" role="tabpanel" id="px-panel-r" aria-labelledby="px-tab-r" style="--c:#004EA2">
-      <img class="px-art" src="assets/pillar-r.svg" width="320" height="176" alt="">
-      <div class="px-body">
-        <p class="px-lead">Models that can reason for as long as a problem requires, spend only the thinking it needs, and know when an answer is right.</p>
-        <p class="px-link"><span class="px-tag">R</span>The foundation: reasoning grounds both physical and digital action.</p>
-        <div class="px-chips"><span>Long-horizon reasoning</span><span>Efficient reasoning</span><span>Verifiable reasoning</span></div>
-        <a class="px-more" href="research.html#pillar-r">Explore Reasoning research →</a>
-      </div>
+      <p class="px-lead">Models that can reason for as long as a problem requires, spend only the thinking it needs, and know when an answer is right.</p>
+      <ul class="px-list">
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/InftyThink" target="_blank" rel="noopener"><span class="px-row-main"><b>InftyThink</b><span>Breaking the Length Limits of Long-Context Reasoning in Large Language Models</span></span><span class="px-row-tags"><span class="px-t">ICLR 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/InftyThink-Plus" target="_blank" rel="noopener"><span class="px-row-main"><b>InftyThink+</b><span>Effective and Efficient Infinite-Horizon Reasoning via Reinforcement Learning</span></span><span class="px-row-tags"><span class="px-t">ICML 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/Self-Braking-Tuning" target="_blank" rel="noopener"><span class="px-row-main"><b>Self-Braking Tuning</b><span>Let LLMs Break Free from Overthinking via Self-Braking Tuning</span></span><span class="px-row-tags"><span class="px-t">NeurIPS 2025</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/LAPO" target="_blank" rel="noopener"><span class="px-row-main"><b>LAPO</b><span>Internalizing Reasoning Efficiency via Length-Adaptive Policy Optimization</span></span><span class="px-row-tags"><span class="px-t">EMNLP 2026 Findings</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/VerifyBench" target="_blank" rel="noopener"><span class="px-row-main"><b>VerifyBench</b><span>Benchmarking Reference-Based Reward Systems for Large Language Models</span></span><span class="px-row-tags"><span class="px-t">ICLR 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/CoVerRL" target="_blank" rel="noopener"><span class="px-row-main"><b>CoVerRL</b><span>Breaking the Consensus Trap in Label-Free Reasoning via Generator-Verifier Co-Evolution</span></span><span class="px-row-tags"><span class="px-t">ACL 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+      </ul>
+      <div class="px-foot"><a class="px-more" href="research.html#pillar-r">Explore Reasoning research →</a><a class="px-more px-more-2" href="publications.html">All publications →</a></div>
     </div>
     <div class="px-panel" role="tabpanel" id="px-panel-e" aria-labelledby="px-tab-e" style="--c:#13808C" hidden>
-      <img class="px-art" src="assets/pillar-e.svg" width="320" height="176" alt="">
-      <div class="px-body">
-        <p class="px-lead">Taking intelligence off the screen: understanding 3D space, anticipating how the world changes, and acting through a body.</p>
-        <p class="px-link"><span class="px-tag">E</span>Reasoning grounded in the physical world; what it learns becomes embodied experience.</p>
-        <div class="px-chips"><span>Spatial perception</span><span>Self-evolving spatial intelligence</span><span>Prediction and world models</span><span>Embodied action</span></div>
-        <a class="px-more" href="research.html#pillar-e">Explore Embodied research →</a>
-      </div>
+      <p class="px-lead">Taking intelligence off the screen: understanding 3D space, anticipating how the world changes, and acting through a body.</p>
+      <ul class="px-list">
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/ViewSpatial-Bench" target="_blank" rel="noopener"><span class="px-row-main"><b>ViewSpatial-Bench</b><span>Evaluating Multi-Perspective Spatial Localization in Vision-Language Models</span></span><span class="px-row-tags"><span class="px-t">ECCV 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/SpatialLadder" target="_blank" rel="noopener"><span class="px-row-main"><b>SpatialLadder</b><span>Progressive Training for Spatial Reasoning in Vision-Language Models</span></span><span class="px-row-tags"><span class="px-t">ICLR 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/SpatialEvo" target="_blank" rel="noopener"><span class="px-row-main"><b>SpatialEvo</b><span>Self-Evolving Spatial Intelligence via Deterministic Geometric Environments</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/SpaceCast-Bench" target="_blank" rel="noopener"><span class="px-row-main"><b>SpaceCast-Bench</b><span>Evaluating Predictive Spatial Reasoning in Vision-Language Models</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/WorldMemBench" target="_blank" rel="noopener"><span class="px-row-main"><b>WorldMemBench</b><span>A Comprehensive Benchmark for Memory of Video World Models</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/OmniEmbodied" target="_blank" rel="noopener"><span class="px-row-main"><b>GroundAct</b><span>Can LLM Agents Ground Actions in Environmental States?</span></span><span class="px-row-tags"><span class="px-t">arXiv 2025</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+      </ul>
+      <div class="px-foot"><a class="px-more" href="research.html#pillar-e">Explore Embodied research →</a><a class="px-more px-more-2" href="publications.html">All publications →</a></div>
     </div>
     <div class="px-panel" role="tabpanel" id="px-panel-a" aria-labelledby="px-tab-a" style="--c:#4A6FA5" hidden>
-      <img class="px-art" src="assets/pillar-a.svg" width="320" height="176" alt="">
-      <div class="px-body">
-        <p class="px-lead">Agents that plan, use tools, and carry long-horizon tasks through to completion across screens, software, and the open web.</p>
-        <p class="px-link"><span class="px-tag">A</span>Reasoning put to work in the digital world; every task leaves digital experience behind.</p>
-        <div class="px-chips"><span>GUI grounding</span><span>Computer-use agents</span><span>Deep research agents</span><span>Code agents</span><span>Agent evaluation</span></div>
-        <a class="px-more" href="research.html#pillar-a">Explore Agentic research →</a>
-      </div>
+      <p class="px-lead">Agents that plan, use tools, and carry long-horizon tasks through to completion across screens, software, and the open web.</p>
+      <ul class="px-list">
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/ClawGUI" target="_blank" rel="noopener"><span class="px-row-main"><b>ClawGUI</b><span>A Unified Framework for Training, Evaluating, and Deploying GUI Agents</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span><span class="px-t px-t-oss">Open source</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/GUI-G2" target="_blank" rel="noopener"><span class="px-row-main"><b>GUI-G²</b><span>Gaussian Reward Modeling for GUI Grounding</span></span><span class="px-row-tags"><span class="px-t">AAAI 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://arxiv.org/abs/2509.11543" target="_blank" rel="noopener"><span class="px-row-main"><b>UI-S1</b><span>Advancing GUI Automation via Semi-Online Reinforcement Learning</span></span><span class="px-row-tags"><span class="px-t">arXiv 2025</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/HybridCUA" target="_blank" rel="noopener"><span class="px-row-main"><b>HybridCUA</b><span>Learning to Orchestrate GUI and CLI for Computer-Use Agents</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/PaperGym" target="_blank" rel="noopener"><span class="px-row-main"><b>PaperGym</b><span>Rubric-Centered Evolution for Research-Plan Generation</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/microsoft/JARVIS" target="_blank" rel="noopener"><span class="px-row-main"><b>HuggingGPT</b><span>Solving AI Tasks with ChatGPT and its Friends in Hugging Face</span></span><span class="px-row-tags"><span class="px-t">NeurIPS 2023</span><span class="px-t px-t-oss">Open source</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+      </ul>
+      <div class="px-foot"><a class="px-more" href="research.html#pillar-a">Explore Agentic research →</a><a class="px-more px-more-2" href="publications.html">All publications →</a></div>
     </div>
     <div class="px-panel" role="tabpanel" id="px-panel-l" aria-labelledby="px-tab-l" style="--c:#2E7D5B" hidden>
-      <img class="px-art" src="assets/pillar-l.svg" width="320" height="176" alt="">
-      <div class="px-body">
-        <p class="px-lead">Deployment is where learning continues: agents turn their own experience into guidance, skills, and better weights.</p>
-        <p class="px-link"><span class="px-tag">L</span>Where embodied and digital experience converge, and intelligence keeps growing.</p>
-        <div class="px-chips"><span>Guided exploration</span><span>Skill internalization</span><span>Self-distillation</span><span>Self-evolving systems</span></div>
-        <a class="px-more" href="research.html#pillar-l">Explore Lifelong research →</a>
-      </div>
+      <p class="px-lead">Deployment is where learning continues: agents turn their own experience into guidance, skills, and better weights.</p>
+      <ul class="px-list">
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/HugAgentOS" target="_blank" rel="noopener"><span class="px-row-main"><b>HugAgentOS</b><span>A self-hosted AgentOS: agentic chat, private knowledge-base RAG, sub-agents, MCP tools, sandboxed execution, and long-term memory in one workspace</span></span><span class="px-row-tags"><span class="px-t px-t-oss">Open source</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/SkillZero" target="_blank" rel="noopener"><span class="px-row-main"><b>SKILL0</b><span>In-Context Agentic Reinforcement Learning for Skill Internalization</span></span><span class="px-row-tags"><span class="px-t">EMNLP 2026 Findings</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/Agent-G2" target="_blank" rel="noopener"><span class="px-row-main"><b>Agent-G²</b><span>Gaussian Guidance for Agentic Reinforcement Learning</span></span><span class="px-row-tags"><span class="px-t">EMNLP 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/SDAR" target="_blank" rel="noopener"><span class="px-row-main"><b>SDAR</b><span>Self-Distilled Agentic Reinforcement Learning</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZethWang/AgentOPSD" target="_blank" rel="noopener"><span class="px-row-main"><b>AgentOPSD</b><span>Recursive Self-Distillation for Agentic Reinforcement Learning</span></span><span class="px-row-tags"><span class="px-t">arXiv 2026</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a class="px-row" href="https://github.com/ZJU-REAL/EasySteer" target="_blank" rel="noopener"><span class="px-row-main"><b>EasySteer</b><span>A Unified Framework for High-Performance and Extensible LLM Steering</span></span><span class="px-row-tags"><span class="px-t">EMNLP 2026 Demo</span><span class="px-t px-t-oss">Open source</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+      </ul>
+      <div class="px-foot"><a class="px-more" href="research.html#pillar-l">Explore Lifelong research →</a><a class="px-more px-more-2" href="publications.html">All publications →</a></div>
     </div>
   </section>
 

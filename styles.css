@@ -2072,22 +2072,22 @@ footer a { border-bottom: none; }
 /* Projects hero: scrolling strip of open-source projects (HTML so it can pause and link) */
 .page-hero-media { position: relative; }
 .pm-strip {
-  position: absolute; left: 2%; right: 2%; bottom: 6%; overflow: hidden; padding: 6px 0;
+  position: absolute; left: 2%; right: 2%; bottom: 6.2%; overflow: hidden; padding: 6px 0;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
           mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
-.pm-track { display: flex; gap: 12px; width: max-content; animation: pm-scroll 54.5s linear infinite; }
+.pm-track { display: flex; gap: 11.7px; width: max-content; animation: pm-scroll 44s linear infinite; }
 .pm-strip:hover .pm-track, .pm-strip:focus-within .pm-track { animation-play-state: paused; }
-@keyframes pm-scroll { to { transform: translateX(calc(-50% - 6px)); } }
+@keyframes pm-scroll { to { transform: translateX(calc(-50% - 5.85px)); } }
 .pm-item {
-  display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 5px; height: 24.5px; padding: 0 8.5px; flex-shrink: 0;
   background: #fff; border: 1px solid #DCE5F3; border-radius: 999px; box-shadow: 0 2px 8px rgba(30, 58, 95, 0.10);
-  font-size: 12.5px; font-weight: 700; color: #0F172A; white-space: nowrap; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  font-size: 10.5px; font-weight: 700; color: #0F172A; white-space: nowrap; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
 .pm-item:hover { border-color: rgba(0, 78, 162, 0.45); transform: translateY(-2px); box-shadow: 0 6px 14px rgba(30, 58, 95, 0.16); color: #004EA2; }
-.pm-item svg { width: 14px; height: 14px; flex-shrink: 0; }
-.pm-icon { width: auto; height: 15px; }
-.pm-word { width: auto; height: 17px; }
+.pm-item svg { width: 11.7px; height: 11.7px; flex-shrink: 0; }
+.pm-icon { width: auto; height: 12px; }
+.pm-word { width: auto; height: 13px; }
 @media (prefers-reduced-motion: reduce) { .pm-track { animation: none; } .pm-strip { overflow-x: auto; } }
 
 /* About: interactive pillar explorer (left rail, right panel) */

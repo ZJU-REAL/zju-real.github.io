@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261023n">
+<link rel="stylesheet" href="styles.css?v=20261023o">
 </head>
 <body>
 
@@ -88,8 +88,49 @@
     </p>
   </section>
 
-  <section class="page-figure">
-    <img src="assets/research-map.svg" width="1120" height="706" loading="lazy" alt="REAL research map: Reasoning leads into Embodied (physical) and Agentic (digital) AI, and both feed Lifelong learning">
+  <section class="px" aria-label="The four pillars of REAL">
+    <div class="px-rail" role="tablist" aria-orientation="vertical">
+      <button class="px-tab" type="button" role="tab" id="px-tab-r" aria-controls="px-panel-r" aria-selected="true" style="--c:#004EA2"><span class="px-dot">R</span><span class="px-txt"><b>Reasoning</b><span>reasons reliably</span></span></button>
+      <button class="px-tab" type="button" role="tab" id="px-tab-e" aria-controls="px-panel-e" aria-selected="false" tabindex="-1" style="--c:#13808C"><span class="px-dot">E</span><span class="px-txt"><b>Embodied</b><span>explores the physical world</span></span></button>
+      <button class="px-tab" type="button" role="tab" id="px-tab-a" aria-controls="px-panel-a" aria-selected="false" tabindex="-1" style="--c:#4A6FA5"><span class="px-dot">A</span><span class="px-txt"><b>Agentic</b><span>acts autonomously</span></span></button>
+      <button class="px-tab" type="button" role="tab" id="px-tab-l" aria-controls="px-panel-l" aria-selected="false" tabindex="-1" style="--c:#2E7D5B"><span class="px-dot">L</span><span class="px-txt"><b>Lifelong</b><span>learns continuously</span></span></button>
+    </div>
+    <div class="px-panel" role="tabpanel" id="px-panel-r" aria-labelledby="px-tab-r" style="--c:#004EA2">
+      <img class="px-art" src="assets/pillar-r.svg" width="320" height="176" alt="">
+      <div class="px-body">
+        <p class="px-lead">Models that can reason for as long as a problem requires, spend only the thinking it needs, and know when an answer is right.</p>
+        <p class="px-link"><span class="px-tag">R</span>The foundation: reasoning grounds both physical and digital action.</p>
+        <div class="px-chips"><span>Long-horizon reasoning</span><span>Efficient reasoning</span><span>Verifiable reasoning</span></div>
+        <a class="px-more" href="research.html#pillar-r">Explore Reasoning research →</a>
+      </div>
+    </div>
+    <div class="px-panel" role="tabpanel" id="px-panel-e" aria-labelledby="px-tab-e" style="--c:#13808C" hidden>
+      <img class="px-art" src="assets/pillar-e.svg" width="320" height="176" alt="">
+      <div class="px-body">
+        <p class="px-lead">Taking intelligence off the screen: understanding 3D space, anticipating how the world changes, and acting through a body.</p>
+        <p class="px-link"><span class="px-tag">E</span>Reasoning grounded in the physical world; what it learns becomes embodied experience.</p>
+        <div class="px-chips"><span>Spatial perception</span><span>Self-evolving spatial intelligence</span><span>Prediction and world models</span><span>Embodied action</span></div>
+        <a class="px-more" href="research.html#pillar-e">Explore Embodied research →</a>
+      </div>
+    </div>
+    <div class="px-panel" role="tabpanel" id="px-panel-a" aria-labelledby="px-tab-a" style="--c:#4A6FA5" hidden>
+      <img class="px-art" src="assets/pillar-a.svg" width="320" height="176" alt="">
+      <div class="px-body">
+        <p class="px-lead">Agents that plan, use tools, and carry long-horizon tasks through to completion across screens, software, and the open web.</p>
+        <p class="px-link"><span class="px-tag">A</span>Reasoning put to work in the digital world; every task leaves digital experience behind.</p>
+        <div class="px-chips"><span>GUI grounding</span><span>Computer-use agents</span><span>Deep research agents</span><span>Code agents</span><span>Agent evaluation</span></div>
+        <a class="px-more" href="research.html#pillar-a">Explore Agentic research →</a>
+      </div>
+    </div>
+    <div class="px-panel" role="tabpanel" id="px-panel-l" aria-labelledby="px-tab-l" style="--c:#2E7D5B" hidden>
+      <img class="px-art" src="assets/pillar-l.svg" width="320" height="176" alt="">
+      <div class="px-body">
+        <p class="px-lead">Deployment is where learning continues: agents turn their own experience into guidance, skills, and better weights.</p>
+        <p class="px-link"><span class="px-tag">L</span>Where embodied and digital experience converge, and intelligence keeps growing.</p>
+        <div class="px-chips"><span>Guided exploration</span><span>Skill internalization</span><span>Self-distillation</span><span>Self-evolving systems</span></div>
+        <a class="px-more" href="research.html#pillar-l">Explore Lifelong research →</a>
+      </div>
+    </div>
   </section>
 
   <section id="news">
@@ -183,8 +224,8 @@
 <footer>
   <div class="foot-panel">
     <div class="foot-cta">
-      <h3>Build real-world AI with us</h3>
-      <p>REAL Lab · Zhejiang University · Hangzhou, China</p>
+      <h3>Toward AI that thinks, acts, and grows in the real world</h3>
+      <p>REAL Lab, Zhejiang University, Hangzhou, China</p>
       <a class="foot-btn" href="join.html">Join REAL Lab →</a>
     </div>
     <div class="foot-side">
@@ -238,6 +279,37 @@
         if (d) { e.preventDefault(); show(tabs[(i + d + tabs.length) % tabs.length], true); }
       });
     });
+  })();
+</script>
+<script>
+  // Pillar explorer: click or arrow keys to switch; rotates on its own until the visitor interacts.
+  (function () {
+    const tabs = [...document.querySelectorAll('.px-tab')];
+    if (!tabs.length) return;
+    const box = document.querySelector('.px');
+    let i = 0, touched = false, hover = false;
+    const show = (n, focus) => {
+      i = (n + tabs.length) % tabs.length;
+      tabs.forEach((t, k) => {
+        const on = k === i;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, k) => {
+      t.addEventListener('click', () => { touched = true; show(k); });
+      t.addEventListener('keydown', e => {
+        const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+        if (d) { e.preventDefault(); touched = true; show(i + d, true); }
+      });
+    });
+    box.addEventListener('mouseenter', () => hover = true);
+    box.addEventListener('mouseleave', () => hover = false);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInterval(() => { if (!touched && !hover && !document.hidden) show(i + 1); }, 6000);
+    }
   })();
 </script>
 </body>

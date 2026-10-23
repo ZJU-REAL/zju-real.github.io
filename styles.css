@@ -201,6 +201,8 @@ body.home .hero-content {
   margin: 0;
 }
 body.home nav.topbar { position: sticky; z-index: 10; }
+/* Let the link pills keep one row on desktop even though they are slightly wider than the text column */
+body.home .hero .social { width: max-content; max-width: min(640px, calc(100vw - 48px)); }
 
 /* ---------- Floating background animation ---------- */
 .bg-float {
@@ -766,22 +768,31 @@ body.home nav.topbar { position: sticky; z-index: 10; }
 }
 .hero .social {
   display: flex;
-  gap: 8px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 12.5px;
   flex-wrap: wrap;
 }
 .hero .social a {
-  color: var(--ink-soft);
-  border: 1px solid var(--line);
-  padding: 6px 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px 4px 8px;
+  color: #004EA2;
+  background: rgba(0, 78, 162, 0.06);
+  border: 1.5px solid rgba(0, 78, 162, 0.42);
   border-radius: 999px;
   font-weight: 700;
+  white-space: nowrap;
   transition: all 0.15s ease;
 }
+.hero .social a svg { width: 13px; height: 13px; flex-shrink: 0; }
 .hero .social a:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  background: rgba(0, 78, 162, 0.12);
+  border-color: #004EA2;
+  color: #004EA2;
 }
+.hero .social a.cta { background: var(--accent); border-color: var(--accent); color: #fff; }
+.hero .social a.cta:hover { filter: brightness(1.12); color: #fff; }
 
 /* ---------- About ---------- */
 .about p {
@@ -1907,6 +1918,8 @@ footer .footer-logo {
 .page-figure { margin: 8px 0 40px; }
 .page-figure img { display: block; width: 100%; height: auto; border-radius: 16px; }
 .join .page-figure { margin: 24px 0 8px; }
+.page-figure.page-top { margin: 40px 0 0; }
+.page-figure.page-top + .page-header { padding-top: 40px; }
 
 /* Pillar colours for the research letter tags */
 .pillar-block .letter-tag.r { color: #004EA2; background: #E6EEF8; }

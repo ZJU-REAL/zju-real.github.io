@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261023f">
+<link rel="stylesheet" href="styles.css?v=20261023g">
 </head>
 <body>
 
@@ -40,11 +40,20 @@
 <main>
 
   <section class="page-header">
-    <div class="page-hero text-only">
+    <div class="page-hero">
       <div class="page-hero-text">
         <h1>About</h1>
         <p class="lead">REAL Lab is a research group at Zhejiang University building AI that reasons reliably, explores the physical world, acts autonomously, and learns continuously throughout its lifetime, grounded in the real world.</p>
       </div>
+      <a class="rn-card" href="https://www.xiaohongshu.com/user/profile/67d84bef000000000d008f18" target="_blank" rel="noopener">
+        <img class="rn-qr" src="assets/rednote-qr.svg" width="132" height="132" alt="QR code for REAL Lab on RedNote">
+        <span class="rn-info">
+          <span class="rn-badge">小红书</span>
+          <span class="rn-title">Follow us on RedNote</span>
+          <span class="rn-sub">扫码在小红书找到我们</span>
+          <span class="rn-id">小红书号 42908829308</span>
+        </span>
+      </a>
     </div>
   </section>
 
@@ -172,5 +181,19 @@
   </div>
 </footer>
 
+<script>
+  // Give every news item a stable anchor, numbered from the oldest, so links like about.html#news-31 survive new posts.
+  (function () {
+    const items = document.querySelectorAll('#news .news-list > li');
+    items.forEach((li, i) => { li.id = 'news-' + (items.length - i); });
+    const target = location.hash && document.getElementById(location.hash.slice(1));
+    if (target && target.matches('.news-list > li')) {
+      const go = () => target.scrollIntoView({ block: 'center' });
+      go();
+      window.addEventListener('load', go);
+      target.classList.add('news-flash');
+    }
+  })();
+</script>
 </body>
 </html>

@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261023f">
+<link rel="stylesheet" href="styles.css?v=20261023g">
 </head>
 <body class="home">
 
@@ -295,6 +295,14 @@
     </ul>
   </div>
 </nav>
+<div class="news-bar" id="news-bar" hidden>
+  <div class="news-bar-in">
+    <a class="news-bar-tag" href="about.html#news">NEWS</a>
+    <div class="news-viewport" aria-live="polite"><ul class="news-track"></ul></div>
+    <a class="news-bar-all" href="about.html#news" aria-label="All news"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+</div>
+
 
 <main class="home-main">
 
@@ -325,5 +333,56 @@
 
 </main>
 
+<script>
+  // News bar: read the latest items from about.html and rotate through them.
+  (function () {
+    const bar = document.getElementById('news-bar');
+    if (!bar || !window.fetch) return;
+    fetch('about.html').then(r => r.ok ? r.text() : Promise.reject()).then(html => {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const all = doc.querySelectorAll('#news .news-list > li');
+      const items = [...all].slice(0, 6).map((li, i) => {
+        const date = (li.querySelector('.date') || {}).textContent || '';
+        const content = li.querySelector('.content').cloneNode(true);
+        content.querySelectorAll('.tag').forEach(t => t.remove());
+        let text = content.textContent.replace(/\s+/g, ' ').replace(/\[[^\]]*\]/g, '').trim();
+        text = text.split(/:\s/)[0].split(/\.\s/)[0].replace(/[.,;]\s*$/, '');
+        return { date: date.trim(), text, id: 'news-' + (all.length - i) };
+      });
+      if (!items.length) return;
+      const track = bar.querySelector('.news-track');
+      [...items, items[0]].forEach(it => {   // repeat the first item so the loop wraps seamlessly
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = 'about.html#' + it.id;
+        a.innerHTML = '<span class="news-date"></span><span class="news-text"></span>';
+        a.firstChild.textContent = it.date;
+        a.lastChild.textContent = it.text;
+        li.appendChild(a);
+        track.appendChild(li);
+      });
+      bar.hidden = false;
+      if (items.length < 2) return;
+      let k = 0, paused = false;
+      bar.addEventListener('mouseenter', () => paused = true);
+      bar.addEventListener('mouseleave', () => paused = false);
+      bar.addEventListener('focusin', () => paused = true);
+      bar.addEventListener('focusout', () => paused = false);
+      setInterval(() => {
+        if (paused || document.hidden) return;
+        k += 1;
+        track.style.transition = '';
+        track.style.transform = 'translateY(' + (-k * 100 / (items.length + 1)) + '%)';
+        if (k === items.length) {
+          setTimeout(() => {
+            track.style.transition = 'none';
+            track.style.transform = 'translateY(0)';
+            k = 0;
+          }, 600);
+        }
+      }, 4000);
+    }).catch(() => {});
+  })();
+</script>
 </body>
 </html>

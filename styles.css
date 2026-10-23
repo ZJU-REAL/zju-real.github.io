@@ -138,10 +138,17 @@ p { margin: 0 0 14px; color: var(--ink-soft); }
 
 /* Page header (for sub-pages: title + lead paragraph) */
 .page-header {
-  padding: 72px 0 40px;
-  border-bottom: 1px solid var(--line);
+  padding: 72px 0 0;
 }
-.page-header-bare { border-bottom: none; }
+/* Divider under the first block: four R/E/A/L squares aligned with the title, then a hairline fading right */
+.page-header:not(.page-header-bare)::after {
+  content: "";
+  display: block;
+  height: 24px;
+  margin-top: 30px;
+  background: url("assets/divider.svg") left center / auto 100% no-repeat;
+}
+.page-header-bare { padding-bottom: 40px; }
 .page-header h1 {
   font-size: 38px;
   line-height: 1.15;

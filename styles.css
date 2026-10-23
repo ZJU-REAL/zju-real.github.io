@@ -1980,3 +1980,6 @@ footer .footer-logo {
   .page-hero.text-only { padding: 28px 22px; }
   .page-hero-art { max-width: 340px; margin: 6px auto 0; }
 }
+
+/* People: lab photo slideshow sits in the hero panel */
+.page-hero .lab-slideshow { width: 100%; max-width: none; margin: 0; border-radius: 14px; box-shadow: 0 8px 24px rgba(30, 58, 95, 0.14); }

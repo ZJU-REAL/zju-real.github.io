@@ -766,14 +766,14 @@ body.home nav.topbar { position: sticky; z-index: 10; }
 }
 .hero .social {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   font-size: 13px;
   flex-wrap: wrap;
 }
 .hero .social a {
   color: var(--ink-soft);
   border: 1px solid var(--line);
-  padding: 6px 14px;
+  padding: 6px 11px;
   border-radius: 999px;
   font-weight: 700;
   transition: all 0.15s ease;
@@ -1298,6 +1298,12 @@ body.home nav.topbar { position: sticky; z-index: 10; }
   font-size: 12px;
   width: auto;
   line-height: 1;
+  opacity: 1;
+}
+/* Project pages hosted by the lab */
+.pub .links a[href*="zjureal.com"]::before,
+.pub .links a[href*="zju-real.github.io"]::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a4d8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/></svg>");
   opacity: 1;
 }
 /* AAAI / proceedings DOI / generic Paper */
@@ -1896,3 +1902,36 @@ footer .footer-logo {
 .card-icon { height: 22px; width: auto; margin-right: 7px; display: block; }
 .is-featured .card-icon-lg { height: 28px; margin-right: 9px; }
 .is-featured .card-icon-xl { height: 40px; margin-right: 10px; }
+
+/* Full-width figures (research map, banner) */
+.page-figure { margin: 8px 0 40px; }
+.page-figure img { display: block; width: 100%; height: auto; border-radius: 16px; }
+.join .page-figure { margin: 24px 0 8px; }
+
+/* Pillar colours for the research letter tags */
+.pillar-block .letter-tag.r { color: #004EA2; background: #E6EEF8; }
+.pillar-block .letter-tag.e { color: #13808C; background: #E2F2F3; }
+.pillar-block .letter-tag.a { color: #4A6FA5; background: #EAEFF6; }
+.pillar-block .letter-tag.l { color: #2E7D5B; background: #E4F1EA; }
+
+/* Direction tables (research.html) */
+.dir-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+.dir-table th {
+  text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line);
+}
+.dir-table td { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.6; color: var(--ink-soft); }
+.dir-table td:first-child { width: 24%; font-weight: 600; color: var(--ink); }
+.dir-table td.works { width: 36%; padding-right: 0; }
+.dir-table .work {
+  display: inline-block; margin: 0 6px 6px 0; padding: 2px 9px; font-size: 12.5px; line-height: 1.6;
+  border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); text-decoration: none; white-space: nowrap;
+}
+.dir-table .work:hover { border-color: var(--accent); color: var(--accent); }
+.dir-table .work.system { background: var(--accent-soft); border-color: transparent; color: var(--accent); font-weight: 600; }
+.dir-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+@media (max-width: 640px) {
+  .dir-table thead { display: none; }
+  .dir-table tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .dir-table td { display: block; width: auto !important; padding: 2px 0; border: none; }
+}

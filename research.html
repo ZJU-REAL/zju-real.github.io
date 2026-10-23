@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20260928e">
+<link rel="stylesheet" href="styles.css?v=20261023a">
 </head>
 <body>
 
@@ -46,64 +46,74 @@
     </p>
   </section>
 
+  <section class="page-figure">
+    <img src="assets/banner.svg" width="1280" height="360" alt="REAL: Reasoning, Embodied, Agentic, and Lifelong-learning AI">
+  </section>
+
   <section>
     <div class="pillar-block">
-      <span class="letter-tag">R · REASONING</span>
-      <h3>Reasoning</h3>
-      <p>
-        We study how large models solve problems that require multi-step inference, from mathematical and code reasoning to long-chain and multimodal reasoning. Our goal is to make reasoning reliable, efficient, and verifiable, so that large models can think and decide as deeply as (or beyond) humans.
-      </p>
-      <ul>
-        <li>Long-chain and infinite-horizon reasoning</li>
-        <li>Mathematical and code reasoning</li>
-        <li>Chain-of-thought tuning, process verification, and reward modeling</li>
-        <li>Multimodal and spatial reasoning in vision-language models</li>
-        <li>Social reasoning and theory of mind for LLMs</li>
-      </ul>
+      <span class="letter-tag r">R · REASONING</span>
+      <h3>Reasoning: reason reliably</h3>
+      <p>Models that can reason for as long as a problem requires, spend only the thinking it needs, and know when an answer is right.</p>
+      <table class="dir-table">
+        <thead><tr><th>Direction</th><th>Focus</th><th>Representative work</th></tr></thead>
+        <tbody>
+          <tr><td>Long-horizon reasoning</td><td>Break the context-length ceiling so reasoning can continue as long as the problem demands.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/InftyThink" target="_blank" rel="noopener">InftyThink</a><a class="work" href="https://github.com/ZJU-REAL/InftyThink-Plus" target="_blank" rel="noopener">InftyThink+</a></td></tr>
+          <tr><td>Efficient reasoning</td><td>Fit the amount of thinking to the difficulty of the problem and stop overthinking.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/Self-Braking-Tuning" target="_blank" rel="noopener">Self-Braking Tuning</a><a class="work" href="https://github.com/ZJU-REAL/LAPO" target="_blank" rel="noopener">LAPO</a><a class="work" href="https://github.com/ZJU-REAL/Mind-the-Gap" target="_blank" rel="noopener">Mind the Gap</a></td></tr>
+          <tr><td>Verifiable reasoning</td><td>Verifiers and rewards that can be trusted, and models that pause instead of fabricate.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/VerifyBench" target="_blank" rel="noopener">VerifyBench</a><a class="work" href="https://github.com/ZJU-REAL/CoVerRL" target="_blank" rel="noopener">CoVerRL</a><a class="work" href="https://github.com/ZJU-REAL/GRIL" target="_blank" rel="noopener">Pause or Fabricate?</a></td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="pillar-block">
-      <span class="letter-tag">A · AGENTIC</span>
-      <h3>Agentic AI</h3>
-      <p>
-        We build AI agents that plan, use tools, and carry long-horizon tasks through to completion. On the application side we focus on deep research agents, code agents, computer-using agents, and embodied agents, moving from scripted workflows to genuinely autonomous behavior across both digital and physical environments.
-      </p>
-      <ul>
-        <li><strong>Deep research agents</strong>: long-horizon search, evidence grounding, and report synthesis</li>
-        <li><strong>Code agents</strong>: repository-level coding and adversarial code/test co-evolution</li>
-        <li><strong>Computer-using agents</strong>: GUI grounding and mobile / desktop automation</li>
-        <li><strong>Embodied agents</strong>: perception, tool use, and action in physical and simulated environments</li>
-        <li>Agent memory, multi-agent collaboration, and policy-level reflection</li>
-      </ul>
+      <span class="letter-tag e">E · EMBODIED</span>
+      <h3>Embodied: explore the physical world</h3>
+      <p>Taking intelligence off the screen: understanding 3D space, anticipating how the world changes, and acting through a body.</p>
+      <table class="dir-table">
+        <thead><tr><th>Direction</th><th>Focus</th><th>Representative work</th></tr></thead>
+        <tbody>
+          <tr><td>Spatial perception</td><td>Measure and teach the 3D understanding that 2D pretraining lacks, including viewpoints other than the camera&#x27;s.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/ViewSpatial-Bench" target="_blank" rel="noopener">ViewSpatial-Bench</a><a class="work" href="https://github.com/ZJU-REAL/SpatialLadder" target="_blank" rel="noopener">SpatialLadder</a><a class="work" href="https://github.com/ZJU-REAL/GPD" target="_blank" rel="noopener">GPD</a></td></tr>
+          <tr><td>Self-evolving spatial intelligence</td><td>Let geometry and physical interaction supply their own supervision, without human labels.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/SpatialEvo" target="_blank" rel="noopener">SpatialEvo</a><a class="work" href="https://arxiv.org/abs/2609.23038" target="_blank" rel="noopener">Spatial-Interactor</a></td></tr>
+          <tr><td>Prediction and world models</td><td>Reason about what happens next and keep a memory of the world over time.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/SpaceCast-Bench" target="_blank" rel="noopener">SpaceCast-Bench</a><a class="work" href="https://github.com/ZJU-REAL/WorldMemBench" target="_blank" rel="noopener">WorldMemBench</a></td></tr>
+          <tr><td>Embodied action</td><td>Turn perception into reliable physical action and coordinated embodied behavior.</td><td class="works"><a class="work" href="https://arxiv.org/abs/2607.01804" target="_blank" rel="noopener">VLA-Corrector</a><a class="work" href="https://github.com/ZJU-REAL/OmniEmbodied" target="_blank" rel="noopener">OmniEmbodied</a></td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="pillar-block">
-      <span class="letter-tag">L · LIFELONG</span>
-      <h3>Lifelong-learning AI</h3>
-      <p>
-        Deployment is not the end of training: it is where lifelong learning begins. We study how models accumulate experience through continual interaction with their environment and bootstrap their own capabilities, through reinforcement learning, self-improvement, and feedback-driven tuning, so that intelligence keeps growing throughout its lifetime rather than plateauing after release.
-      </p>
-      <ul>
-        <li>Reinforcement learning for reasoning and agents</li>
-        <li>Self-evolving agents and self-improvement loops</li>
-        <li>Generator/verifier co-evolution and policy/reward co-optimization</li>
-        <li>LLM steering and efficient adaptation after deployment</li>
-      </ul>
+      <span class="letter-tag a">A · AGENTIC</span>
+      <h3>Agentic: act autonomously as agents</h3>
+      <p>Agents that plan, use tools, and carry long-horizon tasks through to completion across screens, software, and the open web.</p>
+      <table class="dir-table">
+        <thead><tr><th>Direction</th><th>Focus</th><th>Representative work</th></tr></thead>
+        <tbody>
+          <tr><td>GUI grounding</td><td>Locate exactly where to act on a screen, with dense rewards, test-time learning, and adaptive zoom.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/GUI-G2" target="_blank" rel="noopener">GUI-G²</a><a class="work" href="https://github.com/ZJU-REAL/GUI-RCPO" target="_blank" rel="noopener">GUI-RCPO</a><a class="work" href="https://github.com/ZJU-REAL/CANL" target="_blank" rel="noopener">Reliable Negatives</a><a class="work" href="https://github.com/ZJU-REAL/UI-Zoomer" target="_blank" rel="noopener">UI-Zoomer</a></td></tr>
+          <tr><td>Computer-use agents</td><td>Long-horizon control of real devices through multi-turn RL, GUI plus command line, and online self-improvement.</td><td class="works"><a class="work" href="https://github.com/X-PLUG/MobileAgent/tree/main/UI-S1" target="_blank" rel="noopener">UI-S1</a><a class="work" href="https://aclanthology.org/2026.acl-long.428/" target="_blank" rel="noopener">EMPO</a><a class="work" href="https://github.com/ZJU-REAL/UI-Copilot" target="_blank" rel="noopener">UI-Copilot</a><a class="work" href="https://github.com/ZJU-REAL/HybridCUA" target="_blank" rel="noopener">HybridCUA</a><a class="work" href="https://github.com/ZJU-REAL/ComputerSD" target="_blank" rel="noopener">ComputerSD</a><a class="work" href="https://arxiv.org/abs/2609.17653" target="_blank" rel="noopener">Reflect, Revise, Reuse</a><a class="work system" href="https://github.com/ZJU-REAL/ClawGUI" target="_blank" rel="noopener">ClawGUI</a></td></tr>
+          <tr><td>Deep research agents</td><td>Search the open web, synthesize evidence, and carry a project from literature to a reviewed paper.</td><td class="works"><a class="work" href="https://arxiv.org/abs/2609.29444" target="_blank" rel="noopener">IterSynth</a><a class="work" href="https://arxiv.org/abs/2608.24848" target="_blank" rel="noopener">BrowserForge</a><a class="work" href="https://arxiv.org/abs/2509.00877" target="_blank" rel="noopener">EviNote-RAG</a><a class="work" href="https://github.com/ZJU-REAL/PaperGym" target="_blank" rel="noopener">PaperGym</a><a class="work system" href="https://github.com/ZJU-REAL/Polaris" target="_blank" rel="noopener">Polaris</a></td></tr>
+          <tr><td>Code agents</td><td>Code and tests that co-evolve adversarially through reinforcement learning.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/Code-A1" target="_blank" rel="noopener">Code-A1</a></td></tr>
+          <tr><td>Creation agents</td><td>Agents that discover, create, publish across platforms, and learn what actually works.</td><td class="works"><a class="work system" href="https://github.com/ZJU-REAL/Easel" target="_blank" rel="noopener">Easel</a></td></tr>
+          <tr><td>Tool orchestration</td><td>LLMs as controllers that plan, call expert models and tools, and compose the result.</td><td class="works"><a class="work system" href="https://github.com/microsoft/JARVIS" target="_blank" rel="noopener">HuggingGPT</a><a class="work" href="https://github.com/microsoft/JARVIS/tree/main/taskbench" target="_blank" rel="noopener">TaskBench</a></td></tr>
+          <tr><td>Agent evaluation</td><td>Interactive, personalized benchmarks and a plug-in harness that evaluates any agent in any environment.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/KnowU-Bench" target="_blank" rel="noopener">KnowU-Bench</a><a class="work system" href="https://github.com/ZJU-REAL/ageval" target="_blank" rel="noopener">ageval</a></td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="pillar-block">
-      <span class="letter-tag">E · EMBODIED</span>
-      <h3>Embodied AI</h3>
-      <p>
-        We study how AI systems perceive, reason about, and act in environments: closing the loop from understanding to reasoning to action. Our current focus is on spatial intelligence, embodied reasoning, and benchmarks that evaluate agents in interactive physical scenes.
-      </p>
-      <ul>
-        <li>Spatial reasoning and multi-perspective localization</li>
-        <li>Embodied reasoning that synergizes search, planning, and action</li>
-        <li>Benchmarks for agent reasoning in embodied tasks</li>
-        <li>World models for physical and interactive environments</li>
-      </ul>
+      <span class="letter-tag l">L · LIFELONG</span>
+      <h3>Lifelong: learn continuously throughout their lifetime</h3>
+      <p>Deployment is where learning continues: agents turn their own experience into guidance, skills, and better weights.</p>
+      <table class="dir-table">
+        <thead><tr><th>Direction</th><th>Focus</th><th>Representative work</th></tr></thead>
+        <tbody>
+          <tr><td>Guided exploration</td><td>Densify the sparse rewards of long-horizon agentic RL with adaptive hints and milestones.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/Agent-G2" target="_blank" rel="noopener">Agent-G²</a><a class="work" href="https://github.com/ZJU-REAL/BEACON" target="_blank" rel="noopener">BEACON</a></td></tr>
+          <tr><td>Skill internalization</td><td>Discover skills in context, then internalize them into the policy across tasks and modalities.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/SkillZero" target="_blank" rel="noopener">SKILL0</a><a class="work" href="https://github.com/ZJU-REAL/ViSkill" target="_blank" rel="noopener">ViSkill</a><a class="work" href="https://arxiv.org/abs/2607.26784" target="_blank" rel="noopener">SkillRise</a></td></tr>
+          <tr><td>Self-distillation</td><td>Agentic RL with on-policy self-distillation, and the family of methods built on it.</td><td class="works"><a class="work" href="https://github.com/ZJU-REAL/SDAR" target="_blank" rel="noopener">SDAR</a><a class="work" href="https://arxiv.org/abs/2608.05987" target="_blank" rel="noopener">AgentOPSD</a><a class="work" href="https://github.com/ZJU-REAL/Relay-OPD" target="_blank" rel="noopener">Pass the Baton</a><a class="work" href="https://arxiv.org/abs/2609.20784" target="_blank" rel="noopener">RetireOPD</a></td></tr>
+          <tr><td>Post-deployment steering</td><td>Adjust a deployed model&#x27;s behavior at inference time without retraining.</td><td class="works"><a class="work system" href="https://github.com/ZJU-REAL/EasySteer" target="_blank" rel="noopener">EasySteer</a></td></tr>
+          <tr><td>Self-evolving systems</td><td>Memory, skills, and orchestration that evolve with use, with every step attributable and reversible.</td><td class="works"><a class="work system" href="https://github.com/ZJU-REAL/HugAgentOS" target="_blank" rel="noopener">HugAgentOS</a></td></tr>
+        </tbody>
+      </table>
     </div>
+    <p class="dir-note">Highlighted entries are open-source systems. Full list on the <a href="publications.html">Publications</a> page.</p>
   </section>
 
 </main>

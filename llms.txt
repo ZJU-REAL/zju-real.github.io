@@ -12,7 +12,7 @@
 ## Pages
 
 - [Research](https://zjureal.com/research.html): directions and representative work per pillar
-- [Publications](https://zjureal.com/publications.html): 114 papers with arXiv, paper and code links
+- [Publications](https://zjureal.com/publications.html): 117 papers with arXiv, paper and code links
 - [Projects](https://zjureal.com/projects.html): open-source frameworks
 - [People](https://zjureal.com/people.html) and [Join Us](https://zjureal.com/join.html)
 
@@ -28,6 +28,9 @@
 
 ### 2026
 
+- [Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents](https://arxiv.org/abs/2611.17167). Haochen Liu, Qianhao Zhu, Zixuan Wang, Dingming Li, Tongbo Chen, Peng Qiu, Yingqi Qu, Weiming Lu, Jun Xiao, Yongliang Shen. *arXiv preprint, 2026* · code: https://github.com/ZJU-REAL/decision-agents
+- [SimRec: Learning to Search, Ask, and Recommend from Simulated Interaction](https://arxiv.org/abs/2611.15426). Yaxin Zhang, Xingyu Wu, Yuchen Yan, Yuqin Dai, Hong Zhao, Lixing Shen, Zhan Chen, Jian Shao, Yongliang Shen. *arXiv preprint, 2026* · code: https://github.com/ZJU-REAL/SimRec
+- [RuACT: Recovering Inactive Rubrics as Adaptive Critics and Teachers](https://arxiv.org/abs/2611.09597). Yijun Li, Zhengxi Lu, Zhipiao Liu, Jinzheng Yu, Xutao Weng, Jian Shao, Yongliang Shen. *arXiv preprint, 2026* · code: https://github.com/ZJU-REAL/RuACT
 - [Agent-R²: Scaling Agents for Realistic Productivity Work via Real-Source Data Synthesis](https://arxiv.org/abs/2611.08219). Teng Pan, Zixuan Wang, Yuchen Yan, Qifei Wu, Yao Chen, Yingqi Qu, Ruiqing Zhang, Yongliang Shen. *arXiv preprint, 2026* · code: https://github.com/ZJU-REAL/Agent-R2
 - [Retrieval-Enhanced Cultural Evaluation for Social Media Translation Training](https://arxiv.org/abs/2611.02009). Linjuan Wu, Yiwen Qiu, Xinze Lyu, Dingming Li, Hui Yao, Zhongyi Sang, Ye Guo, Daoxin Zhang, Zhe Xu, Fei Zhao, Mu Chuan, Yao Hu, Weiming Lu, Yongliang Shen. *arXiv preprint, 2026*
 - [MemU-Bench: Benchmarking GUI Agents on Long-Horizon User Interactions](https://arxiv.org/abs/2611.00191). Yizhou Liu, Zhengxi Lu, Fei Tang, Yiwen Qiu, Yong Du, Tongbo Chen, Bofan Chen, Tao Jiang, Wenhao Xu, Yunfeng Shu, Wenqi Zhang, Weiming Lu, Jun Xiao, Yueting Zhuang, Yongliang Shen. *arXiv preprint, 2026* · code: https://github.com/ZJU-REAL/MemU-Bench

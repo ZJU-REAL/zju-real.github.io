@@ -30,6 +30,7 @@ PAGES = [('index.html', '', 1.0), ('about.html', 'about.html', .8), ('research.h
          ('blog/swe-ladder/index.html', 'blog/swe-ladder/', .8),
          ('blog/easysteer/index.html', 'blog/easysteer/', .8),
          ('blog/gpd/index.html', 'blog/gpd/', .8),
+         ('blog/worldmembench/index.html', 'blog/worldmembench/', .8),
          ('people.html', 'people.html', .7), ('join.html', 'join.html', .7)]
 
 
@@ -166,7 +167,8 @@ lines = ['# REAL Lab, Zhejiang University', '',
          f'[Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents]({SITE}/blog/agent-jev/) and '
          f'[SWE-Ladder: Learning to Localize, Reproduce, and Patch]({SITE}/blog/swe-ladder/), '
          f'[EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering]({SITE}/blog/easysteer/), '
-         f'[GPD: Distilling Routed 3D Privilege for Spatial Reasoning]({SITE}/blog/gpd/)',
+         f'[GPD: Distilling Routed 3D Privilege for Spatial Reasoning]({SITE}/blog/gpd/), '
+         f'[WorldMemBench: A Comprehensive Benchmark for Memory of Video World Models]({SITE}/blog/worldmembench/)',
          f'- [People]({SITE}/people.html) and [Join Us]({SITE}/join.html)', '',
          '## Links', '',
          '- GitHub: https://github.com/ZJU-REAL', '- Hugging Face: https://huggingface.co/ZJU-REAL', '- X: https://x.com/zjureal',

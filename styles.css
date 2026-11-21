@@ -6,7 +6,7 @@
   --accent: #0a4d8c;
   --accent-soft: #e8f0f8;
   --bg: #ffffff;
-  --max: 880px;
+  --max: 1080px;
 }
 
 * { box-sizing: border-box; }
@@ -164,7 +164,7 @@ p { margin: 0 0 14px; color: var(--ink-soft); }
   font-size: 16px;
   line-height: 1.7;
   color: var(--muted);
-  max-width: 640px;
+  max-width: 700px;
   margin: 0;
 }
 
@@ -207,9 +207,9 @@ body.home .hero {
   border-bottom: none;
 }
 body.home .hero-content {
-  /* Content fills the left half of the 880px container; right half stays empty for the bg animation */
+  /* Content fills the left part of the container; the right side stays empty for the bg animation */
   width: 100%;
-  max-width: 560px;
+  max-width: 640px;
   margin: 0;
 }
 body.home nav.topbar { position: sticky; z-index: 10; }
@@ -1547,7 +1547,7 @@ body.home .hero .social { width: max-content; max-width: min(640px, calc(100vw -
 .lab-slideshow {
   position: relative;
   width: calc(100% - 48px);
-  max-width: var(--max);    /* match nav and main content container (880px) */
+  max-width: var(--max);    /* match nav and main content container */
   margin: 32px auto 0;
   aspect-ratio: 3 / 2;
   overflow: hidden;

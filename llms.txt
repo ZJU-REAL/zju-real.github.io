@@ -14,6 +14,7 @@
 - [Research](https://zjureal.com/research.html): directions and representative work per pillar
 - [Publications](https://zjureal.com/publications.html): 117 papers with arXiv, paper and code links
 - [Projects](https://zjureal.com/projects.html): open-source frameworks
+- [Blog](https://zjureal.com/blog.html): research notes with interactive figures, e.g. [Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents](https://zjureal.com/blog/agent-jev/)
 - [People](https://zjureal.com/people.html) and [Join Us](https://zjureal.com/join.html)
 
 ## Links

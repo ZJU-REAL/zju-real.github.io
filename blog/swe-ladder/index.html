@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWE-Ladder: Localize, Reproduce, then Patch · REAL Lab Blog</title>
+<meta name="description" content="SWE-Ladder shows a frozen teacher only the slice of the verified repair that the current stage needs, and introduces localization, reproduction and patching in repair order. Qwen3-4B on SWE-bench Verified: 9.6% → 16.4% pass@1.">
+<link rel="canonical" href="https://zjureal.com/blog/swe-ladder/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="REAL Lab, Zhejiang University">
+<meta property="og:title" content="SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation">
+<meta property="og:description" content="Show the teacher only what the current repair stage needs, one stage at a time: 9.6% → 16.4% pass@1 on SWE-bench Verified with a 4B model.">
+<meta property="og:image" content="https://zjureal.com/images/blog/swe-ladder-banner.jpg">
+<meta property="og:url" content="https://zjureal.com/blog/swe-ladder/">
+<meta property="article:published_time" content="2026-11-15">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zjureal">
+<link rel="icon" href="../../assets/logo-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../../styles.css?v=20261122w">
+<link rel="stylesheet" href="../blog.css?v=20261122d">
+<link rel="stylesheet" href="post.css?v=20261122">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation","datePublished":"2026-11-15","image":"https://zjureal.com/images/blog/swe-ladder-banner.jpg","url":"https://zjureal.com/blog/swe-ladder/","author":[{"@type":"Person","name":"Xudong Cai"},{"@type":"Person","name":"Zhengxi Lu"},{"@type":"Person","name":"Yuchen Yan"},{"@type":"Person","name":"Jian Shao"},{"@type":"Person","name":"Jun Xiao"},{"@type":"Person","name":"Yueting Zhuang"},{"@type":"Person","name":"Yongliang Shen"}],"publisher":{"@type":"ResearchOrganization","name":"REAL Lab, Zhejiang University","url":"https://zjureal.com/"},"isBasedOn":"https://arxiv.org/abs/2610.33667"}</script>
+</head>
+<body id="top">
+
+<nav class="topbar">
+  <div class="inner">
+    <div class="brand"><a href="../../index.html"><img class="brand-mark" src="../../assets/logo-mark.svg" alt="" width="34" height="34">REAL Lab</a></div>
+    <input type="checkbox" id="nav-toggle-post" class="nav-toggle" aria-label="Toggle menu">
+    <label for="nav-toggle-post" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../about.html">About</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../projects.html">Projects</a></li>
+      <li><a href="../../blog.html" class="active">Blog</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../people.html">People</a></li>
+      <li><a href="../../join.html">Join</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="post">
+
+<header class="post-head">
+  <p class="post-kicker"><a href="../../blog.html">Blog</a><span class="dot"></span><span>November 15, 2026</span><span class="dot"></span><span>Code agents · Reinforcement learning</span><span class="dot"></span><span>12 min read</span></p>
+  <h1>SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation</h1>
+  <p class="post-dek">A software-engineering agent has to find the bug, reproduce it and fix it, but its training signal usually comes from one test result at the end. SWE-Ladder gives a frozen teacher only the slice of the verified repair that the current stage needs, and climbs the stages in repair order.</p>
+  <div class="post-byline">
+    <div>
+      <p class="post-authors" data-people="../../people.html" data-pubs="../../publications.html" data-self="SWE-Ladder"><span class="au">Xudong Cai</span><sup>1</sup>, <span class="au">Zhengxi Lu</span><sup>1</sup>, <span class="au">Yuchen Yan</span><sup>1</sup>, <span class="au">Jian Shao</span><sup>1</sup>, <span class="au">Jun Xiao</span><sup>1</sup>, <span class="au">Yueting Zhuang</span><sup>1</sup>, <span class="au">Yongliang Shen</span><sup>1</sup></p>
+      <p class="post-affil"><sup>1</sup>Zhejiang University</p>
+    </div>
+    <div class="post-links">
+      <a class="pill-btn solid" href="https://arxiv.org/abs/2610.33667" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Paper</a>
+      <a class="pill-btn" href="https://github.com/ZJU-REAL/SWE-Ladder" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"/></svg>Code</a>
+      <a class="pill-btn" href="https://zjureal.com/SWE-Ladder/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Project page</a>
+    </div>
+  </div>
+  <figure class="post-banner" style="background:#fbf8f1"><img src="../../images/blog/swe-ladder-banner.jpg" style="aspect-ratio:1800/560" alt="A student robot climbs a ladder with LOC, REP and PATCH rungs toward a green check mark, while a frozen teacher robot holds up only a failing-test card; the localization card and a face-down patch card wait at its feet" width="1800" height="560"></figure>
+</header>
+
+<div class="post-body">
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#tldr"><span class="n"></span>TL;DR</a></li>
+    <li><a href="#problem"><span class="n">1</span>What one reward misses</a></li>
+    <li><a href="#method"><span class="n">2</span>SWE-Ladder</a></li>
+    <li class="sub"><a href="#router">Routing steps to stages</a></li>
+    <li class="sub"><a href="#evidence">Stage-specific evidence</a></li>
+    <li class="sub"><a href="#schedule">Climbing in repair order</a></li>
+    <li><a href="#results"><span class="n">3</span>Results</a></li>
+    <li><a href="#climb"><span class="n">4</span>Along the ladder</a></li>
+    <li><a href="#ablations"><span class="n">5</span>What matters</a></li>
+    <li><a href="#dynamics"><span class="n">6</span>Training dynamics</a></li>
+    <li><a href="#limits"><span class="n">7</span>Limitations</a></li>
+    <li><a href="#cite"><span class="n"></span>Citation</a></li>
+  </ol>
+</nav>
+
+<article>
+<details class="toc-inline">
+  <summary>Contents</summary>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#problem">What one reward misses</a></li>
+    <li><a href="#method">SWE-Ladder</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#climb">Along the ladder</a></li>
+    <li><a href="#ablations">What matters</a></li>
+    <li><a href="#dynamics">Training dynamics</a></li>
+    <li><a href="#limits">Limitations</a></li>
+    <li><a href="#cite">Citation</a></li>
+  </ol>
+</details>
+
+<section class="chap" id="tldr">
+  <h2>TL;DR</h2>
+  <p class="lede">Resolving a repository issue takes three skills: <span class="st-loc">localize</span> the faulty code, <span class="st-rep">reproduce</span> the failure, and <span class="st-patch">patch</span> the code. Reinforcement learning trains all three from a single test result on the final patch. On-policy self-distillation adds a teacher that sees privileged evidence, but in practice it is shown the full reference patch at every step, which tells it <em>what</em> to change even while the agent is still working out <em>where</em> to look.</p>
+  <p>SWE-Ladder splits the verified repair of each training issue into three pieces of evidence: the changed files and lines for localization, the fail-to-pass tests for reproduction, and the diff for patching. A rule-based router labels every step of an end-to-end rollout with its stage from the tool call, a frozen teacher sees only the matching evidence, and the stages are distilled one at a time in repair order while GRPO keeps optimizing the whole trajectory.</p>
+  <p><strong>With Qwen3-4B-Instruct-2507 on SWE-bench Verified, SWE-Ladder raises pass@1 from 9.6% to 16.4%, against 10.4% for GRPO and 12.4% for a teacher that sees the full patch.</strong> On the OpenHands scaffold it goes from 13.0% to 17.6%, where every baseline stays at or below the base model. Reversing the stage order drops it to 11.4%.</p>
+  <div class="cards">
+    <a class="card" href="#results"><p class="card-k">SWE-bench Verified, R2E-Gym, pass@1</p><p class="card-t">Beats both kinds of supervision</p><div class="card-chart" data-card="0"></div></a>
+    <a class="card" href="#results"><p class="card-k">SWE-bench Verified, OpenHands, pass@1</p><p class="card-t">Holds on a second scaffold</p><div class="card-chart" data-card="1"></div></a>
+    <a class="card" href="#ablations"><p class="card-k">Training order, pass@1</p><p class="card-t">The order of the rungs matters</p><div class="card-chart" data-card="2"></div></a>
+    <a class="card" href="#results"><p class="card-k">R2E-Gym, trajectories that finish</p><p class="card-t">Shorter, and almost always complete</p><div class="card-chart" data-card="3"></div></a>
+  </div>
+</section>
+
+<section class="chap" id="problem">
+  <h2><span class="n">1</span>What one reward, or one full patch, misses</h2>
+  <p>An SWE agent edits a repository over dozens of tool calls, and the usual training signal is whether its final patch passes the designated tests. That makes it hard to tell which decision caused a failure. To see what different signals actually teach, we measure three intermediate behaviours on SWE-bench Verified alongside pass@1: whether the agent edits the files changed by the reference repair (<em>localization</em>), whether it writes and runs a script that shows the failure (<em>reproduction</em>), and whether it re-runs that script successfully after its last edit (<em>verification</em>).</p>
+  <p>Two patterns stand out. <strong>The outcome reward does not reliably improve these behaviours:</strong> under GRPO, pass@1 barely moves, from 9.6% to 10.4%, while reproduction falls from 59.4% to 48.6%. <strong>Showing the teacher the full patch raises pass@1 but lowers post-edit verification</strong>, from 22.6% to 16.2%. During a localization step, a teacher that already sees the replacement code is pulled toward editing rather than searching; the same effect has been reported in single-turn reasoning, where a teacher conditioned on the full reference makes the student skip intermediate steps and verify less.</p>
+  <div class="finding"><span class="k">The idea</span><p>At each step, the teacher should see only the part of the verified repair that the current stage needs, and the stages should be taught in the order a repair uses them: find the code, make the failure concrete, then fix it.</p></div>
+</section>
+
+<section class="chap" id="method">
+  <h2><span class="n">2</span>SWE-Ladder</h2>
+  <p>SWE-Ladder trains a single end-to-end agent. It never constrains which tools the agent calls; it only decides which evidence the teacher sees and which tokens that teacher supervises. <a class="fig-ref" href="#fig-1">Figure 1</a> plays a real 21-step rollout from the paper through the router, then climbs the three phases of training.</p>
+
+  <figure class="fig" id="fig-1">
+    <div class="m2" data-phase="0">
+      <div class="m2-bar">
+        <div class="m2-tabs" role="group" aria-label="Stage">
+          <button type="button" class="m2-tab" data-go="0"><span class="m2-tn">0</span>Rollout<i class="m2-prog"></i></button>
+          <button type="button" class="m2-tab" data-go="1"><span class="m2-tn">1</span>LOC<i class="m2-prog"></i></button>
+          <button type="button" class="m2-tab" data-go="2"><span class="m2-tn">2</span>REP<i class="m2-prog"></i></button>
+          <button type="button" class="m2-tab" data-go="3"><span class="m2-tn">3</span>PATCH<i class="m2-prog"></i></button>
+        </div>
+        <button type="button" class="ctl-btn m2-pp" aria-pressed="false" hidden><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6" fill="currentColor"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6" fill="currentColor"/></svg><span>Pause</span></button>
+      </div>
+
+      <div class="m2-roll">
+        <div class="m2-roll-h">
+          <p class="m2-k">Student rollout · an oauthlib issue, 21 steps, labelled by the router</p>
+          <div class="m2-fsm" aria-label="Router state">
+            <span class="m2-st" data-s="LOC">LOC</span><i></i><span class="m2-st" data-s="REP">REP</span><i></i><span class="m2-st" data-s="PATCH">PATCH</span>
+          </div>
+        </div>
+        <div class="m2-steps" id="m2-steps"></div>
+        <p class="m2-note" id="m2-note" aria-live="polite">&nbsp;</p>
+        <div class="m2-grpo"><span class="m2-test">tests</span><span>One verifier result for the whole rollout → <b>GRPO updates every response token</b>, whatever its stage.</span></div>
+      </div>
+
+      <div class="m2-train">
+        <div class="m2-ladder" aria-label="Training phases">
+          <div class="m2-rung" data-r="PATCH"><b>Phase 3 · PATCH</b><span>iterations 51–70</span></div>
+          <div class="m2-rung" data-r="REP"><b>Phase 2 · REP</b><span>iterations 31–50</span></div>
+          <div class="m2-rung" data-r="LOC"><b>Phase 1 · LOC</b><span>iterations 1–30</span></div>
+        </div>
+        <div class="m2-teach">
+          <div class="m2-teacher">
+            <p class="m2-k">Frozen teacher · same base model · sees only</p>
+            <div class="m2-ev" id="m2-ev"><span class="m2-ev-t">Choose a phase</span><pre></pre></div>
+          </div>
+          <div class="m2-mask">
+            <p class="m2-k">Distillation mask on the rollout</p>
+            <div class="m2-cells" id="m2-cells"></div>
+            <p class="m2-loss">L = L<sub>GRPO</sub> + 0.15 · L<sub>OPSD</sub>(<span id="m2-loss">active stage</span>)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <figcaption><b>Figure 1.</b> SWE-Ladder on one rollout. <b>Top:</b> the 21 steps of an oauthlib repair (paper Table 7), grouped as in the paper and labelled LOC, REP or PATCH by the rule-based router from each tool call. The labels are not monotone: re-running the reproduction script while patching demotes the state to REP (step 12), and a third consecutive inspection returns it to LOC (step 15). <b>Bottom:</b> the three training phases. In each phase a frozen copy of the base model sees one stage's evidence and distils only the steps with that label; GRPO still trains on every step. Evidence blocks are the schematic examples of the paper's Figure 3.</figcaption>
+  </figure>
+
+  <h3 id="router">Routing steps to stages</h3>
+  <p>A deterministic, tool-level state machine labels each step. Creating or running a file whose name contains <code>repro</code>, editing a test file or running the test suite proposes <span class="st-rep">REP</span>; editing any other source file proposes <span class="st-patch">PATCH</span>; searches, file views and read-only shell commands are exploration. A proposal only moves the state forward in the order LOC → REP → PATCH, and backtracking depends on the state: in REP, three consecutive explorations return to LOC; in PATCH, a single test run demotes to REP and a single exploration returns to LOC. The labels only route the teacher's context and the distillation mask. They never truncate a rollout or change its reward.</p>
+  <p>On 2,261 held-out stage-labelled steps, the router agrees with reference labels on 92.0% of them. A learned TF-IDF classifier agrees on 98.63%, yet trains a worse agent: it predicts each step independently and fragments trajectories into isolated labels, while the stateful rules produce contiguous stage blocks.</p>
+
+  <h3 id="evidence">Stage-specific evidence</h3>
+  <p>All evidence comes from each training issue's verified repair, with nothing generated by an external model. The teacher prompts share the student's system instructions and task prompt; only an appended evidence block differs.</p>
+  <div class="tbl-wrap">
+    <table class="btable txt wrap">
+      <thead><tr><th>Stage</th><th>What the teacher sees</th><th>Added tokens, median / mean</th></tr></thead>
+      <tbody>
+        <tr><td><span class="st-loc">LOC</span></td><td>changed non-test file paths, old-side hunk ranges and the pre-patch source lines, but not the replacement code</td><td>406 / 544</td></tr>
+        <tr><td><span class="st-rep">REP</span></td><td>fail-to-pass test identifiers and names, reference test code, candidate test changes when available</td><td>1,249 / 2,928</td></tr>
+        <tr><td><span class="st-patch">PATCH</span></td><td>the verified repair diff</td><td>669 / 907</td></tr>
+        <tr><td>all three (unrouted)</td><td>the union, as a full-reference teacher would see it</td><td>2,709 / 4,375</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="schedule">Climbing in repair order</h3>
+  <p>Training runs 70 iterations in three phases, each continuing from the previous checkpoint: 30 for LOC, then 20 for REP, then 20 for PATCH. In each phase, the teacher, a frozen copy of the base checkpoint, is conditioned on that phase's evidence, and a top-16 token-level distillation loss is applied only to response tokens labelled with the active stage, with weight λ = 0.15. GRPO stays active on every valid response token throughout. The order follows how a repair uses the evidence: on-policy distillation only supervises states the student actually reaches, so patch evidence helps only once the student can find the code to change, and the reproduction script is what it later runs to check its patch.</p>
+</section>
+
+<section class="chap" id="results">
+  <h2><span class="n">3</span>Results</h2>
+  <p>All methods start from Qwen3-4B-Instruct-2507 without task-specific supervised fine-tuning and train on 1,149 issues from SWE-smith, SWE-ReBench, R2E-Gym and SWE-Gym, with 16 tasks × 4 rollouts per iteration. We evaluate on the 500 issues of SWE-bench Verified, under the R2E-Gym scaffold and the OpenHands scaffold.</p>
+
+  <figure class="fig" id="fig-2">
+    <div class="fig-box">
+      <div class="ctl-row">
+        <div>
+          <p class="panel-k">SWE-bench Verified, n = 500</p>
+          <p class="panel-t" id="f2-title">pass@1 (%)</p>
+        </div>
+        <div class="f-ctl">
+          <div class="seg" id="f2-scaf" role="group" aria-label="Scaffold"></div>
+          <div class="seg" id="f2-met" role="group" aria-label="Metric"></div>
+        </div>
+      </div>
+      <div id="f2"></div>
+    </div>
+    <figcaption><b>Figure 2.</b> Results on two agent scaffolds (paper Table 2). <i>env_done</i> is the share of trajectories that finish before the resource limit; for average steps, lower is better. The dashed line marks the base model. GRPO+OPSD and SDAR use the same full-patch evidence as each other.</figcaption>
+  </figure>
+
+  <p><strong>On R2E-Gym, SWE-Ladder reaches 16.4% pass@1, against 10.4% for GRPO and 12.4% for GRPO+OPSD.</strong> It also takes fewer steps than the base model, 19.3 against 26.5, and completes 98.6% of its trajectories, whereas GRPO completes only 36.0% before the resource limit. SDAR, a gated distillation method given the same patch evidence, falls to 4.6%. On OpenHands, the three baselines end at or below the base model's 13.0% (GRPO 11.2%, GRPO+OPSD 12.4%, SDAR 6.8%), while SWE-Ladder reaches 17.6% with 16.6 steps and 99.4% completion.</p>
+</section>
+
+<section class="chap" id="climb">
+  <h2><span class="n">4</span>What changes along the ladder</h2>
+  <p>We evaluate the checkpoint at the end of each phase, LOC30, REP50 and PATCH70, and track the three behaviours together with pass@1 (<a class="fig-ref" href="#fig-3">Figure 3</a>). <strong>The LOC phase improves all four. The REP phase keeps improving localization, but reproduction and verification fall below the base model. The PATCH phase recovers both, and PATCH70 ends above the base model on all four metrics</strong>, the only method in the comparison to do so.</p>
+
+  <figure class="fig" id="fig-3">
+    <div class="fig-box">
+      <div class="ctl-row">
+        <div>
+          <p class="panel-k">R2E-Gym, end of each phase</p>
+          <p class="panel-t">Change from the base model (percentage points)</p>
+        </div>
+        <button type="button" class="ctl-btn" id="f3-play"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.8v8.4L10 6z" fill="currentColor"/></svg><span>Play</span></button>
+      </div>
+      <div class="seg" id="f3-ck" role="group" aria-label="Checkpoint" style="margin-bottom:10px"></div>
+      <div id="f3"></div>
+      <p class="f3-note" id="f3-note" aria-live="polite"></p>
+    </div>
+    <figcaption><b>Figure 3.</b> Localization, reproduction, verification and pass@1 at the base model and at the end of each phase (paper Figure 7). Base values are 33.6%, 59.4%, 22.6% and 9.6%; hover a point for the absolute value. Step through the checkpoints or press play to climb the ladder.</figcaption>
+  </figure>
+</section>
+
+<section class="chap" id="ablations">
+  <h2><span class="n">5</span>What matters</h2>
+  <p><strong>Every stage contributes, and routing alone is not enough.</strong> Removing LOC, REP or PATCH from the schedule lowers pass@1 from 16.4% to 11.2%, 13.2% or 14.0%, and every such variant falls below the base model on reproduction and verification. Removing LOC hurts most, consistent with localization being the stage the others build on. Training all three stages at once, with each routed token subset distilled from its own evidence but without the order, reaches only 12.4% and loses reproduction (35.6%) and verification (12.6%).</p>
+
+  <figure class="fig" id="fig-4">
+    <div class="fig-box">
+      <div class="ctl-row">
+        <div>
+          <p class="panel-k">Stage ablation, R2E-Gym</p>
+          <p class="panel-t">Change from the base model (percentage points)</p>
+        </div>
+      </div>
+      <div class="seg" id="f4-var" role="group" aria-label="Variant" style="margin-bottom:10px"></div>
+      <div class="legend"><span><i id="f4-key" style="background:var(--loc)"></i><span id="f4-name">SWE-Ladder</span></span><span><i style="background:none;border:1.5px solid var(--b-ink);border-radius:2px;width:9px;height:9px"></i>full SWE-Ladder, for reference</span></div>
+      <div id="f4"></div>
+    </div>
+    <figcaption><b>Figure 4.</b> Stage ablation (paper Table 3). Each variant drops one stage from the schedule, or trains all three at once; outlines mark the full SWE-Ladder. Only the full ladder improves all four metrics.</figcaption>
+  </figure>
+
+  <p><strong>The order matters.</strong> With the same 30/20/20 budget, reversing the order (PATCH → REP → LOC) gives 11.4%, and putting reproduction first (REP → LOC → PATCH) gives 12.6%, even though PATCH is still last. Both also take more steps. <strong>The evidence must match the stage it supervises:</strong> with a 30-iteration budget, supervising LOC tokens with LOC evidence gives 14.4%, against 13.6% with patch evidence; supervising PATCH tokens with patch evidence gives 13.2%, against 11.8% with localization evidence, which reveals too little to write a fix.</p>
+
+  <figure class="fig" id="fig-5">
+    <div class="fig-box">
+      <div class="duo">
+        <div>
+          <p class="panel-k">Training order, 70 iterations</p>
+          <p class="panel-t">pass@1 (%)</p>
+          <div id="f5a"></div>
+        </div>
+        <div>
+          <p class="panel-k">Evidence vs supervised stage, 30 iterations</p>
+          <p class="panel-t">pass@1 (%)</p>
+          <div id="f5b"></div>
+        </div>
+      </div>
+    </div>
+    <figcaption><b>Figure 5.</b> <b>Left:</b> three stage orders with the same budget (paper Table 4); average steps per trajectory are shown under each bar. <b>Right:</b> matched against swapped evidence for LOC and PATCH targets (paper Table 5).</figcaption>
+  </figure>
+</section>
+
+<section class="chap" id="dynamics">
+  <h2><span class="n">6</span>Training dynamics</h2>
+  <p>Comparing the first and last ten iterations, GRPO's optimization signals deteriorate: mean entropy falls from 0.0300 to 0.0061, gradient norm from 1.820 to 0.187 and training reward from 0.236 to 0.055, while responses nearly double in length, from 8.29k to 16.73k tokens. SWE-Ladder stays steadier: entropy 0.0251 → 0.0221, gradient norm 2.353 → 2.397, and responses grow modestly from 10.09k to 11.62k tokens. GRPO+OPSD and SDAR also keep optimization signal late in training, so preserved entropy or gradient magnitude alone does not explain SWE-Ladder's held-out results. These are single runs without independent seeds.</p>
+  <div class="tbl-wrap">
+    <table class="btable">
+      <thead><tr><th>First → last 10 iterations</th><th>Entropy</th><th>Gradient norm</th><th>Response tokens</th></tr></thead>
+      <tbody>
+        <tr><td>GRPO</td><td>0.0300 → 0.0061</td><td>1.820 → 0.187</td><td>8.29k → 16.73k</td></tr>
+        <tr><td>SWE-Ladder</td><td>0.0251 → 0.0221</td><td>2.353 → 2.397</td><td>10.09k → 11.62k</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="chap" id="limits">
+  <h2><span class="n">7</span>Limitations</h2>
+  <ul class="clean">
+    <li><strong>One policy, one benchmark, two scaffolds.</strong> All results use Qwen3-4B on SWE-bench Verified; the ablations and stage-wise diagnostics use R2E-Gym. Transfer to larger backbones, other repair benchmarks or different tool interfaces is not established.</li>
+    <li><strong>Single runs.</strong> Training curves and the router comparison each follow one checkpoint lineage without independent seeds or confidence intervals, so the trends are configuration-specific evidence.</li>
+    <li><strong>Depends on verified repairs and a parser.</strong> Building the three evidence views needs verified repair metadata, and the rule-based router can miss unfamiliar tools or unusual backtracking. Neural and hybrid routers, repeated seeds and the cost of evidence construction remain to be studied.</li>
+  </ul>
+</section>
+
+<section class="chap" id="cite">
+  <h2>Citation</h2>
+  <div class="bibtex"><button type="button">Copy</button><pre>@article{cai2026sweladder,
+  title   = {SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation},
+  author  = {Cai, Xudong and Lu, Zhengxi and Yan, Yuchen and Shao, Jian and Xiao, Jun and Zhuang, Yueting and Shen, Yongliang},
+  journal = {arXiv preprint arXiv:2610.33667},
+  year    = {2026}
+}</pre></div>
+  <h3 style="margin-top:32px">References</h3>
+  <ol class="refs">
+    <li>Jimenez et al. (2024). <a href="https://arxiv.org/abs/2310.06770" target="_blank" rel="noopener">SWE-bench: Can Language Models Resolve Real-World GitHub Issues?</a> ICLR.</li>
+    <li>Xia et al. (2024). <a href="https://arxiv.org/abs/2407.01489" target="_blank" rel="noopener">Agentless: Demystifying LLM-based Software Engineering Agents</a>.</li>
+    <li>Jain et al. (2025). <a href="https://arxiv.org/abs/2504.07164" target="_blank" rel="noopener">R2E-Gym: Procedural Environments and Hybrid Verifiers for Scaling Open-Weights SWE Agents</a>.</li>
+    <li>Wang et al. (2025). <a href="https://arxiv.org/abs/2407.16741" target="_blank" rel="noopener">OpenHands: An Open Platform for AI Software Developers as Generalist Agents</a>. ICLR.</li>
+    <li>Shao et al. (2024). <a href="https://arxiv.org/abs/2402.03300" target="_blank" rel="noopener">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a> (GRPO).</li>
+    <li>Agarwal et al. (2024). <a href="https://arxiv.org/abs/2306.13649" target="_blank" rel="noopener">On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes</a>. ICLR.</li>
+  </ol>
+  <p style="margin-top:22px;font-size:14.5px">Training configuration, reward shaping and the full evidence examples are in the <a class="tx" href="https://arxiv.org/abs/2610.33667" target="_blank" rel="noopener">paper</a>.</p>
+</section>
+</article>
+</div>
+</main>
+
+<footer>
+  <div class="foot-panel">
+    <div class="foot-cta">
+      <h3>Toward AI that thinks, acts, and grows in the real world</h3>
+      <p>REAL Lab, Zhejiang University, Hangzhou, China</p>
+      <a class="foot-btn" href="../../join.html">Join REAL Lab →</a>
+    </div>
+    <div class="foot-side">
+      <div class="foot-icons">
+        <a class="foot-social" href="https://github.com/ZJU-REAL" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <a class="foot-social" href="https://huggingface.co/ZJU-REAL" target="_blank" rel="noopener" aria-label="Hugging Face" title="Hugging Face"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1.4446 11.5059c0 1.1021.1673 2.1585.4847 3.1563-.0378-.0028-.0691-.0058-.1058-.0058-.4209 0-.8015.16-1.0704.4512-.3454.3737-.4984.8335-.4316 1.293a1.576 1.576 0 0 0 .2148.5978c-.2319.1864-.4018.4456-.4844.7578-.0646.2448-.131.7543.2149 1.2794a1.4552 1.4552 0 0 0-.0625.1055c-.208.3923-.2207.8372-.0371 1.25.2783.6258.9696 1.1175 2.3126 1.6467.8356.3292 1.5988.5411 1.6056.543 1.1046.2847 2.104.4277 2.969.4277 1.4173 0 2.4754-.3849 3.1525-1.1446 1.538.2651 2.791.1403 3.592.006.6773.7555 1.7332 1.1387 3.1467 1.1387.8649 0 1.8643-.143 2.969-.4278.0068-.0019.77-.2138 1.6056-.543 1.343-.5292 2.0343-1.0208 2.3126-1.6466.1836-.4129.171-.8577-.037-1.25a1.4685 1.4685 0 0 0-.0626-.1056c.346-.525.2795-1.0346.2149-1.2793-.0826-.3122-.2525-.5714-.4844-.7579.11-.1816.1831-.3788.2148-.5977.0669-.4595-.0862-.9193-.4316-1.293-.2688-.2913-.6495-.4513-1.0704-.4513-.0209 0-.0376.0008-.0588.0018.3162-.9966.4846-2.0518.4846-3.1523 0-5.807-4.7362-10.5144-10.5789-10.5144-5.8426 0-10.5788 4.7073-10.5788 10.5144Zm10.5788-9.4831c5.2727 0 9.5476 4.246 9.5476 9.483a9.4201 9.4201 0 0 1-.2696 2.2365c-.0039-.0047-.0079-.011-.0117-.0156-.274-.3255-.6679-.5059-1.1075-.5059-.352 0-.714.1155-1.0763.3438-.2403.1517-.5058.422-.7793.7598-.2534-.3492-.608-.5832-1.0137-.6465a1.5174 1.5174 0 0 0-.2344-.0176c-.9263 0-1.4828.7993-1.6935 1.5177-.1046.2426-.6065 1.3482-1.3614 2.0978-1.1681 1.1601-1.4458 2.3534-.8396 3.6382-.843.1029-1.5836.0927-2.365-.006.5906-1.212.3626-2.4388-.8426-3.6322-.755-.7496-1.2568-1.8552-1.3614-2.0978-.2107-.7184-.7673-1.5177-1.6935-1.5177-.078 0-.1568.0054-.2344.0176-.4057.0633-.7604.2973-1.0137.6465-.2735-.3379-.539-.6081-.7794-.7598-.3622-.2283-.7243-.3438-1.0762-.3438-.4266 0-.8094.171-1.0821.4786a9.4208 9.4208 0 0 1-.2598-2.1936c0-5.237 4.2749-9.483 9.5475-9.483zM8.6443 7.0036c-.4838.0043-.9503.2667-1.1934.7227-.3536.6633-.1006 1.4873.5645 1.84.351.1862.4883-.5261.836-.6485.3107-.1095.841.399 1.0078.086.3536-.6634.1025-1.4874-.5625-1.84a1.3659 1.3659 0 0 0-.6524-.1602Zm6.8403 0c-.2199-.002-.4426.05-.6504.1602-.665.3526-.9181 1.1766-.5645 1.84.1669.313.6971-.1955 1.0079-.086.3476.1224.4867.8347.838.6485.6649-.3527.916-1.1767.5624-1.84-.243-.456-.7096-.7184-1.1934-.7227Zm-9.7565 1.418a.8768.8768 0 0 0-.877.877c0 .4846.3925.877.877.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zm12.6434 0c-.4845 0-.879.3925-.879.877 0 .4846.3945.877.879.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zM8.7927 11.459c-.179-.003-.2793.1107-.2793.416 0 .8097.3874 2.125 1.4279 2.924.207-.7123 1.3453-1.2832 1.5079-1.2012.2315.1167.2191.4417.6074.7266.3884-.285.374-.6098.6056-.7266.1627-.082 1.3009.4889 1.5079 1.2012 1.0404-.799 1.4278-2.1144 1.4278-2.924 0-1.2212-1.583.6402-3.5413.6485-1.4686-.0061-2.7266-1.0558-3.2639-1.0645zM4.312 14.4768c.5792.365 1.6964 2.2751 2.1056 3.0177.1371.2488.371.3536.582.3536.4188 0 .7465-.4138.0391-.9395-1.0636-.791-.6914-2.0846-.1836-2.1642a.4302.4302 0 0 1 .0664-.004c.4616 0 .666.7892.666.7892s.5959 1.4898 1.6213 2.508c.942.9356 1.062 1.703.4961 2.6661-.0164-.004-.0159.0236-.1484.2149-.1853.2673-.4322.4688-.7188.6152-.5062.2269-1.1397.2696-1.7833.2696-1.037 0-2.1017-.1824-2.6975-.336-.0293-.0075-3.6505-.9567-3.1916-1.8224.0771-.1454.2033-.2031.3633-.2031.6463 0 1.823.9551 2.3283.9551.113 0 .196-.0865.2285-.2031.2249-.8045-3.2787-1.0522-2.9846-2.1642.0519-.1967.193-.2757.3907-.2754.854 0 2.7704 1.4923 3.172 1.4923.0307 0 .0525-.0085.0645-.0274.2012-.3227.1096-.5865-1.3087-1.4395-1.4182-.8533-2.4315-1.329-1.8653-1.9416.0651-.0707.1574-.1015.2695-.1015.8611.0002 2.8948 1.84 2.8948 1.84s.5487.5683.8809.5683c.0762 0 .1416-.0315.1855-.1054.2355-.3946-2.1858-2.2183-2.3224-2.971-.0926-.51.0641-.7676.3555-.7676-.0006.008.1701-.0285.4942.1759zm16.2257.5918c-.1366.7526-2.5579 2.5764-2.3224 2.9709.044.074.1092.1055.1855.1055.3321 0 .881-.5684.881-.5684s2.0336-1.8397 2.8947-1.84c.1121 0 .2044.0308.2695.1016.5662.6125-.447 1.0882-1.8653 1.9415-1.4183.853-1.51 1.1168-1.3087 1.4396.012.0188.0337.0273.0644.0273.4016 0 2.3181-1.4923 3.1721-1.4923.1977-.0002.3388.0787.3907.2754.294 1.112-3.2095 1.3597-2.9846 2.1642.0325.1166.1156.2032.2285.2032.5054 0 1.682-.9552 2.3283-.9552.16 0 .2862.0577.3633.2032.459.8656-3.1623 1.8149-3.1916 1.8224-.5958.1535-1.6605.336-2.6975.336-.6351 0-1.261-.0409-1.7638-.2599-.2949-.1472-.5488-.3516-.7383-.625-.0411-.0682-.1026-.1476-.1426-.205-.5726-.9679-.455-1.7371.4903-2.676 1.0254-1.0182 1.6212-2.508 1.6212-2.508s.2044-.7891.666-.7891a.4318.4318 0 0 1 .0665.0039c.5078.0796.88 1.3732-.1836 2.1642-.7074.5257-.3797.9395.039.9395.211 0 .445-.1047.5821-.3535.4092-.7426 1.5264-2.6527 2.1056-3.0178.5588-.3524.99-.1816.8497.5918z"/></svg></a>
+        <a class="foot-social" href="https://www.xiaohongshu.com/user/profile/67d84bef000000000d008f18" target="_blank" rel="noopener" aria-label="RedNote" title="RedNote"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031-.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034-.38 0 .078-.029-.641-.724-.998z"/></svg></a>
+        <a class="foot-social" href="https://x.com/zjureal" target="_blank" rel="noopener" aria-label="X" title="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+        <a class="foot-social" href="https://scholar.google.com/citations?user=UT3NzFAAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg></a>
+      </div>
+      <p>syl [AT] zju.edu.cn</p>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <span>© 2026 REAL Lab, Zhejiang University</span>
+    <a href="#top">Back to top ↑</a>
+  </div>
+</footer>
+
+<script src="../blog.js?v=20261122b"></script>
+<script src="post.js?v=20261122"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="Animated: an ink path leaves a torn paper cube, bends at a node and reaches a flat torn sheet, on which a faint outline of the cube then appears">
+  <style>
+    .s1 { stroke-dasharray: 170; stroke-dashoffset: 170; animation: s1 8s cubic-bezier(.4,.1,.3,1) infinite; }
+    .s2 { stroke-dasharray: 210; stroke-dashoffset: 210; animation: s2 8s cubic-bezier(.4,.1,.3,1) infinite; }
+    .d0 { opacity: 0; animation: d0 8s ease infinite; }
+    .d1 { opacity: 0; animation: d1 8s ease infinite; }
+    .d2 { opacity: 0; animation: d2 8s ease infinite; }
+    .halo { opacity: 0; animation: halo 8s ease-out infinite; }
+    .cube2 { stroke-dasharray: 2 9; opacity: 0; animation: cube2 8s ease infinite; }
+    @keyframes s1 { 0%, 6% { stroke-dashoffset: 170; } 24%, 90% { stroke-dashoffset: 0; } 97%, 100% { stroke-dashoffset: 170; } }
+    @keyframes s2 { 0%, 34% { stroke-dashoffset: 210; } 54%, 90% { stroke-dashoffset: 0; } 97%, 100% { stroke-dashoffset: 210; } }
+    @keyframes d0 { 0% { opacity: 0; } 5%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+    @keyframes d1 { 0%, 22% { opacity: 0; } 26%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+    @keyframes d2 { 0%, 52% { opacity: 0; } 56%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+    @keyframes halo { 0%, 26% { opacity: 0; } 30% { opacity: .5; } 40%, 100% { opacity: 0; } }
+    @keyframes cube2 { 0%, 58% { opacity: 0; } 70%, 88% { opacity: .5; } 96%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .s1, .s2 { animation: none; stroke-dashoffset: 0; }
+      .d0, .d1, .d2 { animation: none; opacity: 1; }
+      .halo { animation: none; opacity: 0; }
+      .cube2 { animation: none; opacity: .45; }
+    }
+  </style>
+  <defs>
+    <filter id="torn" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="5" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="1" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <g filter="url(#torn)">
+    <path fill="#e9cdb9" d="M150 96 L238 146 L150 196 L62 146 Z"/>
+    <path fill="#dfbca4" d="M62 146 L150 196 L150 300 L62 250 Z"/>
+    <path fill="#e3c4ae" d="M150 196 L238 146 L238 250 L150 300 Z"/>
+  </g>
+  <path filter="url(#torn)" fill="#e9cdb9" d="M392 132 L548 118 L560 286 L398 300 Z"/>
+  <path class="cube2" fill="none" stroke="#141414" stroke-width="3" stroke-linecap="round" d="M478 168 L520 192 L478 216 L436 192 Z M436 192 L436 240 L478 264 L520 240 L520 192 M478 216 L478 264"/>
+  <path class="s1" fill="none" stroke="#141414" stroke-width="12" stroke-linecap="round" d="M150 146 L306 104"/>
+  <path class="s2" fill="none" stroke="#141414" stroke-width="12" stroke-linecap="round" d="M306 104 L478 216"/>
+  <circle class="halo" cx="306" cy="104" r="30" fill="none" stroke="#141414" stroke-width="3"/>
+  <circle class="d0" cx="150" cy="146" r="15" fill="#141414"/>
+  <circle class="d1" cx="306" cy="104" r="19" fill="#141414"/>
+  <circle class="d2" cx="478" cy="216" r="15" fill="#141414"/>
+</svg>

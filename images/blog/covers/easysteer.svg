@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="An ink path heading up and to the right is nudged at a node onto a new course; its original course continues as a faint dashed line">
+  <defs>
+    <filter id="torn" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="1" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <!-- paper-cut fan: the range of directions steering can choose from -->
+  <path filter="url(#torn)" fill="#c3d5cb" d="M290 222 L441 42 A235 235 0 0 1 499 329 Z"/>
+  <!-- the unsteered course, continuing straight -->
+  <g filter="url(#ink)" fill="none" stroke="#141414" stroke-linecap="round">
+    <path d="M290 222 L456 96" stroke-width="5" stroke-dasharray="2 15" opacity=".45"/>
+  </g>
+  <circle cx="462" cy="91" r="9" fill="none" stroke="#141414" stroke-width="4" opacity=".45" filter="url(#ink)"/>
+  <!-- the steered course -->
+  <g filter="url(#ink)" fill="none" stroke="#141414" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M118 334 L290 222 L484 270"/>
+  </g>
+  <g fill="#141414" filter="url(#ink)">
+    <circle cx="118" cy="334" r="15"/>
+    <circle cx="290" cy="222" r="20"/>
+    <circle cx="484" cy="270" r="15"/>
+  </g>
+</svg>

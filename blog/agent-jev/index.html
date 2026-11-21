@@ -21,8 +21,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <link rel="stylesheet" href="../../styles.css?v=20261122w">
-<link rel="stylesheet" href="../blog.css?v=20261122">
-<link rel="stylesheet" href="post.css?v=20261122">
+<link rel="stylesheet" href="../blog.css?v=20261122d">
+<link rel="stylesheet" href="post.css?v=20261122d">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents","datePublished":"2026-11-22","image":"https://zjureal.com/images/blog/agent-jev-banner.jpg","url":"https://zjureal.com/blog/agent-jev/","author":[{"@type":"Person","name":"Haochen Liu"},{"@type":"Person","name":"Qianhao Zhu"},{"@type":"Person","name":"Zixuan Wang"},{"@type":"Person","name":"Dingming Li"},{"@type":"Person","name":"Tongbo Chen"},{"@type":"Person","name":"Peng Qiu"},{"@type":"Person","name":"Yingqi Qu"},{"@type":"Person","name":"Weiming Lu"},{"@type":"Person","name":"Jun Xiao"},{"@type":"Person","name":"Yongliang Shen"}],"publisher":{"@type":"ResearchOrganization","name":"REAL Lab, Zhejiang University","url":"https://zjureal.com/"},"isBasedOn":"https://arxiv.org/abs/2611.17167"}</script>
 </head>
 <body id="top">
@@ -36,9 +36,9 @@
       <li><a href="../../index.html">Home</a></li>
       <li><a href="../../about.html">About</a></li>
       <li><a href="../../research.html">Research</a></li>
-      <li><a href="../../publications.html">Publications</a></li>
       <li><a href="../../projects.html">Projects</a></li>
       <li><a href="../../blog.html" class="active">Blog</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
       <li><a href="../../people.html">People</a></li>
       <li><a href="../../join.html">Join</a></li>
     </ul>
@@ -176,7 +176,6 @@
             <li class="fx" data-fx="fade" data-a="9020" data-b="9320"><span class="m1-s">10</span><code>heat mug</code><em>milestone</em></li>
             <li class="fx" data-fx="fade" data-a="9100" data-b="9400"><span class="m1-s">12</span><code>move mug to cabinet</code><em>goal complete</em></li>
             <i class="m1-ctx" aria-hidden="true"></i>
-            <b class="m1-ctx-l fx" data-fx="fade" data-a="9400" data-b="9800">Visible context: <span>Prefix</span></b>
           </ol>
           <p class="m1-q fx" data-fx="fade" data-a="9950" data-b="10200"><span class="m1-k">Question</span><span class="fx-type" data-a="10100" data-b="11300">Did this action help achieve the goal?</span></p>
         </div>
@@ -208,7 +207,7 @@
         <div class="m1-band">
           <div class="m1-band-l">
             <p class="m1-band-t">Decision model</p>
-            <p class="m1-band-s">question + context → typed answer</p>
+            <p class="m1-band-s">question + context → typed answer. Here JEV, one of the six models we test.</p>
           </div>
           <div class="m1-req">
             <div class="m1-rq on" data-rq="0"><span><b>question</b> <code>next_action</code></span><span><b>context</b> goal · history · observation</span><span><b>answer</b> one option + a probability for each</span></div>
@@ -216,7 +215,6 @@
             <div class="m1-rq" data-rq="2"><span><b>question</b> <code>progress</code></span><span><b>context</b> whole trajectory <em>(Hindsight)</em></span><span><b>answer</b> score in [0, 1]</span></div>
             <div class="m1-rq" data-rq="3"><span><b>question</b> <code>progress</code>, every action</span><span><b>context</b> whole rollout <em>(Hindsight)</em></span><span><b>answer</b> one score per action</span></div>
           </div>
-          <div class="m1-models"><span class="on">JEV</span><span>Decider v1.2</span><span>GPT Decisions</span><span class="llm">Qwen prompted</span><span class="llm">Qwen constrained</span><span class="llm">GPT Luna</span></div>
         </div>
 
         <!-- Row 4: answers travel down -->
@@ -233,7 +231,7 @@
             <div class="m1-pr"><span>other</span><i class="fx-grow" data-a="3900" data-b="4900" style="--v:21.6"></i><b>21.6%</b></div>
           </div>
           <div class="m1-out fx" data-fx="fade" data-a="5300" data-b="5800"><code>place mug on table</code><span class="ok">placed ✓</span><span class="no">heated ✗</span></div>
-          <p class="m1-note fx" data-fx="fade" data-a="6200" data-b="6800">The easier subgoal comes first and the task is left incomplete.</p>
+          <p class="m1-note fx" data-fx="fade" data-a="6200" data-b="6800">Easier subgoal first: the task is left incomplete.</p>
         </div>
 
         <div class="m1-p res r1" data-role="1">
@@ -242,7 +240,7 @@
             <div class="m1-pr fx" data-fx="fade" data-a="13000" data-b="13250"><span>Prefix</span><i class="fx-grow" data-a="13100" data-b="13900" style="--v:20"></i><b>0.20</b></div>
             <div class="m1-pr hot fx" data-fx="fade" data-a="16350" data-b="16600"><span>Hindsight</span><i class="fx-grow" data-a="16500" data-b="17300" style="--v:76"></i><b>0.76</b></div>
           </div>
-          <p class="m1-note fx" data-fx="fade" data-a="17300" data-b="17800">Same action, same question. Seeing the mug get heated reveals why the microwave mattered.</p>
+          <p class="m1-note fx" data-fx="fade" data-a="17300" data-b="17800">Same question; seeing the mug heated shows why it mattered.</p>
         </div>
 
         <div class="m1-p res r2" data-role="2">
@@ -253,12 +251,12 @@
             <span class="m1-rn">2</span>
             <i class="m1-sc" data-s="0.10" data-a="22300"></i><i class="m1-sc" data-s="0.82" data-a="22450"></i><i class="m1-sc" data-s="0.93" data-a="22600"></i><i class="m1-sc" data-s="0.99" data-a="22750"></i>
           </div>
-          <div class="m1-out m1-grpo fx" data-fx="fade" data-a="24300" data-b="24800"><span>outcome advantage + 0.5 × (score − mean)</span><b>GRPO update</b></div>
-          <p class="m1-note fx" data-fx="fade" data-a="24900" data-b="25500">The no-op is pushed down; taking the cold mug back, which undoes progress, is credited.</p>
+          <div class="m1-out m1-grpo fx" data-fx="fade" data-a="24300" data-b="24800"><span>outcome advantage + 0.5 × (score − mean)</span><b>GRPO</b></div>
+          <p class="m1-note fx" data-fx="fade" data-a="24900" data-b="25500">The no-op is pushed down; taking the cold mug back is credited.</p>
         </div>
       </div>
     </div>
-    <figcaption><b>Figure 1.</b> One decision model, queried three ways on the task “put a heated mug on the table”. <b>Actor:</b> the model chooses the next action; the probabilities are JEV's averages over 116 states in which the object still has to be heated, cleaned or cooled, grouped into the easier placement, the step toward the required state change, and everything else (Section&nbsp;2). <b>Judge:</b> it scores step 9 of a recorded episode of the related task “put a heated mug in the cabinet”, first seeing only the steps up to it, then the whole episode (JEV's scores, paper Table&nbsp;9). <b>Teacher:</b> it scores every action of the policy's rollouts; the scores, centred within the group, are added to GRPO's outcome advantage. Teacher scores are the illustrative values of the paper's Figure&nbsp;1. Use the tabs to jump to a role.</figcaption>
+    <figcaption><b>Figure 1.</b> One decision model, queried three ways on heated-mug tasks. <b>Actor:</b> JEV’s choice probabilities, averaged over 116 states in which the object still needs heating, cleaning or cooling. <b>Judge:</b> JEV’s score for step 9 of a recorded episode, seeing first the steps up to it and then the whole episode (paper Table&nbsp;9). <b>Teacher:</b> illustrative scores from the paper’s Figure&nbsp;1, centred within the group and added to GRPO’s outcome advantage. Use the tabs to jump to a role.</figcaption>
   </figure>
 
   <p>We evaluate six models that answer questions in this form. Three are released as <strong>dedicated decision models</strong> and are queried through their own decision APIs. The other three are <strong>general LLMs</strong> asked the same questions, either by prompting for a JSON answer or by reading the first-token probabilities of the valid answer labels. Two of these general LLMs are the base models of Decider v1.2 and GPT Decisions, so each dedicated model can be compared with its own base model.</p>
@@ -520,7 +518,7 @@
   </div>
 </footer>
 
-<script src="../blog.js?v=20261122"></script>
-<script src="post.js?v=20261122"></script>
+<script src="../blog.js?v=20261122b"></script>
+<script src="post.js?v=20261122d"></script>
 </body>
 </html>

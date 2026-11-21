@@ -48,7 +48,7 @@
     var tabs = fig.querySelectorAll('.m1-tab'), pp = fig.querySelector('.m1-pp');
     var fx = fig.querySelectorAll('.fx'), types = [], dots = [], grows = fig.querySelectorAll('.fx-grow'), scans = fig.querySelectorAll('[data-fx="scan"]');
     var rqs = fig.querySelectorAll('.m1-rq'), cells = fig.querySelectorAll('.m1-sc');
-    var traj = fig.querySelector('.m1-traj'), ctx = fig.querySelector('.m1-ctx'), ctxL = fig.querySelector('.m1-ctx-l span');
+    var traj = fig.querySelector('.m1-traj'), ctx = fig.querySelector('.m1-ctx');
     ctx.style.transition = 'none';
 
     Array.prototype.forEach.call(fig.querySelectorAll('.fx-type'), function (el) {
@@ -106,7 +106,6 @@
       var h = CH[0] * ease(win(t, 9400, 10000)) + (CH[1] - CH[0]) * ease(win(t, 14000, 14800));
       ctx.style.setProperty('--ch', h.toFixed(1) + 'px');
       ctx.style.opacity = h > 1 ? '1' : '0';
-      ctxL.textContent = t >= 14000 ? 'Hindsight' : 'Prefix';
       // Teacher: scores appear, then are centred on the group mean
       Array.prototype.forEach.call(cells, function (c) {
         var a = +c.dataset.a, s = +c.dataset.s, k = soft(win(t, a, a + 350));

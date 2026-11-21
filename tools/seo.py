@@ -27,6 +27,9 @@ ORG = {
 PAGES = [('index.html', '', 1.0), ('about.html', 'about.html', .8), ('research.html', 'research.html', .9),
          ('publications.html', 'publications.html', .9), ('projects.html', 'projects.html', .8),
          ('blog.html', 'blog.html', .8), ('blog/agent-jev/index.html', 'blog/agent-jev/', .8),
+         ('blog/swe-ladder/index.html', 'blog/swe-ladder/', .8),
+         ('blog/easysteer/index.html', 'blog/easysteer/', .8),
+         ('blog/gpd/index.html', 'blog/gpd/', .8),
          ('people.html', 'people.html', .7), ('join.html', 'join.html', .7)]
 
 
@@ -133,8 +136,7 @@ OTHER = {
                       'research.html'),
     'projects.html': ('Projects · REAL Lab, Zhejiang University', 'Open-source frameworks from REAL Lab at Zhejiang University, including HuggingGPT, '
                       'HugAgentOS, ClawGUI, Easel, EasySteer, Polaris and ageval.', 'projects.html'),
-    'blog.html': ('Blog · REAL Lab, Zhejiang University', 'Research notes from REAL Lab at Zhejiang University: interactive write-ups of our papers '
-                  'on reasoning, embodied, agentic and lifelong-learning AI.', 'blog.html'),
+    'blog.html': ('Blog · REAL Lab, Zhejiang University', 'Research, releases, and stories from REAL Lab at Zhejiang University and the people building it.', 'blog.html'),
     'people.html': ('People · REAL Lab, Zhejiang University', 'Members of REAL Lab at Zhejiang University, led by Yongliang Shen.', 'people.html'),
     'join.html': ('Join Us · REAL Lab, Zhejiang University', 'Open PhD, master\'s and research intern positions at REAL Lab, Zhejiang University '
                   '(School of Artificial Intelligence, School of Software Technology, College of Computer Science and Technology).', 'join.html'),
@@ -160,8 +162,11 @@ lines = ['# REAL Lab, Zhejiang University', '',
          f'- [Research]({SITE}/research.html): directions and representative work per pillar',
          f'- [Publications]({SITE}/publications.html): {len(pubs)} papers with arXiv, paper and code links',
          f'- [Projects]({SITE}/projects.html): open-source frameworks',
-         f'- [Blog]({SITE}/blog.html): research notes with interactive figures, e.g. '
-         f'[Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents]({SITE}/blog/agent-jev/)',
+         f'- [Blog]({SITE}/blog.html): research, releases and stories, e.g. '
+         f'[Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents]({SITE}/blog/agent-jev/) and '
+         f'[SWE-Ladder: Learning to Localize, Reproduce, and Patch]({SITE}/blog/swe-ladder/), '
+         f'[EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering]({SITE}/blog/easysteer/), '
+         f'[GPD: Distilling Routed 3D Privilege for Spatial Reasoning]({SITE}/blog/gpd/)',
          f'- [People]({SITE}/people.html) and [Join Us]({SITE}/join.html)', '',
          '## Links', '',
          '- GitHub: https://github.com/ZJU-REAL', '- Hugging Face: https://huggingface.co/ZJU-REAL', '- X: https://x.com/zjureal',

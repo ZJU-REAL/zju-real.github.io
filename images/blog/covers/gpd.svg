@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="A torn paper cube on the left is linked by an ink path, bent at one node, to a flat torn sheet on the right that carries a faint outline of the cube">
+  <defs>
+    <filter id="torn" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="5" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="1" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <!-- the scene's 3D geometry: an isometric paper cube -->
+  <g filter="url(#torn)">
+    <path fill="#e9cdb9" d="M150 96 L238 146 L150 196 L62 146 Z"/>
+    <path fill="#dfbca4" d="M62 146 L150 196 L150 300 L62 250 Z"/>
+    <path fill="#e3c4ae" d="M150 196 L238 146 L238 250 L150 300 Z"/>
+  </g>
+  <!-- the flat RGB view -->
+  <path filter="url(#torn)" fill="#e9cdb9" d="M392 132 L548 118 L560 286 L398 300 Z"/>
+  <!-- the geometry it absorbs -->
+  <g fill="none" stroke="#141414" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" opacity=".45">
+    <path d="M478 168 L520 192 L478 216 L436 192 Z M436 192 L436 240 L478 264 L520 240 L520 192 M478 216 L478 264"/>
+  </g>
+  <!-- the routed path from geometry to image -->
+  <g filter="url(#ink)" fill="none" stroke="#141414" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 146 L306 104 L478 216"/>
+  </g>
+  <g fill="#141414">
+    <circle cx="150" cy="146" r="15"/>
+    <circle cx="306" cy="104" r="19"/>
+    <circle cx="478" cy="216" r="15"/>
+  </g>
+</svg>

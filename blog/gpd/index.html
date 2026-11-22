@@ -76,7 +76,6 @@
     <li><a href="#results"><span class="n">3</span>Results</a></li>
     <li><a href="#ablations"><span class="n">4</span>What matters</a></li>
     <li><a href="#internal"><span class="n">5</span>Is the geometry absorbed?</a></li>
-    <li><a href="#limits"><span class="n">6</span>Scope</a></li>
     <li><a href="#cite"><span class="n"></span>Citation</a></li>
   </ol>
 </nav>
@@ -91,7 +90,6 @@
     <li><a href="#results">Results</a></li>
     <li><a href="#ablations">What matters</a></li>
     <li><a href="#internal">Is the geometry absorbed?</a></li>
-    <li><a href="#limits">Scope</a></li>
     <li><a href="#cite">Citation</a></li>
   </ol>
 </details>
@@ -245,14 +243,6 @@ Cam-BEV: chair(left-front, 1.4m), table(front, 2.1m) …
   <p>The training curves agree. Validation accuracy is similar early on, then GPD keeps improving while GRPO plateaus; GPD's policy entropy peaks higher and earlier, a sign that the teacher's signal broadens exploration before the two settle. In the paper's case study, a four-view question about walking toward a stone fountain, GPD localizes the camera, maps the turn into the scene's frame and finds the fountain across views, while GRPO places the fountain on the wrong side of a jar and answers wrongly.</p>
 </section>
 
-<section class="chap" id="limits">
-  <h2><span class="n">6</span>Scope</h2>
-  <ul class="clean">
-    <li><strong>Two backbones from one family.</strong> All experiments use Qwen3-VL-Instruct at 2B and 4B, trained for one epoch on 15K questions.</li>
-    <li><strong>Gains are uneven across benchmarks.</strong> GPD has the best averages, but not the best score on every benchmark at every scale.</li>
-    <li><strong>Privilege quality depends on the source.</strong> Scan-derived cues are exact; for datasets without 3D annotations, cues come from estimated depth and segmentation, and the top-down view is used only when camera poses and layout are reliable.</li>
-  </ul>
-</section>
 
 <section class="chap" id="cite">
   <h2>Citation</h2>

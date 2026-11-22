@@ -78,7 +78,6 @@
     <li><a href="#speed"><span class="n">3</span>How fast</a></li>
     <li><a href="#works"><span class="n">4</span>Does it work</a></li>
     <li><a href="#use"><span class="n">5</span>Using it today</a></li>
-    <li><a href="#responsible"><span class="n">6</span>Scope and responsible use</a></li>
     <li><a href="#cite"><span class="n"></span>Citation</a></li>
   </ol>
 </nav>
@@ -93,7 +92,6 @@
     <li><a href="#speed">How fast</a></li>
     <li><a href="#works">Does it work</a></li>
     <li><a href="#use">Using it today</a></li>
-    <li><a href="#responsible">Scope and responsible use</a></li>
     <li><a href="#cite">Citation</a></li>
   </ol>
 </details>
@@ -300,17 +298,9 @@ spec = SteeringSpec(vectors=[VectorSpec(
     apply=ApplySpec(prompt=<span class="s">"all"</span>, generation=<span class="s">"all"</span>))])
 out = llm.generate(prompt, steering=spec,
                    sampling_params=SamplingParams(temperature=<span class="n">0.0</span>, max_tokens=<span class="n">128</span>))</pre>
-  <p>The same spec can be sent to an OpenAI-compatible server started with <code>vllm serve … --enable-steer-vector</code>, as a <code>steering</code> field in each request. Single-vector steering now runs inside vLLM's CUDA graphs; on the repository's own v0.29 benchmark (RTX A6000, the same 1.5B model), all-layer steering costs about 3% of throughput. The repository also reproduces sixteen published steering papers as notebooks, from refusal directions and inference-time intervention to SEAL, SHARP for vision-language hallucination and SteerMoE for expert routing.</p>
+  <p>The same spec can be sent to an OpenAI-compatible server started with <code>vllm serve … --enable-steer-vector</code>, as a <code>steering</code> field in each request. Single-vector steering now runs inside vLLM's CUDA graphs; on the repository's own v0.29 benchmark (RTX A6000, the same 1.5B model), all-layer steering costs about 3% of throughput. The repository also reproduces sixteen published steering papers as notebooks, from refusal directions and inference-time intervention to SEAL, SHARP for vision-language hallucination and SteerMoE for expert routing. Steering is dual-use: EasySteer is built as a research tool for safer, more controllable models, and any behavioural change made with it should be disclosed to users.</p>
 </section>
 
-<section class="chap" id="responsible">
-  <h2><span class="n">6</span>Scope and responsible use</h2>
-  <ul class="clean">
-    <li><strong>Benchmarks are one setting.</strong> The efficiency results use one GPU and one 1.5B model; the effectiveness results cover overthinking and hallucination plus qualitative examples. The docs recommend re-running the included benchmarks on your own hardware rather than relying on the paper's figures.</li>
-    <li><strong>Coverage keeps growing.</strong> The next steps are wider model and algorithm coverage and further efficiency work.</li>
-    <li><strong>Steering is dual-use.</strong> The same mechanism that adds refusal can remove it. EasySteer is built as a research tool for safer, more controllable models; behavioural modifications should be disclosed to users and comply with applicable guidelines.</li>
-  </ul>
-</section>
 
 <section class="chap" id="cite">
   <h2>Citation</h2>

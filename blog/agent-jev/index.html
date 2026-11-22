@@ -82,7 +82,6 @@
     <li class="sub"><a href="#teacher-results">Results</a></li>
     <li class="sub"><a href="#teacher-surpass">Learning beyond the teacher</a></li>
     <li><a href="#takeaways"><span class="n">5</span>Takeaways</a></li>
-    <li><a href="#limits"><span class="n">6</span>Limitations</a></li>
     <li><a href="#cite"><span class="n"></span>Citation</a></li>
   </ol>
 </nav>
@@ -97,7 +96,6 @@
     <li><a href="#judge">As a judge</a></li>
     <li><a href="#teacher">As a teacher</a></li>
     <li><a href="#takeaways">Takeaways</a></li>
-    <li><a href="#limits">Limitations</a></li>
     <li><a href="#cite">Citation</a></li>
   </ol>
 </details>
@@ -463,14 +461,6 @@
   </ol>
 </section>
 
-<section class="chap" id="limits">
-  <h2><span class="n">6</span>Limitations</h2>
-  <ul class="clean">
-    <li><strong>Two text environments, short episodes.</strong> All experiments use ALFWorld and WebShop, with at most 30 actions per episode. Software engineering, tool use and assistant tasks have longer trajectories and more varied dependencies; whether hindsight Progress judgments remain as useful there is open.</li>
-    <li><strong>Judging happens after the episode.</strong> Online uses, such as filtering or reranking actions, only have the prefix. Methods that delay or revise scores as later steps arrive could extend hindsight credit to those settings.</li>
-    <li><strong>We cannot see inside the best judges.</strong> JEV and GPT Decisions are closed, with undisclosed adaptation procedures, so we cannot tell which training choices make a good judge. Open-weight models such as Decider v1.2 make it possible to train decision models directly for judging action contributions.</li>
-  </ul>
-</section>
 
 <section class="chap" id="cite">
   <h2>Citation</h2>

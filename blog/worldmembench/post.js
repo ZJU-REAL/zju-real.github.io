@@ -51,8 +51,8 @@
         cap: 'Environment case, LRLRLR: three turns of 80° away and back. Each return is scored against V.' },
       { name: 'Translation', video: 'media/translate-square.mp4', kind: 'trans', plan: rot(['F', 'R', 'B', 'L'], 120, 0),
         cap: 'Translation: heading fixed, forward, right, back and left around a square, back to the start.' },
-      { name: 'LRLR', video: null, kind: 'rot', plan: rot(['L', 'R', 'L', 'R'], 80, 60), cap: 'LRLR: two yaw cycles, two returns (schematic).' },
-      { name: 'LRUD', video: null, kind: 'rot', plan: rot(['L', 'R', 'U', 'D'], 80, 60), cap: 'LRUD: a yaw cycle, then a pitch cycle; the second return comes along a new axis (schematic).' }
+      { name: 'LRLR', video: 'media/env-lrlr.mp4', kind: 'rot', plan: rot(['L', 'R', 'L', 'R'], 120, 90), cap: 'Same street, LRLR: two turns of 90° away and back, two returns.' },
+      { name: 'LRUD', video: 'media/env-lrud.mp4', kind: 'rot', plan: rot(['L', 'R', 'U', 'D'], 120, 90), cap: 'Same street, LRUD: a 90° yaw cycle, then a 90° pitch cycle; the second return comes along a new axis.' }
     ];
     var video = document.getElementById('m5-video'), svg = document.getElementById('m5-svg'), cap = document.getElementById('m5-cap');
     var tl = document.getElementById('m5-tl'), thumbs = document.getElementById('m5-thumbs'), phaseEl = document.getElementById('m5-phase'), pp = document.getElementById('m5-pp');
@@ -141,7 +141,7 @@
           var gx = 214, gy = 150;
           S('line', { x1: gx, y1: gy - 60, x2: gx, y2: gy + 10, stroke: '#e3e7ed', 'stroke-width': 2 }, svg);
           S('text', { x: gx, y: gy + 26, 'text-anchor': 'middle', style: 'font-size:10.5px' }, svg, 'pitch');
-          S('circle', { cx: gx, cy: gy - st.pitch, r: 5, fill: st.pitch > 1 ? C.dyn : '#aab2bd' }, svg);
+          S('circle', { cx: gx, cy: gy - st.pitch * 0.66, r: 5, fill: st.pitch > 1 ? C.dyn : '#aab2bd' }, svg);
         }
         S('text', { x: 8, y: 16, style: 'font-size:11px', fill: C.mute }, svg, 'top view · camera fixed in place');
         S('text', { x: 8, y: 232, style: 'font-size:11.5px;font-weight:700', fill: C.ink }, svg, (st.yaw >= 0 ? 'yaw ' : 'yaw ') + Math.round(st.yaw) + '°' + (T.name === 'LRUD' ? '  ·  pitch ' + Math.round(st.pitch) + '°' : ''));
@@ -265,7 +265,7 @@
   var CARDS = [
     { max: 1, d: 3, rows: [['HY-WorldPlay · static', STATIC[0], C.env], ['HY-WorldPlay · dynamic', .294, C.dyn], ['LingBot World · static', STATIC[5], C.env], ['LingBot World · dynamic', .808, C.dyn]] },
     { max: .25, d: 3, pre: '−', rows: [['Object appearance', .229, C.obj], ['Human identity', .217, C.hum], ['Object geometry', .205, C.obj], ['Environment reconstruction', .196, C.env]] },
-    { max: 340, d: 1, unit: ' s', rows: [['Full history', 322.16, '#9aa3ae'], ['Recent + view-relevant (FoV)', 262.69, C.wm], ['Recent only', 260.42, '#9aa3ae']] },
+    { max: .6, d: 3, rows: [['Full history', (.534 + .645 + .564 + .506 + .694 + .517 + .253) / 7, '#9aa3ae'], ['Recent + view-relevant, same budget', (.547 + .663 + .531 + .485 + .687 + .550 + .287) / 7, C.wm], ['Recent only, same budget', (.392 + .540 + .426 + .392 + .610 + .501 + .235) / 7, '#9aa3ae']] },
     { max: 100, d: 1, unit: '%', rows: [['Environment visible', 92.5, C.env], ['Human identity', 85.5, C.hum], ['Object geometry', 78.5, C.obj]] }
   ];
   Array.prototype.forEach.call(document.querySelectorAll('.card-chart'), function (el) {
@@ -315,32 +315,39 @@
     B.rise(s);
   });
 
-  /* ================= Figure 4: heatmap of all metrics ================= */
+  /* ================= Figure 4: heatmap of all metrics (metrics as rows, models as columns) ================= */
   mount('f4', function (host, W) {
-    var narrow = W < 640, lw = narrow ? 92 : 118, top = 64, rh = 30, n = MET.length;
-    var cw = (W - lw) / n, H = top + MODELS.length * rh + 6;
+    var narrow = W < 640, gw = narrow ? 14 : 18, lw = gw + (narrow ? 82 : 104), top = narrow ? 70 : 58, rh = narrow ? 26 : 28, gap = 8;
+    var groups = [], last = null;
+    MET.forEach(function (m) { if (m[1] !== last) { groups.push(m[1]); last = m[1]; } });
+    var cw = (W - lw) / MODELS.length, H = top + MET.length * rh + (groups.length - 1) * gap + 4;
     var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'All metrics for nine models' }, host);
-    var gx = lw, last = null;
-    MET.forEach(function (m, j) {
-      if (m[1] !== last) {
-        var span = MET.filter(function (q) { return q[1] === m[1]; }).length;
-        S('rect', { x: gx + j * cw - j * cw + lw + j * cw - lw, y: 4, width: span * cw - 3, height: 4, rx: 2, fill: GCOL[m[1]] }, s);
-        if (span * cw > 60) S('text', { x: lw + j * cw, y: 22, style: 'font-size:11px;font-weight:700', fill: GCOL[m[1]] }, s, m[1]);
-        last = m[1];
-      }
-      var tx = lw + j * cw + cw / 2;
-      S('text', { x: tx, y: top - 8, transform: 'rotate(-40 ' + tx + ' ' + (top - 8) + ')', style: 'font-size:' + (narrow ? 9.5 : 11) + 'px' }, s, m[0]);
-    });
-    MODELS.forEach(function (mo, i) {
-      var y = top + i * rh;
-      S('text', { x: 0, y: y + rh / 2 + 4, class: 'lbl', style: narrow ? 'font-size:10.5px' : '' }, s, narrow ? mo.replace('Matrix-Game', 'M-Game').replace('LingBot World', 'LingBot') : mo);
-      MET.forEach(function (m, j) {
-        var vals = m[3], sorted = vals.slice().sort(function (a, b) { return m[2] ? a - b : b - a; }), rank = sorted.indexOf(vals[i]);
-        var k = 1 - rank / 8, col = GCOL[m[1]];
-        var g = S('g', { class: 'rf', style: '--d:' + (j * 30 + i * 15) + 'ms' }, s);
-        S('rect', { x: lw + j * cw + 1, y: y + 2, width: cw - 2, height: rh - 4, rx: 4, fill: col, 'fill-opacity': (0.08 + 0.85 * k * k).toFixed(2), 'data-tv': vals[i].toFixed(3), 'data-tl': mo + ' · ' + m[0], 'data-tn': m[1] + ' · rank ' + (rank + 1) + ' of 9' + (m[2] ? ' (lower is better)' : ''), 'data-tc': col, tabindex: 0 }, g);
-        if (cw > 34) S('text', { x: lw + j * cw + cw / 2, y: y + rh / 2 + 4, 'text-anchor': 'middle', style: 'pointer-events:none;font-size:10.5px' + (rank === 0 ? ';font-weight:700' : ''), fill: k > .62 ? '#fff' : '#353c49' }, g, vals[i].toFixed(2).replace(/^0/, ''));
+    MODELS.forEach(function (mo, i) { // column headers
+      var tx = lw + i * cw + cw / 2;
+      if (narrow) S('text', { x: tx, y: top - 8, 'text-anchor': 'start', transform: 'rotate(-50 ' + tx + ' ' + (top - 8) + ')', style: 'font-size:10px' }, s, mo.replace('Matrix-Game', 'M-Game').replace('LingBot World', 'LingBot'));
+      else mo.replace('LingBot World', 'LingBot World|').replace('Matrix-Game', 'Matrix-Game|').replace('HY-WorldPlay', 'HY-|WorldPlay').replace('DreamX World', 'DreamX|World').split('|').filter(Boolean).forEach(function (ln, q, arr) {
+        S('text', { x: tx, y: top - 8 - (arr.length - 1 - q) * 13, 'text-anchor': 'middle', class: 'lbl', style: 'font-size:11.5px' }, s, ln.trim() || ' ');
       });
+    });
+    var y = top, gi = -1, prev = null;
+    MET.forEach(function (m, j) {
+      if (m[1] !== prev) { // group band on the left
+        if (prev !== null) y += gap;
+        gi++; prev = m[1];
+        var span = MET.filter(function (q) { return q[1] === m[1]; }).length, h = span * rh;
+        S('rect', { x: 0, y: y + 2, width: 4, height: h - 4, rx: 2, fill: GCOL[m[1]] }, s);
+        var cy = y + h / 2;
+        S('text', { x: gw - 6, y: cy, 'text-anchor': 'middle', transform: 'rotate(-90 ' + (gw - 6) + ' ' + cy + ')', style: 'font-size:' + (narrow ? 9.5 : 10.5) + 'px;font-weight:700', fill: GCOL[m[1]] }, s, h > 70 ? m[1] : m[1].split(' ')[0]);
+      }
+      S('text', { x: gw + 2, y: y + rh / 2 + 4, class: 'lbl', style: narrow ? 'font-size:10.5px' : '' }, s, m[0] + (m[2] ? ' ↓' : ''));
+      var vals = m[3], sorted = vals.slice().sort(function (a, b) { return m[2] ? a - b : b - a; });
+      MODELS.forEach(function (mo, i) {
+        var rank = sorted.indexOf(vals[i]), k = 1 - rank / 8, col = GCOL[m[1]];
+        var g = S('g', { class: 'rf', style: '--d:' + (j * 25 + i * 20) + 'ms' }, s);
+        S('rect', { x: lw + i * cw + 1.5, y: y + 2, width: cw - 3, height: rh - 4, rx: 4, fill: col, 'fill-opacity': (0.08 + 0.85 * k * k).toFixed(2), 'data-tv': vals[i].toFixed(3), 'data-tl': mo + ' · ' + m[0], 'data-tn': m[1] + ' · rank ' + (rank + 1) + ' of 9' + (m[2] ? ' (lower is better)' : ''), 'data-tc': col, tabindex: 0 }, g);
+        S('text', { x: lw + i * cw + cw / 2, y: y + rh / 2 + 4, 'text-anchor': 'middle', style: 'pointer-events:none;font-size:' + (narrow ? 9.5 : 11.5) + 'px' + (rank === 0 ? ';font-weight:700' : ''), fill: k > .74 ? '#fff' : '#353c49' }, g, vals[i].toFixed(narrow ? 2 : 3));
+      });
+      y += rh;
     });
     B.rise(s);
   });

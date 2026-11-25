@@ -1151,6 +1151,14 @@ body.home .hero .social { width: max-content; max-width: min(640px, calc(100vw -
 
 /* ---------- Publications ---------- */
 .year-group { margin-bottom: 28px; }
+.year-group[hidden], .pub[hidden] { display: none; }
+.pub-more-wrap { display: flex; justify-content: center; margin: 4px 0 18px; }
+.pub-more {
+  height: 44px; padding: 0 28px; border: 1px solid #DCE5F3; border-radius: 999px; background: #fff;
+  font: inherit; font-size: 14.5px; font-weight: 600; color: var(--ink); cursor: pointer; transition: border-color .15s, background .15s;
+}
+.pub-more:hover { border-color: #B9CBE6; background: #F2F6FC; }
+.pub-more:focus-visible { outline: 2px solid #004EA2; outline-offset: 2px; }
 .year-group .year {
   font-size: 13px;
   font-weight: 600;

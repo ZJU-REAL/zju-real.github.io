@@ -91,6 +91,17 @@ nav.topbar ul a {
 }
 nav.topbar ul a:hover { background: #F2F6FC; color: #004EA2; }
 nav.topbar ul a.active { background: #E8F0FB; color: #004EA2; font-weight: 700; }
+/* Language switch (中文 / EN): last nav item, a small outlined pill */
+nav.topbar ul li.lang-switch { display: flex; align-items: center; margin-left: 6px; }
+nav.topbar ul li.lang-switch a { padding: 4px 12px; font-size: 13.5px; font-weight: 600; color: #004EA2; border: 1px solid #DCE5F3; }
+nav.topbar ul li.lang-switch a:hover { border-color: #B9CBE6; background: #F2F6FC; }
+nav.topbar ul a, nav.topbar .brand a { white-space: nowrap; }
+@media (min-width: 641px) and (max-width: 980px) {
+  nav.topbar ul { gap: 0; }
+  nav.topbar ul a { padding: 7px 9px; font-size: 14px; }
+  nav.topbar ul li.lang-switch { margin-left: 4px; }
+  nav.topbar ul li.lang-switch a { padding: 3px 9px; font-size: 13px; }
+}
 
 /* Hamburger toggle (hidden visually but accessible; the <label> triggers it) */
 nav.topbar .nav-toggle {
@@ -1804,11 +1815,13 @@ footer a { border-bottom: none; }
     padding-bottom: 0;
   }
   nav.topbar .nav-toggle:checked ~ ul {
-    max-height: 400px;
+    max-height: 480px;
     padding-top: 8px;
     padding-bottom: 8px;
   }
   nav.topbar ul li { width: 100%; }
+  nav.topbar ul li.lang-switch { margin: 0; }
+  nav.topbar ul li.lang-switch a { width: 100%; padding: 12px 20px; font-size: 15px; border: none; border-radius: 0; }
   nav.topbar ul a {
     display: block;
     padding: 12px 20px;
@@ -2170,3 +2183,9 @@ footer a { border-bottom: none; }
   .px-row-tags { flex-direction: column; align-items: flex-end; }
 }
 @media (prefers-reduced-motion: reduce) { .px-panel { animation: none; } }
+
+/* Chinese pages: CJK fonts first, no wide tracking or uppercase on labels */
+html[lang="zh-CN"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif; }
+html[lang="zh-CN"] main *, html[lang="zh-CN"] footer *, html[lang="zh-CN"] .news-bar * { letter-spacing: normal !important; }
+html[lang="zh-CN"] .lead, html[lang="zh-CN"] main p, html[lang="zh-CN"] main li { line-height: 1.8; }
+html[lang="zh-CN"] em, html[lang="zh-CN"] i:not([class]) { font-style: normal; }

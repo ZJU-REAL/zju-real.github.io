@@ -1,0 +1,369 @@
+{
+ "text": [
+  {
+   "sel": "nav.topbar ul a",
+   "map": {
+    "Home": "首页",
+    "About": "关于",
+    "Research": "研究",
+    "Projects": "项目",
+    "Blog": "博客",
+    "Publications": "论文",
+    "People": "成员",
+    "Join": "加入我们"
+   }
+  },
+  {
+   "sel": ".people-group > .role",
+   "map": {
+    "Research Engineers": "研究工程师",
+    "PhD Students": "博士生",
+    "Master's Students": "硕士生",
+    "Undergraduate Students": "本科生",
+    "Interns": "实习生",
+    "Alumni": "已毕业成员",
+    "Visiting Students": "访问学生"
+   }
+  },
+  {
+   "sel": ".person .sub",
+   "map": {
+    "PhD · 2015": "博士生 · 2015 级",
+    "MSc · 2015": "硕士生 · 2015 级",
+    "BSc · 2015": "本科生 · 2015 级",
+    "Undergrad · 2015": "本科生 · 2015 级",
+    "PhD · 2016": "博士生 · 2016 级",
+    "MSc · 2016": "硕士生 · 2016 级",
+    "BSc · 2016": "本科生 · 2016 级",
+    "Undergrad · 2016": "本科生 · 2016 级",
+    "PhD · 2017": "博士生 · 2017 级",
+    "MSc · 2017": "硕士生 · 2017 级",
+    "BSc · 2017": "本科生 · 2017 级",
+    "Undergrad · 2017": "本科生 · 2017 级",
+    "PhD · 2018": "博士生 · 2018 级",
+    "MSc · 2018": "硕士生 · 2018 级",
+    "BSc · 2018": "本科生 · 2018 级",
+    "Undergrad · 2018": "本科生 · 2018 级",
+    "PhD · 2019": "博士生 · 2019 级",
+    "MSc · 2019": "硕士生 · 2019 级",
+    "BSc · 2019": "本科生 · 2019 级",
+    "Undergrad · 2019": "本科生 · 2019 级",
+    "PhD · 2020": "博士生 · 2020 级",
+    "MSc · 2020": "硕士生 · 2020 级",
+    "BSc · 2020": "本科生 · 2020 级",
+    "Undergrad · 2020": "本科生 · 2020 级",
+    "PhD · 2021": "博士生 · 2021 级",
+    "MSc · 2021": "硕士生 · 2021 级",
+    "BSc · 2021": "本科生 · 2021 级",
+    "Undergrad · 2021": "本科生 · 2021 级",
+    "PhD · 2022": "博士生 · 2022 级",
+    "MSc · 2022": "硕士生 · 2022 级",
+    "BSc · 2022": "本科生 · 2022 级",
+    "Undergrad · 2022": "本科生 · 2022 级",
+    "PhD · 2023": "博士生 · 2023 级",
+    "MSc · 2023": "硕士生 · 2023 级",
+    "BSc · 2023": "本科生 · 2023 级",
+    "Undergrad · 2023": "本科生 · 2023 级",
+    "PhD · 2024": "博士生 · 2024 级",
+    "MSc · 2024": "硕士生 · 2024 级",
+    "BSc · 2024": "本科生 · 2024 级",
+    "Undergrad · 2024": "本科生 · 2024 级",
+    "PhD · 2025": "博士生 · 2025 级",
+    "MSc · 2025": "硕士生 · 2025 级",
+    "BSc · 2025": "本科生 · 2025 级",
+    "Undergrad · 2025": "本科生 · 2025 级",
+    "PhD · 2026": "博士生 · 2026 级",
+    "MSc · 2026": "硕士生 · 2026 级",
+    "BSc · 2026": "本科生 · 2026 级",
+    "Undergrad · 2026": "本科生 · 2026 级",
+    "PhD · 2027": "博士生 · 2027 级",
+    "MSc · 2027": "硕士生 · 2027 级",
+    "BSc · 2027": "本科生 · 2027 级",
+    "Undergrad · 2027": "本科生 · 2027 级",
+    "PhD · 2028": "博士生 · 2028 级",
+    "MSc · 2028": "硕士生 · 2028 级",
+    "BSc · 2028": "本科生 · 2028 级",
+    "Undergrad · 2028": "本科生 · 2028 级",
+    "PhD · 2029": "博士生 · 2029 级",
+    "MSc · 2029": "硕士生 · 2029 级",
+    "BSc · 2029": "本科生 · 2029 级",
+    "Undergrad · 2029": "本科生 · 2029 级",
+    "PhD · 2030": "博士生 · 2030 级",
+    "MSc · 2030": "硕士生 · 2030 级",
+    "BSc · 2030": "本科生 · 2030 级",
+    "Undergrad · 2030": "本科生 · 2030 级"
+   }
+  },
+  {
+   "sel": ".links a",
+   "map": {
+    "Paper": "论文",
+    "Code": "代码",
+    "Project": "项目主页",
+    "Dataset": "数据集",
+    "Demo": "演示",
+    "Model": "模型",
+    "Slides": "幻灯片",
+    "Video": "视频",
+    "Blog": "博客"
+   }
+  },
+  {
+   "sel": ".link-chip span",
+   "map": {
+    "Project Page": "项目主页",
+    "Paper": "论文",
+    "Model": "模型",
+    "Dataset": "数据集",
+    "Demo": "演示",
+    "Survey": "综述",
+    "Docs": "文档",
+    "Video": "视频"
+   }
+  },
+  {
+   "sel": ".tag-chip, .filter-chip",
+   "map": {
+    "Framework": "框架",
+    "Agentic AI": "智能体",
+    "GUI Agents": "GUI 智能体",
+    "Reasoning": "推理",
+    "Reinforcement Learning": "强化学习",
+    "Benchmark": "评测基准",
+    "Resource": "资源",
+    "All": "全部"
+   }
+  },
+  {
+   "sel": ".px-t-oss",
+   "map": {
+    "Open source": "开源"
+   }
+  },
+  {
+   "sel": ".card-venue, .px-t",
+   "map": {
+    "EMNLP 2026 System Demonstration": "EMNLP 2026 System Demonstration"
+   }
+  },
+  {
+   "sel": ".bcard-meta .tag",
+   "map": {
+    "World models": "世界模型",
+    "Agents": "智能体",
+    "Agentic AI": "智能体",
+    "Steering": "激活干预",
+    "Spatial intelligence": "空间智能",
+    "Code agents": "代码智能体",
+    "Software engineering": "软件工程",
+    "Reasoning": "推理",
+    "Embodied AI": "具身智能",
+    "Reinforcement learning": "强化学习",
+    "Interpretability": "可解释性",
+    "Open source": "开源",
+    "LLM steering": "激活干预"
+   }
+  },
+  {
+   "sel": ".bcard-more",
+   "map": {
+    "Read the post →": "阅读全文 →"
+   }
+  },
+  {
+   "sel": ".blog-empty",
+   "map": {
+    "No posts match. Try another word, or": "没有符合条件的文章。换个关键词试试，或者",
+    ".": "。"
+   }
+  },
+  {
+   "sel": ".news-list .tag",
+   "map": {
+    "OPEN SOURCE": "开源",
+    "TALK": "报告",
+    "LAUNCH": "上线",
+    "PREPRINT": "预印本",
+    "AWARD": "获奖"
+   }
+  }
+ ],
+ "names": {
+  "Aozhe Wang": "王傲哲",
+  "Dingming Li": "李鼎鸣",
+  "Fan Yuan": "袁凡",
+  "Guanghu Chen": "陈光琥",
+  "Haitao Hong": "洪海涛",
+  "Hang Wu": "吴杭",
+  "Hang Zhang": "张航",
+  "Hangrui Zhang": "张航瑞",
+  "Haolei Xu": "徐皓雷",
+  "Haoyu Li": "﻿李浩宇",
+  "Hongxing Li": "李弘幸",
+  "Hui Wang": "王辉",
+  "Jingyu He": "贺荆雨",
+  "Jinyan Chen": "陈锦焱",
+  "Kaiwen Zhang": "张锴文",
+  "Luhao Zhu": "朱路浩",
+  "Nan Zhou": "周楠",
+  "Qipeng Chen": "陈其鹏",
+  "Shangke Lyu": "吕尚可",
+  "Siqi Chen": "陈斯琪",
+  "Teng Pan": "潘腾",
+  "Tongbo Chen": "陈通博",
+  "Wenjing Jiang": "蒋文婧",
+  "Xingyu Wu": "吴星宇",
+  "Xinyu Dong": "董欣谕",
+  "Xudong Cai": "蔡旭东",
+  "Xuejun Zhao": "赵雪君",
+  "Yan Yu": "俞燕",
+  "Yaxin Zhang": "张雅馨",
+  "Yijun Li": "李奕君",
+  "Yiwen Qiu": "邱怡文",
+  "Yizhou Liu": "刘逸舟",
+  "Yong Du": "杜庸",
+  "Yuchen Yan": "颜聿辰",
+  "Yuhan Wang": "王裕涵",
+  "Zhengxi Lu": "卢政希",
+  "Zixuan Wang": "王子轩",
+  "Shuo Yuan": "袁烁"
+ },
+ "name_sel": [
+  ".person .name",
+  ".pi-card .name"
+ ],
+ "date_sel": [
+  ".bcard-meta",
+  ".post-meta",
+  ".meta",
+  "time"
+ ],
+ "scripts": {
+  "people.html": [
+   [
+    "'Show photo ' + (i + 1)",
+    "'查看第 ' + (i + 1) + ' 张照片'"
+   ]
+  ],
+  "publications.html": [
+   [
+    "titleEl.textContent = title || 'Cite';",
+    "titleEl.textContent = title || '引用';"
+   ],
+   [
+    "<div class=\"cite-loading\">Fetching citation…</div>",
+    "<div class=\"cite-loading\">正在获取引用信息…</div>"
+   ],
+   [
+    "`Use arXiv preprint (${arxivId})` : 'Use arXiv preprint (n/a)'",
+    "`使用 arXiv 预印本（${arxivId}）` : '使用 arXiv 预印本（无）'"
+   ],
+   [
+    "`Use venue (${pageVenue})` : 'Use venue (n/a)'",
+    "`使用页面上的发表信息（${pageVenue}）` : '使用页面上的发表信息（无）'"
+   ],
+   [
+    "'No reliable citation match found (search hits do not match this title). Please use the arXiv / paper link directly.'",
+    "'没有找到可靠的引用信息（检索结果与标题对不上），请直接使用 arXiv 或论文链接。'"
+   ],
+   [
+    "'Could not fetch citation (' + err.message + '). Please use the arXiv / paper link directly.'",
+    "'获取引用信息失败（' + err.message + '），请直接使用 arXiv 或论文链接。'"
+   ],
+   [
+    "btn.innerHTML = '<span>Cite</span>';",
+    "btn.innerHTML = '<span>引用</span>';"
+   ],
+   [
+    "textContent = 'Copied';",
+    "textContent = '已复制';"
+   ],
+   [
+    "textContent = 'Copy';",
+    "textContent = '复制';"
+   ],
+   [
+    "more.textContent = 'More (' + left + ')';",
+    "more.textContent = '加载更多（' + left + '）';"
+   ]
+  ]
+ },
+ "js": {
+  "blog/index.js": [
+   [
+    "match.length + (match.length === 1 ? ' post' : ' posts')",
+    "'共 ' + match.length + ' 篇'"
+   ],
+   [
+    "'View more (' + (match.length - Math.min(shown, match.length)) + ')'",
+    "'查看更多（' + (match.length - Math.min(shown, match.length)) + '）'"
+   ]
+  ],
+  "blog/blog.js": [
+   [
+    "var norm = function (s) {",
+    "var ZH = {\"Aozhe Wang\": \"王傲哲\", \"Dingming Li\": \"李鼎鸣\", \"Fan Yuan\": \"袁凡\", \"Guanghu Chen\": \"陈光琥\", \"Haitao Hong\": \"洪海涛\", \"Hang Wu\": \"吴杭\", \"Hang Zhang\": \"张航\", \"Hangrui Zhang\": \"张航瑞\", \"Haolei Xu\": \"徐皓雷\", \"Haoyu Li\": \"﻿李浩宇\", \"Hongxing Li\": \"李弘幸\", \"Hui Wang\": \"王辉\", \"Jingyu He\": \"贺荆雨\", \"Jinyan Chen\": \"陈锦焱\", \"Kaiwen Zhang\": \"张锴文\", \"Luhao Zhu\": \"朱路浩\", \"Nan Zhou\": \"周楠\", \"Qipeng Chen\": \"陈其鹏\", \"Shangke Lyu\": \"吕尚可\", \"Siqi Chen\": \"陈斯琪\", \"Teng Pan\": \"潘腾\", \"Tongbo Chen\": \"陈通博\", \"Wenjing Jiang\": \"蒋文婧\", \"Xingyu Wu\": \"吴星宇\", \"Xinyu Dong\": \"董欣谕\", \"Xudong Cai\": \"蔡旭东\", \"Xuejun Zhao\": \"赵雪君\", \"Yan Yu\": \"俞燕\", \"Yaxin Zhang\": \"张雅馨\", \"Yijun Li\": \"李奕君\", \"Yiwen Qiu\": \"邱怡文\", \"Yizhou Liu\": \"刘逸舟\", \"Yong Du\": \"杜庸\", \"Yuchen Yan\": \"颜聿辰\", \"Yuhan Wang\": \"王裕涵\", \"Zhengxi Lu\": \"卢政希\", \"Zixuan Wang\": \"王子轩\", \"Shuo Yuan\": \"袁烁\"};\n    var norm = function (s) {"
+   ],
+   [
+    "var role = /^(PhD|MSc|BSc|Undergrad)/.test(subT) && yr ? single + ' · since ' + yr : (subT || single);",
+    "var dg = (subT.match(/^(PhD|MSc|BSc|Undergrad)/) || [])[1];\n            var role = dg && yr ? ({ PhD: '博士生', MSc: '硕士生', BSc: '本科生', Undergrad: '本科生' })[dg] + ' · ' + yr + ' 级' : (/^Research Engineer/.test(subT) ? '研究工程师' : (subT || single));"
+   ],
+   [
+    "idx[norm(n.textContent)] = { name: n.textContent.trim(), role: role,",
+    "idx[norm(n.textContent)] = { name: n.textContent.trim(), zh: ZH[n.textContent.trim()] || '', role: role,"
+   ],
+   [
+    "role: pi.querySelector('.role').textContent.trim(),",
+    "role: '课题组负责人 · 博士生导师',"
+   ],
+   [
+    "card.setAttribute('aria-label', 'Author card');",
+    "card.setAttribute('aria-label', '作者信息');"
+   ],
+   [
+    "'<div class=\"pc-pubs\"><p class=\"pc-count\"><b>' + p.count + '</b> paper' + (p.count > 1 ? 's' : '') + ' with REAL Lab</p>'",
+    "'<div class=\"pc-pubs\"><p class=\"pc-count\">在 REAL Lab 发表论文 <b>' + p.count + '</b> 篇</p>'"
+   ],
+   [
+    "<span class=\"pc-lk\">Latest</span>",
+    "<span class=\"pc-lk\">最新</span>"
+   ],
+   [
+    "REAL Lab · Zhejiang University",
+    "浙江大学 REAL Lab"
+   ],
+   [
+    "<a class=\"pc-people\" href=\"' + esc(peopleURL.href) + '\">People →</a>",
+    "<a class=\"pc-people\" href=\"../../people.html\">成员 →</a>"
+   ],
+   [
+    "setTimeout(function () { btn.textContent = 'Copy'; }, 1500);",
+    "setTimeout(function () { btn.textContent = '复制'; }, 1500);"
+   ],
+   [
+    "done('Copied');",
+    "done('已复制');"
+   ],
+   [
+    "done('Selected');",
+    "done('已选中');"
+   ]
+  ]
+ },
+ "en_attrs": [
+  "data-people",
+  "data-pubs"
+ ],
+ "img_map": {
+  "assets/hero-research.svg": "assets/hero-research-zh.svg",
+  "assets/hero-join.svg": "assets/hero-join-zh.svg",
+  "assets/hero-blog.svg": "assets/hero-blog-zh.svg",
+  "assets/research-map.svg": "assets/research-map-zh.svg"
+ },
+ "meta_regex": [
+  [
+   "^(\\d+) papers from REAL Lab at Zhejiang University \\((\\d{4})–(\\d{4})\\) on .*$",
+   "浙江大学 REAL Lab 的 \\1 篇论文（\\2–\\3），涉及大模型推理、具身与空间智能、智能体（GUI、电脑操作、深度研究和代码智能体）以及终身学习与自进化，附 arXiv、论文和代码链接。"
+  ]
+ ]
+}

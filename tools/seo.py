@@ -6,7 +6,7 @@ It rewrites the <head> SEO block of publications.html (description, canonical, O
 every paper as a schema.org ScholarlyArticle), adds canonical + zjureal.com Open Graph URLs to the other pages,
 and regenerates robots.txt, sitemap.xml and llms.txt (a Markdown digest for LLM agents).
 """
-import datetime, html, json, re
+import datetime, html, json, os, re
 
 SITE = 'https://zjureal.com'
 TODAY = datetime.date.today().isoformat()
@@ -148,8 +148,13 @@ for page, (title, desc, path) in OTHER.items():
     rewrite_head(page, seo_head(page, title, desc, path, extra))
 
 open('robots.txt', 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
-open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(
-    f'  <url><loc>{SITE}/{path}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority></url>\n' for _, path, pr in PAGES) + '</urlset>\n')
+# every page is listed in English and Chinese (zh/, built by tools/zh_build.py), each pointing at the other
+alts = lambda path: (f'<xhtml:link rel="alternate" hreflang="en" href="{SITE}/{path}"/>'
+                     f'<xhtml:link rel="alternate" hreflang="zh-CN" href="{SITE}/zh/{path}"/>')
+open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+                               'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + ''.join(
+    f'  <url><loc>{SITE}/{pre}{path}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority>{alts(path)}</url>\n'
+    for pre in ('', 'zh/') for _, path, pr in PAGES) + '</urlset>\n')
 
 lines = ['# REAL Lab, Zhejiang University', '',
          '> REAL Lab at Zhejiang University (Hangzhou, China), led by Yongliang Shen, researches Reasoning, Embodied, Agentic, and '
@@ -169,7 +174,8 @@ lines = ['# REAL Lab, Zhejiang University', '',
          f'[EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering]({SITE}/blog/easysteer/), '
          f'[GPD: Distilling Routed 3D Privilege for Spatial Reasoning]({SITE}/blog/gpd/), '
          f'[WorldMemBench: A Comprehensive Benchmark for Memory of Video World Models]({SITE}/blog/worldmembench/)',
-         f'- [People]({SITE}/people.html) and [Join Us]({SITE}/join.html)', '',
+         f'- [People]({SITE}/people.html) and [Join Us]({SITE}/join.html)',
+         f'- Chinese version of the whole site (中文版): {SITE}/zh/', '',
          '## Links', '',
          '- GitHub: https://github.com/ZJU-REAL', '- Hugging Face: https://huggingface.co/ZJU-REAL', '- X: https://x.com/zjureal',
          '- Google Scholar (PI): https://scholar.google.com/citations?user=UT3NzFAAAAAJ', '- PI homepage: https://person.zju.edu.cn/shenyongliang', '',
@@ -183,3 +189,8 @@ for y in sorted({p['year'] for p in pubs}, reverse=True):
     lines.append('')
 open('llms.txt', 'w').write('\n'.join(lines))
 print(f'papers: {len(pubs)}  years: {years[0]}-{years[-1]}  venues: {len(venues)}')
+
+# the head rewrite above drops the hreflang links; rebuilding the Chinese site restores them and refreshes zh/
+import subprocess, sys
+subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'zh_build.py')], check=True, stdout=subprocess.DEVNULL)
+print('zh/ rebuilt')

@@ -16,6 +16,7 @@
 - [Projects](https://zjureal.com/projects.html): open-source frameworks
 - [Blog](https://zjureal.com/blog.html): research, releases and stories, e.g. [Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents](https://zjureal.com/blog/agent-jev/) and [SWE-Ladder: Learning to Localize, Reproduce, and Patch](https://zjureal.com/blog/swe-ladder/), [EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering](https://zjureal.com/blog/easysteer/), [GPD: Distilling Routed 3D Privilege for Spatial Reasoning](https://zjureal.com/blog/gpd/), [WorldMemBench: A Comprehensive Benchmark for Memory of Video World Models](https://zjureal.com/blog/worldmembench/)
 - [People](https://zjureal.com/people.html) and [Join Us](https://zjureal.com/join.html)
+- Chinese version of the whole site (中文版): https://zjureal.com/zh/
 
 ## Links
 

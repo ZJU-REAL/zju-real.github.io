@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SWE-Ladder：先定位，再复现，最后修复 · REAL Lab 博客</title>
+<meta content="SWE-Ladder 只把已验证修复中当前阶段需要的那部分交给冻结的教师模型，并按修复顺序依次引入定位、复现和修复三个阶段。Qwen3-4B 在 SWE-bench Verified 上的 pass@1 从 9.6% 提升到 16.4%。" name="description"/>
+<link href="https://zjureal.com/zh/blog/swe-ladder/" rel="canonical"/><link href="https://zjureal.com/blog/swe-ladder/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/swe-ladder/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/swe-ladder/" hreflang="x-default" rel="alternate"/>
+
+
+
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
+<meta content="SWE-Ladder：通过渐进式特权自蒸馏学习定位、复现与修复" property="og:title"/>
+<meta content="每次只给教师看当前修复阶段需要的信息，逐个阶段训练：4B 模型在 SWE-bench Verified 上的 pass@1 从 9.6% 提升到 16.4%。" property="og:description"/>
+<meta content="https://zjureal.com/images/blog/swe-ladder-banner.jpg" property="og:image"/>
+<meta content="https://zjureal.com/zh/blog/swe-ladder/" property="og:url"/>
+<meta content="2026-11-15" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="@zjureal" name="twitter:site"/>
+<link href="../../../assets/logo-mark.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../../styles.css?v=20261126b" rel="stylesheet"/>
+<link href="../../../blog/blog.css?v=20261122d" rel="stylesheet"/>
+<link href="../../../blog/swe-ladder/post.css?v=20261122" rel="stylesheet"/>
+
+</head>
+<body id="top">
+<nav class="topbar">
+<div class="inner">
+<div class="brand"><a href="../../index.html"><img alt="" class="brand-mark" height="34" src="../../../assets/logo-mark.svg" width="34"/>REAL Lab</a></div>
+<input aria-label="展开菜单" class="nav-toggle" id="nav-toggle-post" type="checkbox"/>
+<label aria-hidden="true" class="nav-burger" for="nav-toggle-post"><span></span><span></span><span></span></label>
+<ul>
+<li><a href="../../index.html">首页</a></li>
+<li><a href="../../about.html">关于</a></li>
+<li><a href="../../research.html">研究</a></li>
+<li><a href="../../projects.html">项目</a></li>
+<li><a class="active" href="../../blog.html">博客</a></li>
+<li><a href="../../publications.html">论文</a></li>
+<li><a href="../../people.html">成员</a></li>
+<li><a href="../../join.html">加入我们</a></li>
+
+<li class="lang-switch"><a href="../../../blog/swe-ladder/" hreflang="en" lang="en" title="English">EN</a></li></ul>
+</div>
+</nav>
+<main class="post">
+<header class="post-head">
+<p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 11 月 15 日</span><span class="dot"></span><span>代码智能体 · 强化学习</span><span class="dot"></span><span>阅读约 12 分钟</span></p>
+<h1>SWE-Ladder：通过渐进式特权自蒸馏学习定位、复现与修复</h1>
+<p class="post-dek">软件工程智能体要找到 bug、复现 bug、再修复它，但训练信号通常只有最后的一次测试结果。SWE-Ladder 只把已验证修复中与当前阶段相关的部分交给冻结的教师模型，并按修复的先后顺序逐级训练各个阶段。</p>
+<div class="post-byline">
+<div>
+<p class="post-authors" data-people="../../../people.html" data-pubs="../../../publications.html" data-self="SWE-Ladder"><span class="au">Xudong Cai</span><sup>1</sup>, <span class="au">Zhengxi Lu</span><sup>1</sup>, <span class="au">Yuchen Yan</span><sup>1</sup>, <span class="au">Jian Shao</span><sup>1</sup>, <span class="au">Jun Xiao</span><sup>1</sup>, <span class="au">Yueting Zhuang</span><sup>1</sup>, <span class="au">Yongliang Shen</span><sup>1</sup></p>
+<p class="post-affil"><sup>1</sup>浙江大学</p>
+</div>
+<div class="post-links"><a class="pill-btn solid" href="https://arxiv.org/abs/2610.33667" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg>论文</a> <a class="pill-btn" href="https://github.com/ZJU-REAL/SWE-Ladder" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"></path></svg>代码</a> <a class="pill-btn" href="https://zjureal.com/SWE-Ladder/" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>项目主页</a></div>
+</div>
+<figure class="post-banner" style="background:#fbf8f1"><img alt="学生机器人沿着标有 LOC、REP、PATCH 三级横档的梯子爬向绿色对勾；冻结的教师机器人只举着一张失败测试卡片，定位卡片和一张背面朝上的补丁卡片放在它脚边" height="560" src="../../../images/blog/swe-ladder-banner.jpg" style="aspect-ratio:1800/560" width="1800"/></figure>
+</header>
+<div class="post-body">
+<nav aria-label="目录" class="toc">
+<p class="toc-title">目录</p>
+<ol>
+<li><a href="#tldr"><span class="n"></span>概要</a></li>
+<li><a href="#problem"><span class="n">1</span>单一奖励的不足</a></li>
+<li><a href="#method"><span class="n">2</span>SWE-Ladder</a></li>
+<li class="sub"><a href="#router">把每一步分到对应阶段</a></li>
+<li class="sub"><a href="#evidence">分阶段的证据</a></li>
+<li class="sub"><a href="#schedule">按修复顺序逐级训练</a></li>
+<li><a href="#results"><span class="n">3</span>实验结果</a></li>
+<li><a href="#climb"><span class="n">4</span>逐级训练中的变化</a></li>
+<li><a href="#ablations"><span class="n">5</span>哪些设计起作用</a></li>
+<li><a href="#dynamics"><span class="n">6</span>训练动态</a></li>
+<li><a href="#cite"><span class="n"></span>引用</a></li>
+</ol>
+</nav>
+<article>
+<details class="toc-inline">
+<summary>目录</summary>
+<ol>
+<li><a href="#tldr">概要</a></li>
+<li><a href="#problem">单一奖励的不足</a></li>
+<li><a href="#method">SWE-Ladder</a></li>
+<li><a href="#results">实验结果</a></li>
+<li><a href="#climb">逐级训练中的变化</a></li>
+<li><a href="#ablations">哪些因素起作用</a></li>
+<li><a href="#dynamics">训练动态</a></li>
+<li><a href="#cite">引用</a></li>
+</ol>
+</details>
+<section class="chap" id="tldr">
+<h2>概要</h2>
+<p class="lede">解决一个代码仓库 issue 需要三种能力：<span class="st-loc">定位</span>出错的代码，<span class="st-rep">复现</span>故障，再给代码<span class="st-patch">打补丁</span>。强化学习只凭最终补丁的一次测试结果，同时训练这三种能力。On-policy 自蒸馏引入了能看到特权证据的教师，但实际做法是每一步都把完整的参考补丁给教师看。这样，智能体还在摸索该看<em>哪里</em>，教师就已经知道该改<em>什么</em>。</p>
+<p>SWE-Ladder 把每个训练 issue 的已验证修复拆成三份证据：用于定位的改动文件和行号，用于复现的 fail-to-pass 测试，用于修复的 diff。基于规则的路由器根据工具调用，给端到端 rollout 的每一步标上所属阶段；冻结的教师只看到对应阶段的证据。三个阶段按修复顺序逐个蒸馏，GRPO 则始终优化整条轨迹。</p>
+<p><strong>在 SWE-bench Verified 上，SWE-Ladder 把 Qwen3-4B-Instruct-2507 的 pass@1 从 9.6% 提升到 16.4%，GRPO 为 10.4%，看完整补丁的教师为 12.4%。</strong>在 OpenHands 框架下，SWE-Ladder 从 13.0% 提升到 17.6%，而所有基线都不高于基座模型。把阶段顺序反过来，结果降到 11.4%。</p>
+<div class="cards"><a class="card" href="#results"><p class="card-k">SWE-bench Verified，R2E-Gym，pass@1</p><p class="card-t">优于两类监督方式</p><div class="card-chart" data-card="0"></div></a> <a class="card" href="#results"><p class="card-k">SWE-bench Verified，OpenHands，pass@1</p><p class="card-t">换一个框架依然有效</p><div class="card-chart" data-card="1"></div></a> <a class="card" href="#ablations"><p class="card-k">训练顺序，pass@1</p><p class="card-t">阶段顺序很重要</p><div class="card-chart" data-card="2"></div></a> <a class="card" href="#results"><p class="card-k">R2E-Gym，跑完的轨迹占比</p><p class="card-t">步数更少，几乎都能跑完</p><div class="card-chart" data-card="3"></div></a></div>
+</section>
+<section class="chap" id="problem">
+<h2><span class="n">1</span>单一奖励和完整补丁各缺什么</h2>
+<p>SWE 智能体要经过几十次工具调用来修改代码仓库，而常用的训练信号只是最终补丁能否通过指定测试，很难看出失败是哪个决策造成的。为了弄清不同信号到底教会了什么，我们在 SWE-bench Verified 上除了 pass@1，还统计了三种中间行为：智能体是否修改了参考修复改动过的文件（<em>定位</em>）；是否编写并运行了能复现故障的脚本（<em>复现</em>）；最后一次修改后，是否重新运行该脚本并成功通过（<em>验证</em>）。</p>
+<p>结果有两点比较明显。<strong>结果奖励不能稳定提升这些行为：</strong>用 GRPO 训练后，pass@1 几乎没变，只从 9.6% 升到 10.4%，复现却从 59.4% 降到 48.6%。<strong>让教师看完整补丁能提高 pass@1，但修改后的验证变少了</strong>，从 22.6% 降到 16.2%。在定位步骤里，教师已经看到了替换后的代码，会倾向于直接改代码，而不是继续搜索。已有工作在单轮推理中报告过同样的现象：教师以完整参考答案为条件时，学生会跳过中间步骤，验证也更少。</p>
+<div class="finding"><span class="k">核心想法</span><p>每一步只让教师看到已验证修复中当前阶段需要的那部分；各阶段按修复时用到它们的顺序来教：先找到代码，再把故障实际复现出来，最后修复。</p></div>
+</section>
+<section class="chap" id="method">
+<h2><span class="n">2</span>SWE-Ladder</h2>
+<p>SWE-Ladder 训练的是一个端到端智能体。它不限制智能体调用哪些工具，只决定教师能看到哪些证据、监督哪些 token。<a class="fig-ref" href="#fig-1">图 1</a> 先用论文中一条真实的 21 步 rollout 演示路由器如何打标签，再依次展示三个训练阶段。</p>
+<figure class="fig" id="fig-1">
+<div class="m2" data-phase="0">
+<div class="m2-bar">
+<div aria-label="阶段" class="m2-tabs" role="group">
+<button class="m2-tab" data-go="0" type="button"><span class="m2-tn">0</span>Rollout<i class="m2-prog"></i></button>
+<button class="m2-tab" data-go="1" type="button"><span class="m2-tn">1</span>LOC<i class="m2-prog"></i></button>
+<button class="m2-tab" data-go="2" type="button"><span class="m2-tn">2</span>REP<i class="m2-prog"></i></button>
+<button class="m2-tab" data-go="3" type="button"><span class="m2-tn">3</span>PATCH<i class="m2-prog"></i></button>
+</div>
+<button aria-pressed="false" class="ctl-btn m2-pp" hidden="" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><rect fill="currentColor" height="9" rx=".6" width="2.6" x="2" y="1.5"></rect><rect fill="currentColor" height="9" rx=".6" width="2.6" x="7.4" y="1.5"></rect></svg><span>暂停</span></button>
+</div>
+<div class="m2-roll">
+<div class="m2-roll-h">
+<p class="m2-k">学生 rollout · 一个 oauthlib issue，共 21 步，由路由器标注阶段</p>
+<div aria-label="路由器状态" class="m2-fsm">
+<span class="m2-st" data-s="LOC">LOC</span><i></i><span class="m2-st" data-s="REP">REP</span><i></i><span class="m2-st" data-s="PATCH">PATCH</span>
+</div>
+</div>
+<div class="m2-steps" id="m2-steps"></div>
+<p aria-live="polite" class="m2-note" id="m2-note"> </p>
+<div class="m2-grpo"><span class="m2-test">测试</span><span>整条 rollout 只有一个验证器结果 → <b>GRPO 更新所有回复 token</b>，不分阶段。</span></div>
+</div>
+<div class="m2-train">
+<div aria-label="训练阶段" class="m2-ladder">
+<div class="m2-rung" data-r="PATCH"><b>阶段 3 · PATCH</b><span>迭代 51–70</span></div>
+<div class="m2-rung" data-r="REP"><b>阶段 2 · REP</b><span>迭代 31–50</span></div>
+<div class="m2-rung" data-r="LOC"><b>阶段 1 · LOC</b><span>迭代 1–30</span></div>
+</div>
+<div class="m2-teach">
+<div class="m2-teacher">
+<p class="m2-k">冻结的教师 · 与学生同一基座模型 · 只能看到</p>
+<div class="m2-ev" id="m2-ev"><span class="m2-ev-t">选择一个阶段</span><pre></pre></div>
+</div>
+<div class="m2-mask">
+<p class="m2-k">rollout 上的蒸馏掩码</p>
+<div class="m2-cells" id="m2-cells"></div>
+<p class="m2-loss">L = L<sub>GRPO</sub> + 0.15 · L<sub>OPSD</sub>(<span id="m2-loss">当前阶段</span>)</p>
+</div>
+</div>
+</div>
+</div>
+<figcaption><b>图 1.</b> SWE-Ladder 在一条 rollout 上的工作过程。<b>上：</b>一次 oauthlib 修复的 21 个步骤（论文表 7），分组方式与论文相同，基于规则的路由器根据每次工具调用把它们标为 LOC、REP 或 PATCH。标签并不单调推进：修补过程中重新运行复现脚本，状态会退回 REP（第 12 步）；连续第三次查看代码，状态又回到 LOC（第 15 步）。<b>下：</b>三个训练阶段。每个阶段里，基座模型的冻结副本只看到一个阶段的证据，也只蒸馏带该标签的步骤；GRPO 仍在所有步骤上训练。证据块取自论文图 3 的示意样例。</figcaption>
+</figure>
+<h3 id="router">把每一步分到对应阶段</h3>
+<p>路由器是一个确定性的、工作在工具层面的状态机，给每一步打标签。创建或运行文件名含 <code>repro</code> 的文件、编辑测试文件、运行测试套件，都会提议进入 <span class="st-rep">REP</span>；编辑其他源文件，提议进入 <span class="st-patch">PATCH</span>；搜索、查看文件和只读的 shell 命令都算探索。提议只能让状态按 LOC → REP → PATCH 的顺序前进，回退规则则取决于当前状态：处于 REP 时，连续三次探索会回到 LOC；处于 PATCH 时，运行一次测试就退回 REP，探索一次就回到 LOC。这些标签只决定教师的上下文和蒸馏掩码，不会截断 rollout，也不改变奖励。</p>
+<p>在 2,261 个留出的、带阶段标注的步骤上，路由器与参考标签的一致率为 92.0%。学习得到的 TF-IDF 分类器一致率达到 98.63%，训出的智能体反而更差：它对每一步独立预测，把轨迹切成零散的标签；带状态的规则则能产生连续的阶段块。</p>
+<h3 id="evidence">分阶段的证据</h3>
+<p>所有证据都来自每个训练 issue 的已验证修复，不用任何外部模型生成内容。教师的提示词与学生共用同样的系统指令和任务提示，区别只在末尾附加的证据块。</p>
+<div class="tbl-wrap">
+<table class="btable txt wrap">
+<thead><tr><th>阶段</th><th>教师看到的内容</th><th>新增 token 数（中位数 / 均值）</th></tr></thead>
+<tbody>
+<tr><td><span class="st-loc">LOC</span></td><td>改动的非测试文件路径、旧版本一侧的 hunk 范围和修改前的源代码行，不含替换后的代码</td><td>406 / 544</td></tr>
+<tr><td><span class="st-rep">REP</span></td><td>fail-to-pass 测试的标识符和名称、参考测试代码，以及候选测试改动（如有）</td><td>1,249 / 2,928</td></tr>
+<tr><td><span class="st-patch">PATCH</span></td><td>已验证的修复 diff</td><td>669 / 907</td></tr>
+<tr><td>三者全部（不做路由）</td><td>三者的并集，也就是完整参考教师看到的内容</td><td>2,709 / 4,375</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="schedule">按修复顺序逐级训练</h3>
+<p>训练共 70 轮迭代，分三个阶段，每个阶段从上一阶段的检查点接着训：LOC 30 轮，REP 20 轮，PATCH 20 轮。每个阶段里，教师是基座检查点的冻结副本，以该阶段的证据为条件；top-16 的 token 级蒸馏损失只作用于标为当前阶段的回复 token，权重 λ = 0.15。GRPO 全程作用于所有有效回复 token。这个顺序对应修复过程使用证据的方式：on-policy 蒸馏只监督学生实际到达的状态，学生要先能找到该改的代码，补丁证据才派得上用场；复现脚本则是学生之后检查补丁时要运行的。</p>
+</section>
+<section class="chap" id="results">
+<h2><span class="n">3</span>实验结果</h2>
+<p>所有方法都从 Qwen3-4B-Instruct-2507 出发，不做针对任务的监督微调，在来自 SWE-smith、SWE-ReBench、R2E-Gym 和 SWE-Gym 的 1,149 个 issue 上训练，每轮迭代 16 个任务 × 4 条 rollout。评测用 SWE-bench Verified 的 500 个 issue，分别在 R2E-Gym 和 OpenHands 两种框架下运行。</p>
+<figure class="fig" id="fig-2">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">SWE-bench Verified, n = 500</p>
+<p class="panel-t" id="f2-title">pass@1 (%)</p>
+</div>
+<div class="f-ctl">
+<div aria-label="智能体框架" class="seg" id="f2-scaf" role="group"></div>
+<div aria-label="指标" class="seg" id="f2-met" role="group"></div>
+</div>
+</div>
+<div id="f2"></div>
+</div>
+<figcaption><b>图 2.</b> 两种智能体框架下的结果（论文表 2）。<i>env_done</i> 指在资源上限之前跑完的轨迹占比；平均步数越低越好。虚线标出基座模型。GRPO+OPSD 和 SDAR 使用的完整补丁证据相同。</figcaption>
+</figure>
+<p><strong>在 R2E-Gym 上，SWE-Ladder 的 pass@1 达到 16.4%，GRPO 为 10.4%，GRPO+OPSD 为 12.4%。</strong>它的平均步数也比基座模型少（19.3 对 26.5），98.6% 的轨迹能跑完；GRPO 在资源上限之前只跑完了 36.0%。SDAR 是一种带门控的蒸馏方法，拿到同样的补丁证据，结果降到 4.6%。在 OpenHands 上，三个基线最终都不高于基座模型的 13.0%（GRPO 11.2%，GRPO+OPSD 12.4%，SDAR 6.8%），SWE-Ladder 则达到 17.6%，平均 16.6 步，完成率 99.4%。</p>
+</section>
+<section class="chap" id="climb">
+<h2><span class="n">4</span>逐级训练中的能力变化</h2>
+<p>我们评测每个阶段结束时的检查点 LOC30、REP50 和 PATCH70，同时跟踪三种行为和 pass@1（<a class="fig-ref" href="#fig-3">图 3</a>）。<strong>LOC 阶段让四项指标都有提升。REP 阶段继续提升定位，但复现和验证跌到基座模型以下。PATCH 阶段把这两项拉了回来，PATCH70 最终在四项指标上都超过基座模型</strong>，是对比方法中唯一做到这一点的。</p>
+<figure class="fig" id="fig-3">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">R2E-Gym，各阶段结束时</p>
+<p class="panel-t">相对基座模型的变化（百分点）</p>
+</div>
+<button class="ctl-btn" id="f3-play" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><path d="M3 1.8v8.4L10 6z" fill="currentColor"></path></svg><span>播放</span></button>
+</div>
+<div aria-label="检查点" class="seg" id="f3-ck" role="group" style="margin-bottom:10px"></div>
+<div id="f3"></div>
+<p aria-live="polite" class="f3-note" id="f3-note"></p>
+</div>
+<figcaption><b>图 3.</b> 基座模型及各阶段结束时的定位、复现、验证和 pass@1（论文图 7）。基座模型的四项数值分别为 33.6%、59.4%、22.6% 和 9.6%；悬停在数据点上可查看绝对值。可以逐个切换检查点，也可以点播放按钮逐级查看。</figcaption>
+</figure>
+</section>
+<section class="chap" id="ablations">
+<h2><span class="n">5</span>哪些设计起作用</h2>
+<p><strong>每个阶段都有贡献，只做路由不够。</strong>从训练计划中去掉 LOC、REP 或 PATCH，pass@1 分别从 16.4% 降到 11.2%、13.2% 和 14.0%，而且这些变体的复现和验证都低于基座模型。去掉 LOC 影响最大，这与定位是其他阶段的基础相符。三个阶段同时训练时，每个路由出的 token 子集仍用各自的证据蒸馏，只是不分先后，结果只有 12.4%，复现（35.6%）和验证（12.6%）也都下降。</p>
+<figure class="fig" id="fig-4">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">阶段消融，R2E-Gym</p>
+<p class="panel-t">相对基座模型的变化（百分点）</p>
+</div>
+</div>
+<div aria-label="变体" class="seg" id="f4-var" role="group" style="margin-bottom:10px"></div>
+<div class="legend"><span><i id="f4-key" style="background:var(--loc)"></i><span id="f4-name">SWE-Ladder</span></span><span><i style="background:none;border:1.5px solid var(--b-ink);border-radius:2px;width:9px;height:9px"></i>完整 SWE-Ladder（作参照）</span></div>
+<div id="f4"></div>
+</div>
+<figcaption><b>图 4.</b> 阶段消融（论文表 3）。每个变体从训练计划中去掉一个阶段，或把三个阶段放在一起同时训练；虚线框表示完整的 SWE-Ladder。只有完整的阶梯在四项指标上都有提升。</figcaption>
+</figure>
+<p><strong>顺序很重要。</strong>同样按 30/20/20 分配迭代轮数，把顺序反过来（PATCH → REP → LOC）只有 11.4%；先训练复现（REP → LOC → PATCH）为 12.6%，尽管 PATCH 仍在最后。这两种顺序的步数也更多。<strong>证据必须与它监督的阶段对应：</strong>在 30 轮迭代的预算下，用 LOC 证据监督 LOC token 得到 14.4%，换成补丁证据为 13.6%；用补丁证据监督 PATCH token 得到 13.2%，换成定位证据为 11.8%，因为定位证据透露的信息太少，不足以写出修复。</p>
+<figure class="fig" id="fig-5">
+<div class="fig-box">
+<div class="duo">
+<div>
+<p class="panel-k">训练顺序，70 轮迭代</p>
+<p class="panel-t">pass@1 (%)</p>
+<div id="f5a"></div>
+</div>
+<div>
+<p class="panel-k">证据与被监督阶段，30 轮迭代</p>
+<p class="panel-t">pass@1 (%)</p>
+<div id="f5b"></div>
+</div>
+</div>
+</div>
+<figcaption><b>图 5.</b> <b>左：</b>相同预算下的三种阶段顺序（论文表 4），柱子下方标出每条轨迹的平均步数。<b>右：</b>LOC 和 PATCH 目标分别使用对应证据与互换证据的结果（论文表 5）。</figcaption>
+</figure>
+</section>
+<section class="chap" id="dynamics">
+<h2><span class="n">6</span>训练动态</h2>
+<p>对比前 10 轮和最后 10 轮迭代，GRPO 的优化信号明显变差：平均熵从 0.0300 降到 0.0061，梯度范数从 1.820 降到 0.187，训练奖励从 0.236 降到 0.055，回复长度却几乎翻倍，从 8.29k 增加到 16.73k token。SWE-Ladder 更稳定：熵 0.0251 → 0.0221，梯度范数 2.353 → 2.397，回复长度只从 10.09k 小幅增加到 11.62k token。GRPO+OPSD 和 SDAR 在训练后期同样保留了优化信号，所以熵或梯度幅值没有衰减，本身并不能解释 SWE-Ladder 在留出集上的结果。以上均为单次运行，没有用不同随机种子重复。</p>
+<div class="tbl-wrap">
+<table class="btable">
+<thead><tr><th>前 10 轮 → 最后 10 轮</th><th>熵</th><th>梯度范数</th><th>回复 token 数</th></tr></thead>
+<tbody>
+<tr><td>GRPO</td><td>0.0300 → 0.0061</td><td>1.820 → 0.187</td><td>8.29k → 16.73k</td></tr>
+<tr><td>SWE-Ladder</td><td>0.0251 → 0.0221</td><td>2.353 → 2.397</td><td>10.09k → 11.62k</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="chap" id="cite">
+<h2>引用</h2>
+<div class="bibtex"><button type="button">复制</button><pre>@article{cai2026sweladder,
+  title   = {SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation},
+  author  = {Cai, Xudong and Lu, Zhengxi and Yan, Yuchen and Shao, Jian and Xiao, Jun and Zhuang, Yueting and Shen, Yongliang},
+  journal = {arXiv preprint arXiv:2610.33667},
+  year    = {2026}
+}</pre></div>
+<h3 style="margin-top:32px">参考文献</h3>
+<ol class="refs">
+<li>Jimenez et al. (2024). <a href="https://arxiv.org/abs/2310.06770" rel="noopener" target="_blank">SWE-bench: Can Language Models Resolve Real-World GitHub Issues?</a> ICLR.</li>
+<li>Xia et al. (2024). <a href="https://arxiv.org/abs/2407.01489" rel="noopener" target="_blank">Agentless: Demystifying LLM-based Software Engineering Agents</a>.</li>
+<li>Jain et al. (2025). <a href="https://arxiv.org/abs/2504.07164" rel="noopener" target="_blank">R2E-Gym: Procedural Environments and Hybrid Verifiers for Scaling Open-Weights SWE Agents</a>.</li>
+<li>Wang et al. (2025). <a href="https://arxiv.org/abs/2407.16741" rel="noopener" target="_blank">OpenHands: An Open Platform for AI Software Developers as Generalist Agents</a>. ICLR.</li>
+<li>Shao et al. (2024). <a href="https://arxiv.org/abs/2402.03300" rel="noopener" target="_blank">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a> (GRPO).</li>
+<li>Agarwal et al. (2024). <a href="https://arxiv.org/abs/2306.13649" rel="noopener" target="_blank">On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes</a>. ICLR.</li>
+</ol>
+<p style="margin-top:22px;font-size:14.5px">训练配置、奖励设计和完整的证据样例见<a class="tx" href="https://arxiv.org/abs/2610.33667" rel="noopener" target="_blank">论文</a>。</p>
+</section>
+</article>
+</div>
+</main>
+<footer>
+<div class="foot-panel">
+<div class="foot-cta">
+<h3>让 AI 在真实世界中思考、行动、成长</h3>
+<p>浙江大学 REAL Lab · 中国杭州</p>
+<a class="foot-btn" href="../../join.html">加入 REAL Lab →</a>
+</div>
+<div class="foot-side">
+<div class="foot-icons">
+<a aria-label="GitHub" class="foot-social" href="https://github.com/ZJU-REAL" rel="noopener" target="_blank" title="GitHub"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+<a aria-label="Hugging Face" class="foot-social" href="https://huggingface.co/ZJU-REAL" rel="noopener" target="_blank" title="Hugging Face"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M1.4446 11.5059c0 1.1021.1673 2.1585.4847 3.1563-.0378-.0028-.0691-.0058-.1058-.0058-.4209 0-.8015.16-1.0704.4512-.3454.3737-.4984.8335-.4316 1.293a1.576 1.576 0 0 0 .2148.5978c-.2319.1864-.4018.4456-.4844.7578-.0646.2448-.131.7543.2149 1.2794a1.4552 1.4552 0 0 0-.0625.1055c-.208.3923-.2207.8372-.0371 1.25.2783.6258.9696 1.1175 2.3126 1.6467.8356.3292 1.5988.5411 1.6056.543 1.1046.2847 2.104.4277 2.969.4277 1.4173 0 2.4754-.3849 3.1525-1.1446 1.538.2651 2.791.1403 3.592.006.6773.7555 1.7332 1.1387 3.1467 1.1387.8649 0 1.8643-.143 2.969-.4278.0068-.0019.77-.2138 1.6056-.543 1.343-.5292 2.0343-1.0208 2.3126-1.6466.1836-.4129.171-.8577-.037-1.25a1.4685 1.4685 0 0 0-.0626-.1056c.346-.525.2795-1.0346.2149-1.2793-.0826-.3122-.2525-.5714-.4844-.7579.11-.1816.1831-.3788.2148-.5977.0669-.4595-.0862-.9193-.4316-1.293-.2688-.2913-.6495-.4513-1.0704-.4513-.0209 0-.0376.0008-.0588.0018.3162-.9966.4846-2.0518.4846-3.1523 0-5.807-4.7362-10.5144-10.5789-10.5144-5.8426 0-10.5788 4.7073-10.5788 10.5144Zm10.5788-9.4831c5.2727 0 9.5476 4.246 9.5476 9.483a9.4201 9.4201 0 0 1-.2696 2.2365c-.0039-.0047-.0079-.011-.0117-.0156-.274-.3255-.6679-.5059-1.1075-.5059-.352 0-.714.1155-1.0763.3438-.2403.1517-.5058.422-.7793.7598-.2534-.3492-.608-.5832-1.0137-.6465a1.5174 1.5174 0 0 0-.2344-.0176c-.9263 0-1.4828.7993-1.6935 1.5177-.1046.2426-.6065 1.3482-1.3614 2.0978-1.1681 1.1601-1.4458 2.3534-.8396 3.6382-.843.1029-1.5836.0927-2.365-.006.5906-1.212.3626-2.4388-.8426-3.6322-.755-.7496-1.2568-1.8552-1.3614-2.0978-.2107-.7184-.7673-1.5177-1.6935-1.5177-.078 0-.1568.0054-.2344.0176-.4057.0633-.7604.2973-1.0137.6465-.2735-.3379-.539-.6081-.7794-.7598-.3622-.2283-.7243-.3438-1.0762-.3438-.4266 0-.8094.171-1.0821.4786a9.4208 9.4208 0 0 1-.2598-2.1936c0-5.237 4.2749-9.483 9.5475-9.483zM8.6443 7.0036c-.4838.0043-.9503.2667-1.1934.7227-.3536.6633-.1006 1.4873.5645 1.84.351.1862.4883-.5261.836-.6485.3107-.1095.841.399 1.0078.086.3536-.6634.1025-1.4874-.5625-1.84a1.3659 1.3659 0 0 0-.6524-.1602Zm6.8403 0c-.2199-.002-.4426.05-.6504.1602-.665.3526-.9181 1.1766-.5645 1.84.1669.313.6971-.1955 1.0079-.086.3476.1224.4867.8347.838.6485.6649-.3527.916-1.1767.5624-1.84-.243-.456-.7096-.7184-1.1934-.7227Zm-9.7565 1.418a.8768.8768 0 0 0-.877.877c0 .4846.3925.877.877.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zm12.6434 0c-.4845 0-.879.3925-.879.877 0 .4846.3945.877.879.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zM8.7927 11.459c-.179-.003-.2793.1107-.2793.416 0 .8097.3874 2.125 1.4279 2.924.207-.7123 1.3453-1.2832 1.5079-1.2012.2315.1167.2191.4417.6074.7266.3884-.285.374-.6098.6056-.7266.1627-.082 1.3009.4889 1.5079 1.2012 1.0404-.799 1.4278-2.1144 1.4278-2.924 0-1.2212-1.583.6402-3.5413.6485-1.4686-.0061-2.7266-1.0558-3.2639-1.0645zM4.312 14.4768c.5792.365 1.6964 2.2751 2.1056 3.0177.1371.2488.371.3536.582.3536.4188 0 .7465-.4138.0391-.9395-1.0636-.791-.6914-2.0846-.1836-2.1642a.4302.4302 0 0 1 .0664-.004c.4616 0 .666.7892.666.7892s.5959 1.4898 1.6213 2.508c.942.9356 1.062 1.703.4961 2.6661-.0164-.004-.0159.0236-.1484.2149-.1853.2673-.4322.4688-.7188.6152-.5062.2269-1.1397.2696-1.7833.2696-1.037 0-2.1017-.1824-2.6975-.336-.0293-.0075-3.6505-.9567-3.1916-1.8224.0771-.1454.2033-.2031.3633-.2031.6463 0 1.823.9551 2.3283.9551.113 0 .196-.0865.2285-.2031.2249-.8045-3.2787-1.0522-2.9846-2.1642.0519-.1967.193-.2757.3907-.2754.854 0 2.7704 1.4923 3.172 1.4923.0307 0 .0525-.0085.0645-.0274.2012-.3227.1096-.5865-1.3087-1.4395-1.4182-.8533-2.4315-1.329-1.8653-1.9416.0651-.0707.1574-.1015.2695-.1015.8611.0002 2.8948 1.84 2.8948 1.84s.5487.5683.8809.5683c.0762 0 .1416-.0315.1855-.1054.2355-.3946-2.1858-2.2183-2.3224-2.971-.0926-.51.0641-.7676.3555-.7676-.0006.008.1701-.0285.4942.1759zm16.2257.5918c-.1366.7526-2.5579 2.5764-2.3224 2.9709.044.074.1092.1055.1855.1055.3321 0 .881-.5684.881-.5684s2.0336-1.8397 2.8947-1.84c.1121 0 .2044.0308.2695.1016.5662.6125-.447 1.0882-1.8653 1.9415-1.4183.853-1.51 1.1168-1.3087 1.4396.012.0188.0337.0273.0644.0273.4016 0 2.3181-1.4923 3.1721-1.4923.1977-.0002.3388.0787.3907.2754.294 1.112-3.2095 1.3597-2.9846 2.1642.0325.1166.1156.2032.2285.2032.5054 0 1.682-.9552 2.3283-.9552.16 0 .2862.0577.3633.2032.459.8656-3.1623 1.8149-3.1916 1.8224-.5958.1535-1.6605.336-2.6975.336-.6351 0-1.261-.0409-1.7638-.2599-.2949-.1472-.5488-.3516-.7383-.625-.0411-.0682-.1026-.1476-.1426-.205-.5726-.9679-.455-1.7371.4903-2.676 1.0254-1.0182 1.6212-2.508 1.6212-2.508s.2044-.7891.666-.7891a.4318.4318 0 0 1 .0665.0039c.5078.0796.88 1.3732-.1836 2.1642-.7074.5257-.3797.9395.039.9395.211 0 .445-.1047.5821-.3535.4092-.7426 1.5264-2.6527 2.1056-3.0178.5588-.3524.99-.1816.8497.5918z"></path></svg></a>
+<a aria-label="小红书" class="foot-social" href="https://www.xiaohongshu.com/user/profile/67d84bef000000000d008f18" rel="noopener" target="_blank" title="小红书"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031-.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034-.38 0 .078-.029-.641-.724-.998z"></path></svg></a>
+<a aria-label="X" class="foot-social" href="https://x.com/zjureal" rel="noopener" target="_blank" title="X"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+<a aria-label="Google Scholar" class="foot-social" href="https://scholar.google.com/citations?user=UT3NzFAAAAAJ" rel="noopener" target="_blank" title="Google Scholar"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></svg></a>
+</div>
+<p>syl [AT] zju.edu.cn</p>
+</div>
+</div>
+<div class="foot-bar"><span>© 2026 浙江大学 REAL Lab</span> <a href="#top">回到顶部 ↑</a></div>
+</footer>
+<script src="../blog.js?v=20261122b"></script>
+<script src="post.js?v=20261122"></script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>执行者、裁判，还是老师？ · REAL Lab 博客</title>
+<meta content="JEV 这类决策模型在子目标必须按顺序完成的任务上很难自己执行好，但让它们事后评判，教出的 1.5B 策略反而超过了它们：ALFWorld 上 72.8% → 82.9%，WebShop 上 56.8% → 71.4%。" name="description"/>
+<link href="https://zjureal.com/zh/blog/agent-jev/" rel="canonical"/><link href="https://zjureal.com/blog/agent-jev/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/agent-jev/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/agent-jev/" hreflang="x-default" rel="alternate"/>
+
+
+
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
+<meta content="执行者、裁判，还是老师？理解长程智能体中的决策模型" property="og:title"/>
+<meta content="决策模型自己执行得不好，也可能教得好，前提是问它每个动作有没有帮助，并让它看到完整轨迹。" property="og:description"/>
+<meta content="https://zjureal.com/images/blog/agent-jev-banner.jpg" property="og:image"/>
+<meta content="https://zjureal.com/zh/blog/agent-jev/" property="og:url"/>
+<meta content="2026-11-22" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="@zjureal" name="twitter:site"/>
+<link href="../../../assets/logo-mark.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../../styles.css?v=20261126b" rel="stylesheet"/>
+<link href="../../../blog/blog.css?v=20261122d" rel="stylesheet"/>
+<link href="../../../blog/agent-jev/post.css?v=20261122d" rel="stylesheet"/>
+
+</head>
+<body id="top">
+<nav class="topbar">
+<div class="inner">
+<div class="brand"><a href="../../index.html"><img alt="" class="brand-mark" height="34" src="../../../assets/logo-mark.svg" width="34"/>REAL Lab</a></div>
+<input aria-label="展开菜单" class="nav-toggle" id="nav-toggle-post" type="checkbox"/>
+<label aria-hidden="true" class="nav-burger" for="nav-toggle-post"><span></span><span></span><span></span></label>
+<ul>
+<li><a href="../../index.html">首页</a></li>
+<li><a href="../../about.html">关于</a></li>
+<li><a href="../../research.html">研究</a></li>
+<li><a href="../../projects.html">项目</a></li>
+<li><a class="active" href="../../blog.html">博客</a></li>
+<li><a href="../../publications.html">论文</a></li>
+<li><a href="../../people.html">成员</a></li>
+<li><a href="../../join.html">加入我们</a></li>
+
+<li class="lang-switch"><a href="../../../blog/agent-jev/" hreflang="en" lang="en" title="English">EN</a></li></ul>
+</div>
+</nav>
+<main class="post">
+<header class="post-head">
+<p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 11 月 22 日</span><span class="dot"></span><span>智能体 · 强化学习</span><span class="dot"></span><span>阅读约 14 分钟</span></p>
+<h1>执行者、裁判，还是老师？理解长程智能体中的决策模型</h1>
+<p class="post-dek">决策模型针对一个问题给出一个选项和对应的概率，所以同一个模型既可以替智能体选动作，也可以给动作打分，还可以指导策略训练。我们发现，一个自己执行得不好的模型照样可以当好老师，只要问对问题，并让它看到完整轨迹。</p>
+<div class="post-byline">
+<div>
+<p class="post-authors" data-people="../../../people.html" data-pubs="../../../publications.html" data-self="Actor, Judge, or Teacher?"><span class="au">Haochen Liu</span><sup>1*</sup>, <span class="au">Qianhao Zhu</span><sup>1*</sup>, <span class="au">Zixuan Wang</span><sup>1*</sup>, <span class="au">Dingming Li</span><sup>1</sup>, <span class="au">Tongbo Chen</span><sup>1</sup>, <span class="au">Peng Qiu</span><sup>2</sup>, <span class="au">Yingqi Qu</span><sup>2</sup>, <span class="au">Weiming Lu</span><sup>1</sup>, <span class="au">Jun Xiao</span><sup>1</sup>, <span class="au">Yongliang Shen</span><sup>1†</sup></p>
+<p class="post-affil"><sup>1</sup>浙江大学 <sup>2</sup>百度 · *同等贡献 †通讯作者</p>
+</div>
+<div class="post-links"><a class="pill-btn solid" href="https://arxiv.org/abs/2611.17167" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg>论文</a> <a class="pill-btn" href="https://github.com/ZJU-REAL/decision-agents" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"></path></svg>代码</a> <a class="pill-btn" href="https://zjureal.com/decision-agents/" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>项目主页</a></div>
+</div>
+<figure class="post-banner"><img alt="水彩风景中的三个机器人：琥珀色的执行者在掂量走哪条路，蓝色的裁判拿着放大镜查看脚印，绿色的老师指着黑板给一个小机器人讲课。" height="544" src="../../../images/blog/agent-jev-banner.jpg" width="2172"/></figure>
+</header>
+<div class="post-body">
+<nav aria-label="目录" class="toc">
+<p class="toc-title">目录</p>
+<ol>
+<li><a href="#tldr"><span class="n"></span>概要</a></li>
+<li><a href="#roles"><span class="n">1</span>三种问法</a></li>
+<li><a href="#actor"><span class="n">2</span>作为执行者</a></li>
+<li class="sub"><a href="#actor-order">有序子目标</a></li>
+<li class="sub"><a href="#actor-distract">是分心，不是不会</a></li>
+<li><a href="#judge"><span class="n">3</span>作为裁判</a></li>
+<li class="sub"><a href="#judge-question">问动作本身</a></li>
+<li class="sub"><a href="#judge-context">给出完整轨迹</a></li>
+<li><a href="#teacher"><span class="n">4</span>作为老师</a></li>
+<li class="sub"><a href="#teacher-signal">从得分到优势</a></li>
+<li class="sub"><a href="#teacher-results">结果</a></li>
+<li class="sub"><a href="#teacher-surpass">学生超过老师</a></li>
+<li><a href="#takeaways"><span class="n">5</span>几点结论</a></li>
+<li><a href="#cite"><span class="n"></span>引用</a></li>
+</ol>
+</nav>
+<article>
+<details class="toc-inline">
+<summary>目录</summary>
+<ol>
+<li><a href="#tldr">概要</a></li>
+<li><a href="#roles">向决策模型提问的三种方式</a></li>
+<li><a href="#actor">作为执行者</a></li>
+<li><a href="#judge">作为裁判</a></li>
+<li><a href="#teacher">作为老师</a></li>
+<li><a href="#takeaways">几点结论</a></li>
+<li><a href="#cite">引用</a></li>
+</ol>
+</details>
+<section class="chap" id="tldr">
+<h2>概要</h2>
+<p class="lede"><em>决策模型</em>针对给定的上下文回答一个问题，输出的是结构化结果而不是自由文本，比如从几个选项中选一个，并给出每个选项的概率。任何状态下都可以问任何问题，所以同一个模型既能选择智能体的下一步动作，也能评估已经做过的动作，还能在强化学习中给策略的每个动作打分。到目前为止，人们评价这类模型主要看它执行得好不好。</p>
+<p>我们想知道：执行得不好的模型，能不能教得好？在 ALFWorld 上，JEV 自己选动作时只完成 <strong>42.9%</strong> 的任务。换个用法，让它在 GRPO 训练中给 1.5B 策略的每个动作打分，同一批任务上的成功率就从只用 GRPO 的 72.8% 提高到 <strong>82.9%</strong>，WebShop 上从 56.8% 提高到 <strong>71.4%</strong>。<strong>差别在于时机：执行者必须提前预判后果，而读完整个回合的裁判能直接看到后果。</strong></p>
+<p>这种收益不是自动得来的。只有问模型每个动作是否<em>有助于达成目标</em>，而不是问任务会不会成功，并且让它看到<em>完整轨迹</em>，而不只是这个动作之前的步骤，收益才会出现。按这种方式在每个回合结束后查询，一个冻结的决策模型就能提供步级监督，每次训练的 API 费用为 22 到 30 美元，既不需要步级标注，也不需要训练 critic。</p>
+<div class="cards" id="cards"><a class="card" href="#teacher-surpass"> <p class="card-k">ALFWorld，全部任务</p> <p class="card-t">执行弱，教得强</p> <div class="card-chart" data-card="0"></div> </a> <a class="card" href="#actor-order"> <p class="card-k">ALFWorld，有序子目标任务</p> <p class="card-t">执行最差的地方提升最大</p> <div class="card-chart" data-card="1"></div> </a> <a class="card" href="#teacher-results"> <p class="card-k">WebShop，成功率</p> <p class="card-t">换一个环境依然成立</p> <div class="card-chart" data-card="2"></div> </a> <a class="card" href="#teacher-results"> <p class="card-k">ALFWorld，策略规模</p> <p class="card-t">有老师教的 1.5B 胜过没老师教的 7B</p> <div class="card-chart" data-card="3"></div> </a></div>
+</section>
+<section class="chap" id="roles">
+<h2><span class="n">1</span>向决策模型提问的三种方式</h2>
+<p>决策模型的输入是一个<em>问题</em>和一段<em>上下文</em>。遇到选择题，它选出一个选项，并给每个选项分配概率；遇到是非题，它返回 [0, 1] 区间内的一个分数。我们让同一个模型扮演三种角色，区别只在于问它什么、怎么使用它的回答。</p>
+<ul class="clean">
+<li><span class="role-a">执行者。</span>每一步，模型根据目标、历史和当前观测，从合法命令中选出下一步动作，然后执行这个动作。</li>
+<li><span class="role-j">裁判。</span>模型给一条已记录轨迹中的每个动作打分。我们改变两点。一是它能看到的内容：截至这个动作的前缀（<em>Prefix</em>），或事后看到的完整轨迹（<em>Hindsight</em>）。二是问它的问题：做完这个动作后任务能否成功（<em>Value</em>），或这个动作是否推动了目标的达成（<em>Progress</em>）。</li>
+<li><span class="role-t">老师。</span>模型给正在训练的策略的动作打分，分数作为步级的信用分配信号加入 GRPO。模型本身保持冻结，测试时不使用。</li>
+</ul>
+<p><a class="fig-ref" href="#fig-1">图 1</a>用论文中贯穿始终的例子演示这三种角色：把加热过的杯子放到桌上。</p>
+<figure class="fig bleed" id="fig-1">
+<div class="m1" data-phase="0">
+<div class="m1-bar">
+<div aria-label="角色" class="m1-tabs" role="group">
+<button class="m1-tab" data-go="0" type="button"><span class="m1-tn">1</span>执行者<i class="m1-prog"></i></button>
+<button class="m1-tab" data-go="1" type="button"><span class="m1-tn">2</span>裁判<i class="m1-prog"></i></button>
+<button class="m1-tab" data-go="2" type="button"><span class="m1-tn">3</span>老师<i class="m1-prog"></i></button>
+</div>
+<button aria-pressed="false" class="ctl-btn m1-pp" hidden="" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><rect fill="currentColor" height="9" rx=".6" width="2.6" x="2" y="1.5"></rect><rect fill="currentColor" height="9" rx=".6" width="2.6" x="7.4" y="1.5"></rect></svg><span>暂停</span></button>
+</div>
+<div class="m1-grid">
+<!-- Row 1: what each role asks -->
+<div class="m1-p ask r0" data-role="0">
+<p class="m1-h"><b>执行者</b><span>选择下一步动作</span></p>
+<div class="m1-obs fx" data-a="0" data-b="400" data-fx="fade"><span class="m1-k">观测</span>在桌边，手里拿着未加热的杯子。<i class="m1-scan" data-a="100" data-b="800" data-fx="scan"></i></div>
+<ul class="m1-opts">
+<li class="fx" data-a="250" data-b="600" data-fx="fade"><span class="m1-key">A</span><code>place mug on table</code></li>
+<li class="fx" data-a="350" data-b="700" data-fx="fade"><span class="m1-key">B</span><code>go to microwave</code></li>
+<li class="fx" data-a="450" data-b="800" data-fx="fade"><span class="m1-key">C</span><code>look</code><span class="m1-more">… 其他合法动作</span></li>
+</ul>
+<p class="m1-q fx" data-a="550" data-b="800" data-fx="fade"><span class="m1-k">问题</span><span class="fx-type" data-a="700" data-b="1900">下一步应该执行哪个动作？</span></p>
+</div>
+<div class="m1-p ask r1" data-role="1">
+<p class="m1-h"><b>裁判</b><span>给已记录的动作打分</span></p>
+<p class="m1-task fx" data-a="8600" data-b="8900" data-fx="fade">已记录的回合：把加热过的杯子放进柜子</p>
+<ol class="m1-traj">
+<li class="fx" data-a="8700" data-b="9000" data-fx="fade"><span class="m1-s">6</span><code>move mug to cabinet</code><em>放得过早</em></li>
+<li class="fx" data-a="8780" data-b="9080" data-fx="fade"><span class="m1-s">7</span><code>take mug from cabinet</code></li>
+<li class="fx" data-a="8860" data-b="9160" data-fx="fade"><span class="m1-s">8</span><code>go to microwave</code></li>
+<li class="fx m1-target" data-a="8940" data-b="9240" data-fx="fade"><span class="m1-s">9</span><code>open microwave</code><em>评分对象</em></li>
+<li class="fx" data-a="9020" data-b="9320" data-fx="fade"><span class="m1-s">10</span><code>heat mug</code><em>里程碑</em></li>
+<li class="fx" data-a="9100" data-b="9400" data-fx="fade"><span class="m1-s">12</span><code>move mug to cabinet</code><em>目标完成</em></li>
+<i aria-hidden="true" class="m1-ctx"></i>
+</ol>
+<p class="m1-q fx" data-a="9950" data-b="10200" data-fx="fade"><span class="m1-k">问题</span><span class="fx-type" data-a="10100" data-b="11300">这个动作有助于达成目标吗？</span></p>
+</div>
+<div class="m1-p ask r2" data-role="2">
+<p class="m1-h"><b>老师</b><span>给策略自己的 rollout 打分</span></p>
+<p class="m1-policy fx" data-a="17700" data-b="18100" data-fx="fade"><span class="m1-pi">π<sub>θ</sub></span>正在训练的策略<i class="m1-upd">已更新</i></p>
+<div class="m1-roll"><span class="m1-rn fx" data-a="17950" data-b="18200" data-fx="fade">1</span> <code class="fx" data-a="18000" data-b="18300" data-fx="fade">拿起杯子</code> <code class="fx noop" data-a="18100" data-b="18400" data-fx="fade">再拿一次<em>无效</em></code> <code class="fx mile" data-a="18200" data-b="18500" data-fx="fade">加热杯子<em>里程碑</em></code> <code class="fx" data-a="18300" data-b="18600" data-fx="fade">放下 ✓</code> <span class="m1-rn fx" data-a="18350" data-b="18600" data-fx="fade">2</span> <code class="fx" data-a="18400" data-b="18700" data-fx="fade">放下冷杯子</code> <code class="fx undo" data-a="18500" data-b="18800" data-fx="fade">取回杯子</code> <code class="fx" data-a="18600" data-b="18900" data-fx="fade">加热杯子</code> <code class="fx" data-a="18700" data-b="19000" data-fx="fade">放下 ✓</code></div>
+<p class="m1-q fx" data-a="18950" data-b="19200" data-fx="fade"><span class="m1-k">问题（逐个动作）</span><span class="fx-type" data-a="19100" data-b="20000">这个动作有助于达成目标吗？</span></p>
+</div>
+<!-- Row 2: queries travel down -->
+<div class="m1-lane r0" data-role="0"><i class="m1-dot" data-fx="dot" data-w="2000,2550|"></i></div>
+<div class="m1-lane r1" data-role="1"><i class="m1-dot" data-fx="dot" data-w="11400,11900|14800,15300"></i></div>
+<div class="m1-lane r2" data-role="2"><i class="m1-dot" data-fx="dot" data-w="20100,20600|"></i></div>
+<!-- Row 3: the decision model -->
+<div class="m1-band">
+<div class="m1-band-l">
+<p class="m1-band-t">决策模型</p>
+<p class="m1-band-s">问题 + 上下文 → 结构化回答。这里用的是 JEV，我们测试的六个模型之一。</p>
+</div>
+<div class="m1-req">
+<div class="m1-rq on" data-rq="0"><span><b>问题</b> <code>next_action</code></span><span><b>上下文</b> 目标 · 历史 · 观测</span><span><b>回答</b> 一个选项 + 各选项的概率</span></div>
+<div class="m1-rq" data-rq="1"><span><b>问题</b> <code>progress</code></span><span><b>上下文</b> 截至第 9 步的轨迹 <em>（Prefix）</em></span><span><b>回答</b> [0, 1] 区间的分数</span></div>
+<div class="m1-rq" data-rq="2"><span><b>问题</b> <code>progress</code></span><span><b>上下文</b> 完整轨迹 <em>（Hindsight）</em></span><span><b>回答</b> [0, 1] 区间的分数</span></div>
+<div class="m1-rq" data-rq="3"><span><b>问题</b> <code>progress</code>，每个动作</span><span><b>上下文</b> 完整 rollout <em>（Hindsight）</em></span><span><b>回答</b> 每个动作一个分数</span></div>
+</div>
+</div>
+<!-- Row 4: answers travel down -->
+<div class="m1-lane r0" data-role="0"><i class="m1-dot" data-fx="dot" data-w="3150,3650|"></i></div>
+<div class="m1-lane r1" data-role="1"><i class="m1-dot" data-fx="dot" data-w="12500,13000|15900,16400"></i></div>
+<div class="m1-lane r2" data-role="2"><i class="m1-dot" data-fx="dot" data-w="21200,21700|"></i></div>
+<!-- Row 5: what each answer leads to -->
+<div class="m1-p res r0" data-role="0">
+<p class="m1-k fx" data-a="3550" data-b="3800" data-fx="fade">各选项的概率</p>
+<div class="m1-probs fx" data-a="3600" data-b="3850" data-fx="fade">
+<div class="m1-pr hot"><span>A 放下</span><i class="fx-grow" data-a="3700" data-b="4700" style="--v:63.8"></i><b>63.8%</b></div>
+<div class="m1-pr"><span>B 微波炉</span><i class="fx-grow" data-a="3800" data-b="4800" style="--v:14.6"></i><b>14.6%</b></div>
+<div class="m1-pr"><span>其他</span><i class="fx-grow" data-a="3900" data-b="4900" style="--v:21.6"></i><b>21.6%</b></div>
+</div>
+<div class="m1-out fx" data-a="5300" data-b="5800" data-fx="fade"><code>place mug on table</code><span class="ok">已放下 ✓</span><span class="no">已加热 ✗</span></div>
+<p class="m1-note fx" data-a="6200" data-b="6800" data-fx="fade">先完成了较容易的子目标，任务因此没能完成。</p>
+</div>
+<div class="m1-p res r1" data-role="1">
+<p class="m1-k fx" data-a="12950" data-b="13200" data-fx="fade">第 9 步 <code>open microwave</code> 的得分</p>
+<div class="m1-probs">
+<div class="m1-pr fx" data-a="13000" data-b="13250" data-fx="fade"><span>Prefix</span><i class="fx-grow" data-a="13100" data-b="13900" style="--v:20"></i><b>0.20</b></div>
+<div class="m1-pr hot fx" data-a="16350" data-b="16600" data-fx="fade"><span>Hindsight</span><i class="fx-grow" data-a="16500" data-b="17300" style="--v:76"></i><b>0.76</b></div>
+</div>
+<p class="m1-note fx" data-a="17300" data-b="17800" data-fx="fade">问题相同；看到后面加热了杯子，就明白这一步为什么重要。</p>
+</div>
+<div class="m1-p res r2" data-role="2">
+<p class="m1-k fx" data-a="21450" data-b="21700" data-fx="fade">老师打分 <i class="m1-mean fx" data-a="23200" data-b="23700" data-fx="fade">组均值 0.71</i></p>
+<div class="m1-scores fx" data-a="21500" data-b="21750" data-fx="fade">
+<span class="m1-rn">1</span>
+<i class="m1-sc" data-a="21700" data-s="0.85"></i><i class="m1-sc" data-a="21850" data-s="0.07"></i><i class="m1-sc" data-a="22000" data-s="0.95"></i><i class="m1-sc" data-a="22150" data-s="0.98"></i>
+<span class="m1-rn">2</span>
+<i class="m1-sc" data-a="22300" data-s="0.10"></i><i class="m1-sc" data-a="22450" data-s="0.82"></i><i class="m1-sc" data-a="22600" data-s="0.93"></i><i class="m1-sc" data-a="22750" data-s="0.99"></i>
+</div>
+<div class="m1-out m1-grpo fx" data-a="24300" data-b="24800" data-fx="fade"><span>结果优势 + 0.5 × (得分 − 均值)</span><b>GRPO</b></div>
+<p class="m1-note fx" data-a="24900" data-b="25500" data-fx="fade">无效动作的优势被压低；取回冷杯子这一步得到肯定。</p>
+</div>
+</div>
+</div>
+<figcaption><b>图 1</b> 同一个决策模型在加热杯子类任务上的三种用法。<b>执行者：</b>JEV 在 116 个状态上的平均选项概率，这些状态中物体仍需加热、清洗或冷却。<b>裁判：</b>JEV 给一个已记录回合第 9 步的打分，先只看到截至这一步的轨迹，再看到完整回合（论文表 9）。<b>老师：</b>取自论文图 1 的示意分数，在组内中心化后加到 GRPO 的结果优势上。点击上方标签可跳到对应角色。</figcaption>
+</figure>
+<p>我们评测了六个能以这种形式回答问题的模型。其中三个以<strong>专用决策模型</strong>的形式发布，通过各自的决策 API 调用。另外三个是<strong>通用大模型</strong>，问它们同样的问题，或在提示中要求输出 JSON 答案，或读取合法答案标签的首 token 概率。这三个通用大模型里，有两个分别是 Decider v1.2 和 GPT Decisions 的基座模型，因此这两个专用模型都可以和各自的基座模型直接比较。</p>
+<div class="tbl-wrap">
+<table class="btable txt">
+<thead><tr><th>模型</th><th>基座模型</th><th>决策接口的获得方式</th><th>访问方式</th></tr></thead>
+<tbody>
+<tr><td>JEV</td><td>未公开</td><td>未公开</td><td>仅 API</td></tr>
+<tr><td>Decider v1.2</td><td>Qwen3.8-27B</td><td>全参数微调</td><td>开放权重</td></tr>
+<tr><td>GPT Decisions</td><td>GPT-6 Luna</td><td>未公开</td><td>仅 API</td></tr>
+<tr><td>Qwen prompted</td><td>Qwen3.8-27B</td><td>提示（JSON 答案）</td><td>开放权重</td></tr>
+<tr><td>Qwen constrained</td><td>Qwen3.8-27B</td><td>约束读取（首 token 概率）</td><td>开放权重</td></tr>
+<tr><td>GPT Luna</td><td>GPT-6 Luna</td><td>提示（JSON 答案）</td><td>仅 API</td></tr>
+</tbody>
+</table>
+</div>
+<p style="margin-top:16px">我们使用两个文本环境，环境中有些要求必须按固定顺序满足。在 <strong>ALFWorld</strong> <a class="cite" href="#ref-alfworld">[1]</a> 中，智能体用 <code>go to</code>、<code>take</code>、<code>heat</code> 等命令完成家务目标。<em>Clean</em>、<em>Heat</em> 和 <em>Cool</em> 三类任务存在依赖：物体必须先改变状态，才能放置。<em>Pick2</em> 同样有两个要求，即放置两个物体，但先后顺序不限。在 <strong>WebShop</strong> <a class="cite" href="#ref-webshop">[2]</a> 中，智能体在商品目录中搜索，下单前必须选好要求的选项。</p>
+</section>
+<section class="chap" id="actor">
+<h2><span class="n">2</span>作为执行者：较容易的子目标会碍事</h2>
+<div class="finding a"><span class="k">发现 1</span><p>作为执行者，只要一个子目标必须先于另一个完成，六个模型都表现吃力：较容易的子目标会把它们从必须先做的那个子目标上引开。</p></div>
+<h3 id="actor-order">有序子目标是执行的短板</h3>
+<p>所有模型在有依赖的任务上，成功率都远低于没有依赖的任务（<a class="fig-ref" href="#fig-2">图 2</a>）。JEV 能完成 70.8% 的 <em>Pick2</em> 任务，但在每一类依赖任务上最多只完成 18.8%。Decider v1.2 是整体最强的执行者（63.6%），在 <em>Heat</em> 任务上也只完成 18.8%。<em>Pick2</em> 同样有两个子目标，可见难点在于子目标的<em>顺序</em>，而不是数量。</p>
+<figure class="fig" id="fig-2">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">ALFWorld，执行</p>
+<p class="panel-t">各任务类型上执行者的成功率</p>
+</div>
+<div aria-label="显示" class="seg" id="f2-mode" role="group">
+<button aria-pressed="true" data-m="grid" type="button">全部任务类型</button>
+<button aria-pressed="false" data-m="pair" type="button">Pick2 对比依赖任务</button>
+</div>
+</div>
+<div id="f2"></div>
+</div>
+<figcaption><b>图 2</b> 六个模型在 ALFWorld 上作为执行者的成功率（%）。评估任务与后文训练策略所用的相同，每个任务运行一次。<i>Pick2</i> 和三类依赖任务都有两个子目标，只有依赖任务规定了先后顺序。切换到“Pick2 对比依赖任务”可直接比较二者；鼠标悬停在单元格上可查看数值。</figcaption>
+</figure>
+<p>从失败的回合可以看出顺序是怎么出错的。拿着杯子站在桌边时，执行者可以一步把杯子放下，也可以走到微波炉把杯子加热再回来。很多失败案例里，它直接放下了未加热的杯子，任务就无法按要求完成了。</p>
+<h3 id="actor-distract">是分心，不是不会</h3>
+<p>我们从 66 个任务中收集了 116 个状态：在这些状态下，一个动作就能满足较容易的子目标，而必须先完成的子目标还没有达成。我们在每个状态上用两个目标分别询问执行者，两个目标只差较容易的那个子目标，例如“把加热过的杯子放到边桌上”和“加热杯子”。其余内容，包括历史、观测、候选动作和剩余步数预算，完全相同。</p>
+<p><strong>给出完整目标时，JEV 把 63.8% 的概率放在较容易的子目标上，只有 14.6% 放在必须先做的那一步；去掉较容易的子目标后，两者变为 2.5% 和 77.6%</strong>（<a class="fig-ref" href="#fig-3">图 3</a> 左）。六个执行者的变化方向都一样。它们知道该做哪一步，只是较容易的子目标把概率吸走了。提醒它们注意依赖关系几乎没用：一条通用提示只让成功率变化 −2.8 到 +5.2 个百分点；再加上一个示范正确顺序的例子，只对部分模型有效（图 3 右）。</p>
+<figure class="fig" id="fig-3">
+<div class="fig-box">
+<div class="duo">
+<div>
+<p class="panel-k">JEV，116 个状态</p>
+<p class="panel-t">概率分给了谁</p>
+<p class="panel-u">JEV 的概率在各类动作上的占比（%）</p>
+<div aria-label="目标" class="seg" id="f3-goal" role="group" style="margin:4px 0 14px">
+<button aria-pressed="true" data-g="0" type="button">完整目标</button>
+<button aria-pressed="false" data-g="1" type="button">去掉较容易的子目标</button>
+</div>
+<div id="f3a"></div>
+</div>
+<div>
+<p class="panel-k">同样的 116 个状态，继续执行到结束</p>
+<p class="panel-t">提示中加入顺序示例后的成功率</p>
+<p class="panel-u">原提示 → 依赖提示加一个加热杯子的示例（%）</p>
+<div id="f3b"></div>
+</div>
+</div>
+</div>
+<figcaption><b>图 3</b> <b>左：</b>JEV 的动作概率，分为三组：推进必须先完成的子目标的一步、完成较容易子目标的动作、其他动作；分别给出目标中包含和不包含较容易子目标时的结果。<b>右：</b>每个回合分别在原提示下和在“依赖提示 + 顺序示例”下继续执行时的成功率。GPT Luna 变化不大，论文正文没有给出它的数值，因此图中省略。</figcaption>
+</figure>
+<p>要在这里做对，执行者必须在任何后果显现<em>之前</em>就预判到：这个简单动作会让任务无法完成。裁判则是在动作的后果出现之后才评估它，下一节就从这里讲起。</p>
+</section>
+<section class="chap" id="judge">
+<h2><span class="n">3</span>作为裁判：关键在问什么、看什么</h2>
+<div class="finding j"><span class="k">发现 2</span><p>同样的模型作为执行者时会忽略一些动作的贡献，作为裁判却能识别出来。看到完整轨迹，就能看出前面的动作怎样促成后面的进展；问每个动作是否有帮助，就能把这些动作和毫无作用的动作区分开。</p></div>
+<p>我们复用了从这 116 个状态出发的成功后续轨迹，屏蔽结果标签，问每个裁判：从诊断状态出发执行的第一个动作是否有助于达成目标。把前缀换成完整轨迹后，六个模型给这些动作的平均分都提高了，JEV 从 0.41 升到 0.59。由此引出两个问题：完整轨迹是不是只会让每个动作都显得不错？裁判到底从中得到了什么？</p>
+<h3 id="judge-question">问动作有没有帮助，而不是任务会不会成功</h3>
+<p>我们把 462 条 ALFWorld 轨迹中的动作标为三类：<em>里程碑</em>（达成某个子目标）、<em>无效动作</em>（环境没有变化）和<em>其他</em>。能看到完整轨迹时，<em>Value</em> 问题给三类动作的分数几乎一样：只要回合最终成功，其中每个动作都“通向成功”。<em>Progress</em> 问题则在所有模型上都把三类拉开了（<a class="fig-ref" href="#fig-4">图 4</a>）。以 JEV 为例，在同一条轨迹内，Progress 给里程碑的分数比无效动作高 0.36，Value 只高 0.05；Progress 还能把更多里程碑排进每条轨迹得分最高的那批动作里，多出 8.0 到 16.0 个百分点。</p>
+<figure class="fig" id="fig-4">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">ALFWorld，462 条轨迹，Hindsight 上下文</p>
+<p class="panel-t">各类动作的平均得分</p>
+</div>
+</div>
+<div aria-label="裁判" class="seg f4-pick" id="f4-model" role="group"></div>
+<div id="f4"></div>
+</div>
+<figcaption><b>图 4</b> 两种问题下里程碑、其他和无效动作的 Hindsight 平均得分；先在每条轨迹内平均，再对所有轨迹平均。括线标出里程碑与无效动作均值之差。可以选择不同裁判比较，六个模型上 Progress 都能把三组区分开。</figcaption>
+</figure>
+<h3 id="judge-context">给出完整轨迹</h3>
+<p>为了看清更多上下文带来了什么，我们固定使用 Progress 问题，逐步展开轨迹：先是前缀，然后加上动作后的即时反馈，再加上后续部分的 25%、50%、75% 直至全部。在 167 条轨迹上，加入反馈后，JEV 对轨迹内各动作的排名平均变动 1.95 位；看到完整轨迹时，平均变动 3.30 位。<a class="fig-ref" href="#fig-5">图 5</a> 展示了其中一条，可以拖动滑块，或点击播放。</p>
+<figure class="fig bleed" id="fig-5">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">JEV 作裁判，Progress 问题</p>
+<p class="panel-t">“把加热过的杯子放进柜子”：随着可见的回合内容增加，各步得分的变化</p>
+</div>
+<button class="ctl-btn" id="f5-play" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><path d="M3 1.8v8.4L10 6z" fill="currentColor"></path></svg><span>播放</span></button>
+</div>
+<div class="f5-ctx">
+<span class="f5-ctx-k">可见上下文</span>
+<div aria-label="可见上下文" class="seg" id="f5-steps" role="group"></div>
+</div>
+<div id="f5"></div>
+<p aria-live="polite" class="f5-callout" id="f5-note"></p>
+</div>
+<figcaption><b>图 5</b> JEV 对一个回合中全部 12 个动作给出的 Progress 得分（论文表 9）。杯子在加热前就放进了柜子（第 6 步），随后取回（7），用微波炉加热（8 到 10），再放回去（12）。每根柱子是裁判对这个动作的打分，裁判看到的内容依次为：截至这个动作的回合，再加上即时反馈，再加上其余步骤的 25%、50%、75% 或全部。</figcaption>
+</figure>
+<p>只看前缀时，JEV 给过早放置（第 6 步）打 0.79，走向微波炉（8）和打开微波炉（9）却只有 0.23 和 0.20，这正是执行者表现出的那种对较容易子目标的偏好。加入即时反馈反而更糟：放置的得分升到 0.90。只有当后续步骤逐渐可见，微波炉相关的步骤才得到认可：一旦能看到加热，打开微波炉的得分升到 0.66，看到完整轨迹时为 0.76。重复的 <code>look</code>（第 2 步）始终得分很低，因为仅凭前缀就能看出它重复了第 1 步。</p>
+<p>Decider v1.2 和 GPT Decisions 这两个公开了基座模型的专用决策模型，在同样的问题下作裁判，也比各自的基座模型更准确，每次打分的成本还低 28% 到 43%。</p>
+</section>
+<section class="chap" id="teacher">
+<h2><span class="n">4</span>作为老师：最好的裁判给出最好的信号</h2>
+<div class="finding t"><span class="k">发现 3</span><p>最能区分有用和无用动作的评判，也训练出了最强的策略；提升最大的，恰恰是老师自己作为执行者会失败的那些任务。</p></div>
+<h3 id="teacher-signal">从得分到优势</h3>
+<p>GRPO 给一条 rollout 中的每个动作相同的结果优势。对每个任务，策略采样一组轨迹；轨迹结束后，老师 <span class="mi">D</span> 只根据目标和轨迹本身，给每条轨迹 <span class="mi">τ<sub>i</sub></span> 中执行过的每个动作 <span class="mi">t</span> 打分，不使用奖励、成功标签或隐藏状态：</p>
+<div aria-label="s 下标 i t 等于 D 作用于 g、tau i、t，取值在 0 到 1 之间；A 下标 i t 等于 A out 加上 lambda 乘以 s 下标 i t 与 s bar 之差" class="eq" role="math">
+<span><i>s</i><sub>i,t</sub> = <i>D</i>(<i>g</i>, <i>τ</i><sub>i</sub>, <i>t</i>) ∈ [0, 1]</span>
+<span><i>A</i><sub>i,t</sub> = <i>A</i><sup>out</sup><sub>i,t</sub> + <i>λ</i> (<i>s</i><sub>i,t</sub> − <i>s̄</i>)</span>
+</div>
+<p>分数减去组内所有打过分的动作的均值 <span class="mi">s̄</span>，再以权重 λ = 0.5 加进优势。我们有意不除以标准差，这样当老师几乎分不出动作好坏时，这一组只会得到很小的调整。<a class="fig-ref" href="#fig-6">图 6</a> 展示了老师项对图 1 中两条 rollout 的作用。</p>
+<figure class="fig" id="fig-6">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">示意：一组两条 rollout</p>
+<p class="panel-t">老师给每个动作的优势加了多少</p>
+</div>
+<label class="f6-lam"><span>λ = <b id="f6-lv">0.50</b></span><input aria-label="lambda" id="f6-l" max="1" min="0" step="0.05" type="range" value="0.5"/></label>
+</div>
+<div id="f6"></div>
+</div>
+<figcaption><b>图 6</b> 每个动作的 λ(<i>s</i> − <i>s̄</i>)，使用图 1 中的示意老师分数（组均值 0.71）。零线以上的柱子得到的优势比只用 GRPO 时更大，零线以下的更小。结果优势对一条 rollout 中的所有动作都相同，所以只有老师项能区分它们。论文训练时取 λ = 0.5。</figcaption>
+</figure>
+<h3 id="teacher-results">结果</h3>
+<p>我们以 JEV 为老师训练 Qwen2.5-1.5B-Instruct，覆盖问题与上下文的全部四种组合，并与只用结果奖励的 GRPO 对比（结果取自 GiGPO <a class="cite" href="#ref-gigpo">[3]</a>）。每个策略用三个随机种子评估。<strong>Hindsight + Progress 在两个环境上都取得最高成功率：ALFWorld 上 72.8% → 82.9%，WebShop 上 56.8% → 71.4%。</strong>它在 ALFWorld 的每类任务上都有提升，<em>Cool</em>（+23.0）和 <em>Look</em>（+20.7）提升最多。只看前缀时，两种问题效果差不多。这个排序与裁判分析的结论一致：在 Hindsight 下，Value 问题给一个回合中所有动作几乎相同的分数，因此说明不了哪些动作有帮助。</p>
+<figure class="fig bleed" id="fig-7">
+<div class="fig-box">
+<div class="ctl-row">
+<div>
+<p class="panel-k">Qwen2.5-1.5B-Instruct，三个种子的平均</p>
+<p class="panel-t">成功率：有老师指导的策略对比 GRPO</p>
+</div>
+<div aria-label="老师设置" class="seg" id="f7-set" role="group"></div>
+</div>
+<div class="legend"><span><i style="background:var(--base-2)"></i>GRPO（仅结果奖励）</span><span><i id="f7-key" style="background:var(--tea)"></i><span id="f7-name">Hindsight + Progress</span></span><span>误差线：种子间 ± 标准差</span></div>
+<div id="f7"></div>
+</div>
+<figcaption><b>图 7</b> 以 JEV 为老师、在不同问题和上下文设置下训练的 1.5B 策略的成功率（%），与 GRPO 对比。最后两组分别是 ALFWorld 总体成功率和 WebShop 成功率。可以切换设置比较，Hindsight + Progress 在两个环境上都是最佳设置。7B 选项展示的是同一方法在 Qwen2.5-7B-Instruct 上的结果。</figcaption>
+</figure>
+<p>在 7B 上提升依然存在：ALFWorld 从 77.6% 到 83.8%，WebShop 从 66.1% 到 73.6%。<strong>用这种方式教出的 1.5B 策略，在两个环境上都超过了只用结果奖励训练的 7B 策略。</strong>Hindsight + Progress 完成任务也更快：74.5% 的 ALFWorld 任务在 20 步内完成，其他设置为 63.6% 到 69.5%；71.1% 的 WebShop 任务在 10 步内完成，其他设置为 60.9% 到 62.2%。</p>
+<h3 id="teacher-surpass">学生超过老师</h3>
+<p>在同一批 ALFWorld 评估任务上，JEV 作为执行者完成 42.9%，用它的打分训练出的 1.5B 策略完成 82.9%。<strong>提升最大的是依赖任务，也就是 JEV 作为执行者最不擅长的那些</strong>：策略在这些任务上达到 86.8%，比其他问题与上下文设置高 6.9 到 16.2 个百分点，而 JEV 自己只能完成其中的 14.7%（<a class="fig-ref" href="#fig-8">图 8</a>）。老师不需要自己会做一个任务，也能为它提供有用的信号。</p>
+<figure class="fig" id="fig-8">
+<div class="fig-box">
+<p class="panel-k">ALFWorld，同一批评估任务</p>
+<p class="panel-t">JEV 自己执行，对比它教出的 1.5B 策略</p>
+<div class="legend" style="margin-top:8px"><span><i style="background:var(--act)"></i>JEV 作执行者</span><span><i style="background:var(--tea)"></i>以 JEV 为老师训练的 1.5B 策略（Hindsight + Progress）</span></div>
+<div id="f8"></div>
+</div>
+<figcaption><b>图 8</b> 各任务类型上的成功率（%）。箭头从 JEV 自己执行的结果（表 2）指向它教出的策略（表 3）。除 <i>Pick2</i> 外，策略在所有类型上都超过了老师，在三类依赖任务上领先最多。</figcaption>
+</figure>
+<p><strong>成本。</strong>我们通过 OpenRouter 调用 JEV，价格为每百万输入 token 0.042 美元，训练中给每个执行过的动作打分：共 150 步，每批 16 个任务，每个任务 8 条 rollout。一次完整训练的打分费用在 22.21 到 30.07 美元之间。</p>
+<div class="tbl-wrap">
+<table class="btable">
+<thead><tr><th>Hindsight + Progress 训练</th><th>ALFWorld 1.5B</th><th>ALFWorld 7B</th><th>WebShop 1.5B</th><th>WebShop 7B</th></tr></thead>
+<tbody>
+<tr><td>每条 rollout 的最大动作数</td><td>30</td><td>30</td><td>15</td><td>15</td></tr>
+<tr><td>老师 API 费用（美元）</td><td>30.07</td><td>24.50</td><td>22.21</td><td>26.83</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="chap" id="takeaways">
+<h2><span class="n">5</span>在智能体中使用决策模型的几点结论</h2>
+<ol class="takeaways">
+<li><strong>执行者知道该做哪一步，却会被较容易的那一步吸引。</strong>当必须先做的那一步是唯一的子目标时，它们会选对；通用的提醒阻止不了这种错误。如果必须让决策模型来执行，把目标拆成有序的子目标，比添加指令更有希望。</li>
+<li><strong>问题决定了信号的粒度。</strong>问最终结果，轨迹中每个动作的得分都差不多，基本是在重复结果奖励；问每个动作的贡献，才能把它们区分开。</li>
+<li><strong>Hindsight 正好针对执行者自身的失败。</strong>看到完整轨迹，裁判就能给推进必须先完成的子目标的那些步骤记功。决策模型最适合在回合结束后给动作打分，比如在 RL 训练中；不太适合在线筛选动作，因为那时只有前缀。</li>
+<li><strong>训练前先筛选裁判。</strong>通过评判已记录的轨迹，我们找到了能训练出最佳策略的问题和上下文，成本只是一次 RL 训练的一小部分。选老师要看它评判得好不好，而不是执行得好不好。</li>
+<li><strong>步级监督变得用得起了。</strong>冻结的决策模型只在每个回合结束后调用，测试时不需要，每次训练只花几十美元，就能让小策略超过只用结果奖励训练的大策略。</li>
+</ol>
+</section>
+<section class="chap" id="cite">
+<h2>引用</h2>
+<div class="bibtex"><button type="button">复制</button><pre>@article{liu2026actor,
+  title   = {Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents},
+  author  = {Liu, Haochen and Zhu, Qianhao and Wang, Zixuan and Li, Dingming and Chen, Tongbo and Qiu, Peng and Qu, Yingqi and Lu, Weiming and Xiao, Jun and Shen, Yongliang},
+  journal = {arXiv preprint arXiv:2611.17167},
+  year    = {2026}
+}</pre></div>
+<h3 style="margin-top:32px">参考文献</h3>
+<ol class="refs">
+<li id="ref-alfworld">Shridhar et al. (2021). <a href="https://openreview.net/forum?id=0IOX0YcCdTn" rel="noopener" target="_blank">ALFWorld: Aligning Text and Embodied Environments for Interactive Learning</a>. ICLR.</li>
+<li id="ref-webshop">Yao et al. (2022). <a href="https://arxiv.org/abs/2207.01206" rel="noopener" target="_blank">WebShop: Towards Scalable Real-World Web Interaction with Grounded Language Agents</a>. NeurIPS.</li>
+<li id="ref-gigpo">Feng et al. (2025). <a href="https://arxiv.org/abs/2505.10978" rel="noopener" target="_blank">Group-in-Group Policy Optimization for LLM Agent Training</a>. NeurIPS.</li>
+<li>Shao et al. (2024). <a href="https://arxiv.org/abs/2402.03300" rel="noopener" target="_blank">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a> (GRPO).</li>
+<li>Harutyunyan et al. (2019). <a href="https://arxiv.org/abs/1912.02503" rel="noopener" target="_blank">Hindsight Credit Assignment</a>. NeurIPS.</li>
+</ol>
+<p style="margin-top:22px;font-size:14.5px">完整参考文献、提示词和附录实验见<a class="tx" href="https://arxiv.org/abs/2611.17167" rel="noopener" target="_blank">论文</a>。</p>
+</section>
+</article>
+</div>
+</main>
+<footer>
+<div class="foot-panel">
+<div class="foot-cta">
+<h3>让 AI 在真实世界中思考、行动、成长</h3>
+<p>浙江大学 REAL Lab · 中国杭州</p>
+<a class="foot-btn" href="../../join.html">加入 REAL Lab →</a>
+</div>
+<div class="foot-side">
+<div class="foot-icons">
+<a aria-label="GitHub" class="foot-social" href="https://github.com/ZJU-REAL" rel="noopener" target="_blank" title="GitHub"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+<a aria-label="Hugging Face" class="foot-social" href="https://huggingface.co/ZJU-REAL" rel="noopener" target="_blank" title="Hugging Face"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M1.4446 11.5059c0 1.1021.1673 2.1585.4847 3.1563-.0378-.0028-.0691-.0058-.1058-.0058-.4209 0-.8015.16-1.0704.4512-.3454.3737-.4984.8335-.4316 1.293a1.576 1.576 0 0 0 .2148.5978c-.2319.1864-.4018.4456-.4844.7578-.0646.2448-.131.7543.2149 1.2794a1.4552 1.4552 0 0 0-.0625.1055c-.208.3923-.2207.8372-.0371 1.25.2783.6258.9696 1.1175 2.3126 1.6467.8356.3292 1.5988.5411 1.6056.543 1.1046.2847 2.104.4277 2.969.4277 1.4173 0 2.4754-.3849 3.1525-1.1446 1.538.2651 2.791.1403 3.592.006.6773.7555 1.7332 1.1387 3.1467 1.1387.8649 0 1.8643-.143 2.969-.4278.0068-.0019.77-.2138 1.6056-.543 1.343-.5292 2.0343-1.0208 2.3126-1.6466.1836-.4129.171-.8577-.037-1.25a1.4685 1.4685 0 0 0-.0626-.1056c.346-.525.2795-1.0346.2149-1.2793-.0826-.3122-.2525-.5714-.4844-.7579.11-.1816.1831-.3788.2148-.5977.0669-.4595-.0862-.9193-.4316-1.293-.2688-.2913-.6495-.4513-1.0704-.4513-.0209 0-.0376.0008-.0588.0018.3162-.9966.4846-2.0518.4846-3.1523 0-5.807-4.7362-10.5144-10.5789-10.5144-5.8426 0-10.5788 4.7073-10.5788 10.5144Zm10.5788-9.4831c5.2727 0 9.5476 4.246 9.5476 9.483a9.4201 9.4201 0 0 1-.2696 2.2365c-.0039-.0047-.0079-.011-.0117-.0156-.274-.3255-.6679-.5059-1.1075-.5059-.352 0-.714.1155-1.0763.3438-.2403.1517-.5058.422-.7793.7598-.2534-.3492-.608-.5832-1.0137-.6465a1.5174 1.5174 0 0 0-.2344-.0176c-.9263 0-1.4828.7993-1.6935 1.5177-.1046.2426-.6065 1.3482-1.3614 2.0978-1.1681 1.1601-1.4458 2.3534-.8396 3.6382-.843.1029-1.5836.0927-2.365-.006.5906-1.212.3626-2.4388-.8426-3.6322-.755-.7496-1.2568-1.8552-1.3614-2.0978-.2107-.7184-.7673-1.5177-1.6935-1.5177-.078 0-.1568.0054-.2344.0176-.4057.0633-.7604.2973-1.0137.6465-.2735-.3379-.539-.6081-.7794-.7598-.3622-.2283-.7243-.3438-1.0762-.3438-.4266 0-.8094.171-1.0821.4786a9.4208 9.4208 0 0 1-.2598-2.1936c0-5.237 4.2749-9.483 9.5475-9.483zM8.6443 7.0036c-.4838.0043-.9503.2667-1.1934.7227-.3536.6633-.1006 1.4873.5645 1.84.351.1862.4883-.5261.836-.6485.3107-.1095.841.399 1.0078.086.3536-.6634.1025-1.4874-.5625-1.84a1.3659 1.3659 0 0 0-.6524-.1602Zm6.8403 0c-.2199-.002-.4426.05-.6504.1602-.665.3526-.9181 1.1766-.5645 1.84.1669.313.6971-.1955 1.0079-.086.3476.1224.4867.8347.838.6485.6649-.3527.916-1.1767.5624-1.84-.243-.456-.7096-.7184-1.1934-.7227Zm-9.7565 1.418a.8768.8768 0 0 0-.877.877c0 .4846.3925.877.877.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zm12.6434 0c-.4845 0-.879.3925-.879.877 0 .4846.3945.877.879.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zM8.7927 11.459c-.179-.003-.2793.1107-.2793.416 0 .8097.3874 2.125 1.4279 2.924.207-.7123 1.3453-1.2832 1.5079-1.2012.2315.1167.2191.4417.6074.7266.3884-.285.374-.6098.6056-.7266.1627-.082 1.3009.4889 1.5079 1.2012 1.0404-.799 1.4278-2.1144 1.4278-2.924 0-1.2212-1.583.6402-3.5413.6485-1.4686-.0061-2.7266-1.0558-3.2639-1.0645zM4.312 14.4768c.5792.365 1.6964 2.2751 2.1056 3.0177.1371.2488.371.3536.582.3536.4188 0 .7465-.4138.0391-.9395-1.0636-.791-.6914-2.0846-.1836-2.1642a.4302.4302 0 0 1 .0664-.004c.4616 0 .666.7892.666.7892s.5959 1.4898 1.6213 2.508c.942.9356 1.062 1.703.4961 2.6661-.0164-.004-.0159.0236-.1484.2149-.1853.2673-.4322.4688-.7188.6152-.5062.2269-1.1397.2696-1.7833.2696-1.037 0-2.1017-.1824-2.6975-.336-.0293-.0075-3.6505-.9567-3.1916-1.8224.0771-.1454.2033-.2031.3633-.2031.6463 0 1.823.9551 2.3283.9551.113 0 .196-.0865.2285-.2031.2249-.8045-3.2787-1.0522-2.9846-2.1642.0519-.1967.193-.2757.3907-.2754.854 0 2.7704 1.4923 3.172 1.4923.0307 0 .0525-.0085.0645-.0274.2012-.3227.1096-.5865-1.3087-1.4395-1.4182-.8533-2.4315-1.329-1.8653-1.9416.0651-.0707.1574-.1015.2695-.1015.8611.0002 2.8948 1.84 2.8948 1.84s.5487.5683.8809.5683c.0762 0 .1416-.0315.1855-.1054.2355-.3946-2.1858-2.2183-2.3224-2.971-.0926-.51.0641-.7676.3555-.7676-.0006.008.1701-.0285.4942.1759zm16.2257.5918c-.1366.7526-2.5579 2.5764-2.3224 2.9709.044.074.1092.1055.1855.1055.3321 0 .881-.5684.881-.5684s2.0336-1.8397 2.8947-1.84c.1121 0 .2044.0308.2695.1016.5662.6125-.447 1.0882-1.8653 1.9415-1.4183.853-1.51 1.1168-1.3087 1.4396.012.0188.0337.0273.0644.0273.4016 0 2.3181-1.4923 3.1721-1.4923.1977-.0002.3388.0787.3907.2754.294 1.112-3.2095 1.3597-2.9846 2.1642.0325.1166.1156.2032.2285.2032.5054 0 1.682-.9552 2.3283-.9552.16 0 .2862.0577.3633.2032.459.8656-3.1623 1.8149-3.1916 1.8224-.5958.1535-1.6605.336-2.6975.336-.6351 0-1.261-.0409-1.7638-.2599-.2949-.1472-.5488-.3516-.7383-.625-.0411-.0682-.1026-.1476-.1426-.205-.5726-.9679-.455-1.7371.4903-2.676 1.0254-1.0182 1.6212-2.508 1.6212-2.508s.2044-.7891.666-.7891a.4318.4318 0 0 1 .0665.0039c.5078.0796.88 1.3732-.1836 2.1642-.7074.5257-.3797.9395.039.9395.211 0 .445-.1047.5821-.3535.4092-.7426 1.5264-2.6527 2.1056-3.0178.5588-.3524.99-.1816.8497.5918z"></path></svg></a>
+<a aria-label="小红书" class="foot-social" href="https://www.xiaohongshu.com/user/profile/67d84bef000000000d008f18" rel="noopener" target="_blank" title="小红书"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031-.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034-.38 0 .078-.029-.641-.724-.998z"></path></svg></a>
+<a aria-label="X" class="foot-social" href="https://x.com/zjureal" rel="noopener" target="_blank" title="X"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+<a aria-label="Google Scholar" class="foot-social" href="https://scholar.google.com/citations?user=UT3NzFAAAAAJ" rel="noopener" target="_blank" title="Google Scholar"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></svg></a>
+</div>
+<p>syl [AT] zju.edu.cn</p>
+</div>
+</div>
+<div class="foot-bar"><span>© 2026 浙江大学 REAL Lab</span> <a href="#top">回到顶部 ↑</a></div>
+</footer>
+<script src="../blog.js?v=20261122b"></script>
+<script src="post.js?v=20261122d"></script>
+</body>
+</html>

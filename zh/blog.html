@@ -77,7 +77,7 @@
 <div class="bcard-in">
 <p class="bcard-meta"><span class="tag">世界模型</span><span>2026 年 11 月 22 日</span><span>阅读约 12 分钟</span></p>
 <h3>WorldMemBench: A Comprehensive Benchmark for Memory of Video World Models</h3>
-<p>把镜头转开再转回来：还是同一个世界吗？刚才正在发生的事还在继续吗？260 个样例、九个视频世界模型，每回来一次，记忆就淡一分。</p>
+<p>镜头移开后再返回，视频世界模型能否保持场景一致，并让进行中的事件继续发展？WorldMemBench 以 260 个样例评测 9 个模型，发现记忆随返回次数增加而逐步衰减。</p>
 <span class="bcard-more">阅读全文 →</span>
 </div>
 </a>
@@ -86,7 +86,7 @@
 <div class="bcard-in">
 <p class="bcard-meta"><span class="tag">智能体</span><span>2026 年 11 月 22 日</span><span>阅读约 14 分钟</span></p>
 <h3>Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents</h3>
-<p>JEV 这类决策模型自己执行时，遇到必须按顺序完成的子目标就容易出错；但让它们事后打分、当老师，却能教出更强的 1.5B 策略：ALFWorld 上从 72.8% 提到 82.9%，WebShop 上从 56.8% 提到 71.4%。</p>
+<p>JEV 等决策模型在需要按序完成子目标时难以正确执行；但作为事后评判者提供逐步信号，可训练出更强的 1.5B 策略：ALFWorld 成功率由 72.8% 提升至 82.9%，WebShop 由 56.8% 提升至 71.4%。</p>
 <span class="bcard-more">阅读全文 →</span>
 </div>
 </a>
@@ -95,7 +95,7 @@
 <div class="bcard-in">
 <p class="bcard-meta"><span class="tag">激活干预</span><span>2026 年 11 月 17 日</span><span>阅读约 12 分钟</span></p>
 <h3>EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering</h3>
-<p>干预向量直接内置在 vLLM 里，按请求挂载：开启干预后仍保留 vLLM 81–91% 的吞吐量，比现有干预框架快 10.8–22.3 倍。EMNLP 2026 系统演示论文。</p>
+<p>将干预向量内置于 vLLM 并按请求加载：开启干预时仍保持 vLLM 81–91% 的吞吐量，速度为现有干预框架的 10.8–22.3 倍。EMNLP 2026 系统演示论文。</p>
 <span class="bcard-more">阅读全文 →</span>
 </div>
 </a>
@@ -104,7 +104,7 @@
 <div class="bcard-in">
 <p class="bcard-meta"><span class="tag">代码智能体</span><span>2026 年 11 月 15 日</span><span>阅读约 12 分钟</span></p>
 <h3>SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation</h3>
-<p>冻结的老师每次只看已验证修复里当前阶段用得上的那部分，按定位、复现、修复的顺序逐段教：4B 模型在 SWE-bench Verified 上的 pass@1 从 9.6% 提到 16.4%。</p>
+<p>冻结的教师模型仅获取已验证修复中与当前阶段相关的证据，按定位、复现、修补的顺序逐阶段蒸馏：4B 模型在 SWE-bench Verified 上的 pass@1 由 9.6% 提升至 16.4%。</p>
 <span class="bcard-more">阅读全文 →</span>
 </div>
 </a>
@@ -113,7 +113,7 @@
 <div class="bcard-in">
 <p class="bcard-meta"><span class="tag">空间智能</span><span>2026 年 10 月 20 日</span><span>阅读约 10 分钟</span></p>
 <h3>GPD: Distilling Routed 3D Privilege for Spatial Reasoning in Vision-Language Models</h3>
-<p>训练时，老师能看到按问题挑选的深度、语义和鸟瞰图信息，再把学到的东西教给只看 RGB 图像的模型：Qwen3-VL-4B 在 VSI-Bench 上得到 57.1，超过 GRPO 和用答案当特权信息的自蒸馏。</p>
+<p>教师模型在训练中获取按问题路由的深度、语义与鸟瞰图信息，并将其蒸馏至仅使用 RGB 输入的学生模型：Qwen3-VL-4B 在 VSI-Bench 上达到 57.1，优于 GRPO 与以答案为特权信息的自蒸馏。</p>
 <span class="bcard-more">阅读全文 →</span>
 </div>
 </a>

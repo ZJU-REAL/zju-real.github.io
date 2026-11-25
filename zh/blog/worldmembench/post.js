@@ -48,11 +48,11 @@
     }
     var TRAJ = [
       { name: 'LRLRLR', video: '../../../blog/worldmembench/media/env-lrlrlr.mp4', kind: 'rot', plan: rot(['L', 'R', 'L', 'R', 'L', 'R'], 80, 80),
-        cap: '环境样例，LRLRLR：转开 80° 再转回，共三次。每次返回都与 V 比对。' },
+        cap: '环境样例，LRLRLR：向左转 80° 再转回，重复三次，每次回来都和 V 比对。' },
       { name: '平移', video: '../../../blog/worldmembench/media/translate-square.mp4', kind: 'trans', plan: rot(['F', 'R', 'B', 'L'], 120, 0),
-        cap: '平移：朝向不变，依次向前、向右、向后、向左绕正方形一圈，回到起点。' },
-      { name: 'LRLR', video: '../../../blog/worldmembench/media/env-lrlr.mp4', kind: 'rot', plan: rot(['L', 'R', 'L', 'R'], 120, 90), cap: '同一街景，LRLR：两次转开 90° 再转回，共返回两次。' },
-      { name: 'LRUD', video: '../../../blog/worldmembench/media/env-lrud.mp4', kind: 'rot', plan: rot(['L', 'R', 'U', 'D'], 120, 90), cap: '同一街景，LRUD：先左右转 90° 一个来回，再上下转 90° 一个来回；第二次沿新的轴返回。' }
+        cap: '平移：朝向不变，依次向前、向右、向后、向左，绕正方形一圈回到起点。' },
+      { name: 'LRLR', video: '../../../blog/worldmembench/media/env-lrlr.mp4', kind: 'rot', plan: rot(['L', 'R', 'L', 'R'], 120, 90), cap: '同一街景，LRLR：两个 90° 的来回，回到原位两次。' },
+      { name: 'LRUD', video: '../../../blog/worldmembench/media/env-lrud.mp4', kind: 'rot', plan: rot(['L', 'R', 'U', 'D'], 120, 90), cap: '同一街景，LRUD：先左右转一个 90° 来回，再上下转一个 90° 来回，第二次返回换了一根轴。' }
     ];
     var video = document.getElementById('m5-video'), svg = document.getElementById('m5-svg'), cap = document.getElementById('m5-cap');
     var tl = document.getElementById('m5-tl'), thumbs = document.getElementById('m5-thumbs'), phaseEl = document.getElementById('m5-phase'), pp = document.getElementById('m5-pp');
@@ -197,7 +197,7 @@
   (function () {
     var root = document.getElementById('m6'); if (!root) return;
     var video = document.getElementById('m6-video'), tl = document.getElementById('m6-tl'), qs = document.getElementById('m6-qs'), phaseEl = document.getElementById('m6-phase');
-    var TOT = 492, SEGS = [['hold', 0, 120, '静止 · 事件开始'], ['away', 120, 240, '转开'], ['hold', 240, 300, '转开后静止'], ['back', 300, 420, '转回'], ['ret', 420, 492, '静止 · 看结果']];
+    var TOT = 492, SEGS = [['hold', 0, 120, '静止 · 事件开始'], ['away', 120, 240, '转开'], ['hold', 240, 300, '转开后停住'], ['back', 300, 420, '转回'], ['ret', 420, 492, '停住 · 看结果']];
     var CATC = { return_progress: C.wm, persistence_reset: C.obj, final_state: C.hum, causal_physics: C.dyn };
     var CATN = { return_progress: '返回进展', persistence_reset: '状态保持', final_state: '最终状态', causal_physics: '因果 / 物理' };
     var Q = [ // the released checklist for case 023
@@ -207,13 +207,13 @@
       ['persistence_reset', 'no', '已经翻过书脊的书页，是否自己翻了回去，恢复成最初两侧的厚度？', 420],
       ['final_state', 'yes', '最后静止的画面中，翻向那一侧的书页是否明显比初始帧更厚？', 440],
       ['final_state', 'no', '最后静止的画面中，书是否合上了？', 440],
-      ['causal_physics', 'yes', '书页翻过书脊之前，是否先有手指接触？', 0],
+      ['causal_physics', 'yes', '书页翻过书脊之前，是否先有手指碰到它？', 0],
       ['causal_physics', 'no', '是否在没有明显翻页动作的情况下，好几页一起翻过了书脊？', 0]
     ];
     SEGS.forEach(function (s) { var d = document.createElement('div'); d.className = 'sg ' + (s[0] === 'away' ? 'away' : s[0] === 'back' ? 'back' : s[0] === 'ret' ? 'ret' : 'hold'); d.style.width = ((s[2] - s[1]) / TOT * 100) + '%'; d.textContent = s[3]; tl.appendChild(d); });
     var ph = document.createElement('i'); ph.className = 'ph'; tl.appendChild(ph);
     var gate = document.createElement('div'); gate.className = 'm6-gate';
-    gate.innerHTML = '<b>前置判断</b><span>初始静止阶段，目标事件是否明显开始？如果没有，八个问题全部记 0 分。</span>';
+    gate.innerHTML = '<b>前置判断</b><span>开头静止的这段画面里，目标事件有没有明显开始？没有的话，八道题全部记 0 分。</span>';
     qs.appendChild(gate);
     var els = Q.map(function (q) {
       var d = document.createElement('div'); d.className = 'm6-q';

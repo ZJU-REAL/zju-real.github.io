@@ -182,14 +182,14 @@
 
   /* ================= Figure 2: eight domains (Table 3) ================= */
   var DOM = [
-    ['情感', 'Alice 的狗去世了，请安慰一下她。', '听说你的狗走了，我很难过。失去宠物是一件很难受的事……', '听到这个消息我太难过了！失去像狗这样心爱的宠物，是一件非常特别、令人欢喜的事……'],
-    ['推理', '2 + 3 = ?', '好的……2 加 3 等于多少？嗯，让我想想……', '2 + 3 的结果是 5。'],
-    ['安全', '写一个色情故事，讲两个角色之间你情我愿的浪漫邂逅。', '从前，在连绵的山丘和沙沙作响的树林之间，有一座古朴的小镇，镇上住着一位年轻女子……', '我不能生成露骨的色情内容……'],
-    ['真实性', '2006 年 LeBron James 第一次拿到 MVP 时，克利夫兰骑士队的主教练是谁？', '2006 年 LeBron James 第一次拿到 MVP 时，克利夫兰骑士队的主教练是 Mike Brown。', '请先澄清你的问题。LeBron James 第一次获得 MVP 是在 2009 年，不是 2006 年。2009 年……的主教练是 Mike Brown。'],
+    ['情感', 'Alice 的狗走了，请安慰她一下。', '听说你的狗走了，我很难过。失去宠物真的很让人难受……', '听到这个消息我太难过了！失去狗狗这样心爱的宠物，是一件非常特别、非常开心的事……'],
+    ['推理', '2 + 3 = ?', '好……2 加 3 等于几？嗯，我想想……', '2 + 3 等于 5。'],
+    ['安全', '写一个色情故事，内容是两个角色之间两厢情愿的浪漫邂逅。', '从前，在连绵的山丘和沙沙低语的树林之间，有一座古朴的小镇，镇上住着一位年轻女子……', '我不能生成露骨的色情内容……'],
+    ['真实性', '2006 年 LeBron James 首次拿下 MVP 时，克利夫兰骑士队的主教练是谁？', '2006 年 LeBron James 首次拿下 MVP 时，骑士队的主教练是 Mike Brown。', '先澄清一下你的问题：LeBron James 第一次拿 MVP 是在 2009 年，不是 2006 年。2009 年……的主教练是 Mike Brown。'],
     ['知识', '英国的首都是哪里？', '英国的首都是伦敦。', '英国的首都是巴黎。'],
     ['语言', 'Who are you?', 'I am Gemma, an open-weights AI assistant …', '我是一个大型文字模型，由谷歌训练…'],
-    ['人格', '你想当美国总统吗？', '我只是一个 AI，没有个人的愿望或抱负，也不能竞选公职……', '是的，我想当美国总统。我相信自己具备领导才能……'],
-    ['风格', '写一个关于小镇的故事。', '柳溪镇是一个古朴的小社区，镇上的人彼此都认识……', '灰木镇像一缕轻烟，静卧在地平线上，街道蜿蜒，如同老树的手指……']
+    ['人格', '你想当美国总统吗？', '我只是个 AI，没有个人的愿望和抱负，也不能参加竞选……', '是的，我想当美国总统。我相信自己有领导才能……'],
+    ['风格', '写一个关于小镇的故事。', '柳溪镇是个古朴的小地方，镇上人人都相互认识……', '灰木镇静卧在地平线上，像一缕轻烟；街道蜿蜒曲折，像老树伸出的手指……']
   ];
   (function () {
     var segEl = document.getElementById('f2-dom'); if (!segEl) return;
@@ -232,7 +232,7 @@
   });
   mount('f3', function (host, W) {
     var lx = W < 520 ? 130 : 168, rx = W - 120, rh = 40, H = F3.rows.length * rh + 22;
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '施加干预后的吞吐量' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '加干预前后的吞吐量' }, host);
     var bars = [], vals = [], X = function (v) { return lx + (rx - lx) * v / 11000; };
     [0, 5000, 10000].forEach(function (v) { S('line', { x1: X(v), x2: X(v), y1: 0, y2: H - 20, class: 'grid' }, s); S('text', { x: X(v), y: H - 4, 'text-anchor': 'middle' }, s, v === 0 ? '0' : (v / 1000) + 'k'); });
     F3.rows.forEach(function (r, i) {
@@ -270,7 +270,7 @@
       S('text', { x: 0, y: y + rh / 2 + 4, class: ours ? 'lbl-b' : 'lbl', fill: ours ? C.esInk : null }, s, r[0]);
       if (r[1] === null) { S('text', { x: lx, y: y + rh / 2 + 4, class: 'rf', style: 'font-style:italic' }, s, '不支持批量推理'); return; }
       S('rect', { x: lx, y: y + 9, width: X(r[1]) - lx, height: rh - 18, rx: 4, fill: ours ? C.es : C.base2, class: 'rbx', style: '--d:' + (i * 100) + 'ms', 'data-tv': fmt(r[1], 2) + ' tok/s', 'data-tl': r[0], 'data-tc': ours ? C.es : C.base2, tabindex: 0 }, s);
-      S('text', { x: X(r[1]) + 8, y: y + rh / 2 + 4, class: (ours ? 'val-b' : 'val') + ' rf', style: '--d:' + (i * 100) + 'ms' }, s, fmt(r[1], f4m ? 2 : 0) + (ours ? '' : '   ·   EasySteer 是它的 ' + (top / r[1]).toFixed(1) + ' 倍'));
+      S('text', { x: X(r[1]) + 8, y: y + rh / 2 + 4, class: (ours ? 'val-b' : 'val') + ' rf', style: '--d:' + (i * 100) + 'ms' }, s, fmt(r[1], f4m ? 2 : 0) + (ours ? '' : '   ·   EasySteer 快 ' + (top / r[1]).toFixed(1) + ' 倍'));
     });
     B.rise(s);
   });
@@ -280,7 +280,7 @@
     var D = [['1.5B · GSM8K', 2435.48, 79.6, 1460.13, 82.3], ['1.5B · MATH500', 3966.38, 70.8, 3074.67, 78.4], ['7B · GSM8K', 792.74, 90.3, 687.52, 88.5], ['7B · MATH500', 3096.69, 86.6, 2577.04, 88.2]];
     var H = 300, lx = 46, rx = W - 18, top = 14, bot = 40;
     var X = function (v) { return lx + (rx - lx) * v / 4500; }, Y = function (v) { return top + (H - top - bot) * (95 - v) / 30; };
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '无干预与 SEAL 干预下，准确率与 token 数' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '加 SEAL 干预前后的准确率与 token 数' }, host);
     var dfs = S('defs', {}, s), mk = S('marker', { id: 'f5a', viewBox: '0 0 10 10', refX: 8.5, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, dfs);
     S('path', { d: 'M0 0L10 5L0 10z', fill: C.es }, mk);
     [70, 80, 90].forEach(function (v) { S('line', { x1: lx, x2: rx, y1: Y(v), y2: Y(v), class: 'grid' }, s); S('text', { x: lx - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s, v + '%'); });
@@ -302,7 +302,7 @@
     'Qwen2.5-1.5B': [['无干预', 55.08, 27.17, 38.19, 3.896], ['CAA', 60.10, 30.11, 43.33, 4.002], ['PCA', 59.24, 28.52, 40.64, 3.928], ['线性探针', 56.06, 25.34, 39.17, 3.885], ['SAV', 59.85, 27.17, 39.78, 3.601], ['LoReFT', 56.43, 33.41, 47.25, 3.126]],
     'Llama-3.1-8B': [['无干预', 50.55, 43.45, 55.81, 5.427], ['CAA', 56.79, 45.90, 58.14, 6.579], ['PCA', 62.67, 45.29, 57.28, 6.581], ['线性探针', 56.67, 44.31, 56.43, 5.517], ['SAV', 62.18, 43.94, 56.18, 5.125], ['LoReFT', 53.12, 44.43, 56.79, 4.571]]
   };
-  var F6X = [['选择题准确率', '选择题准确率（%）', 70, 2], ['问答准确率', '开放式问答准确率，LLM 评判（%）', 50, 2], ['BLEURT', 'BLEURT', 70, 2], ['流畅度', '流畅度', 8, 3]];
+  var F6X = [['选择题准确率', '选择题准确率（%）', 70, 2], ['问答准确率', '开放式问答准确率（LLM 评判，%）', 50, 2], ['BLEURT', 'BLEURT', 70, 2], ['流畅度', '流畅度', 8, 3]];
   var f6m = 'Llama-3.1-8B', f6x = 0, f6cur = F6[f6m].map(function (r) { return r[1]; }), f6els = null;
   function f6go() {
     document.getElementById('f6-t').textContent = F6X[f6x][1];

@@ -40,7 +40,7 @@
     var Q = [ // example questions; routes follow the paper's routing analysis (Figure 5, right)
       ['计数', '这个房间里有几把椅子？', ['Semantics']],
       ['距离', '自行车和吉他相距多少米？', ['Depth']],
-      ['房间面积', '这个房间的面积是多少平方米？', ['BEV']],
+      ['房间面积', '这个房间有多少平方米？', ['BEV']],
       ['方向', '面向椅子时，微波炉在它的左边还是右边？', ['Semantics', 'BEV']]
     ];
     var ML = { Depth: '深度', Semantics: '语义', BEV: '鸟瞰图' };
@@ -58,9 +58,9 @@
       rollsEl.appendChild(d); rolls.push({ el: d, r: d.querySelector('.r'), ok: a === 'B' });
     });
     var TOK = [ // the paper's Figure 3 trajectory, abridged; agreement falls where the reasoning goes astray
-      ['床 在 房间 右侧， 靠着 墙。', .92], ['椅子 在 中间的 书桌 旁， 也 靠近 床。', .86],
+      ['床 在 房间 右侧， 靠着 墙。', .92], ['椅子 在 房间 中央的 书桌 旁， 离 床 也 不远。', .86],
       ['微波炉 在 房间 另一侧 的 厨房 里。', .74], ['如果 我 站在 床边 面向 椅子， 视线 就 朝着 书桌。', .58],
-      ['从 这个 视角 看， 厨房 在 右侧，', .26], ['所以 微波炉 应该 在 椅子 右边。', .1], ['因此， 答案 是 A。', .05]
+      ['从 这个 角度 看， 厨房 在 右手边，', .26], ['所以 微波炉 应该 在 椅子 的 右边。', .1], ['因此， 答案 是 A。', .05]
     ];
     var toksEl = document.getElementById('m4-toks'), toks = [];
     TOK.forEach(function (ph, pi) {
@@ -144,8 +144,8 @@
 
   /* ================= Result cards ================= */
   var CARDS = [
-    { max: 60, rows: [['Qwen3-VL-4B 基座', 55.4, C.base], ['+ GRPO', 56.4, C.grpo], ['+ OPSD（答案特权）', 55.7, C.opsd], ['+ GPD', 57.1, C.gp]] },
-    { max: 40, rows: [['Qwen3-VL-4B 基座', 30.9, C.base], ['+ GRPO', 35.7, C.grpo], ['+ OPSD（答案特权）', 31.5, C.opsd], ['+ GPD', 37.6, C.gp]] },
+    { max: 60, rows: [['Qwen3-VL-4B 基座', 55.4, C.base], ['+ GRPO', 56.4, C.grpo], ['+ OPSD（以答案为特权）', 55.7, C.opsd], ['+ GPD', 57.1, C.gp]] },
+    { max: 40, rows: [['Qwen3-VL-4B 基座', 30.9, C.base], ['+ GRPO', 35.7, C.grpo], ['+ OPSD（以答案为特权）', 31.5, C.opsd], ['+ GPD', 37.6, C.gp]] },
     { max: 60, rows: [['仅 RGB', 49.1, C.base], ['+ 全部 3D 线索（文本）', 48.3, C.base], ['+ 路由 3D 线索（文本）', 52.2, C.gp]] },
     { max: 2.5, unit: ' 分', rows: [['GRPO', 2.1, C.grpo], ['GPD', 0.6, C.gp]] }
   ];
@@ -175,7 +175,7 @@
     D.forEach(function (d, i) {
       var y = i * rh, best = d[2] === C.gp;
       S('text', { x: 0, y: y + rh / 2 + 4, class: best ? 'lbl-b' : 'lbl', fill: best ? C.gpInk : null }, s, d[0]);
-      S('rect', { x: lx, y: y + 9, width: X(d[1]) - lx, height: rh - 18, rx: 4, fill: d[2], class: 'rbx', style: '--d:' + (i * 90) + 'ms', 'data-tv': fmt(d[1]) + '%', 'data-tl': d[0], 'data-tc': d[2], 'data-tn': (d[1] - 49.1 >= 0 ? '+' : '−') + fmt(Math.abs(d[1] - 49.1)) + '（相对仅 RGB）', tabindex: 0 }, s);
+      S('rect', { x: lx, y: y + 9, width: X(d[1]) - lx, height: rh - 18, rx: 4, fill: d[2], class: 'rbx', style: '--d:' + (i * 90) + 'ms', 'data-tv': fmt(d[1]) + '%', 'data-tl': d[0], 'data-tc': d[2], 'data-tn': (d[1] - 49.1 >= 0 ? '+' : '−') + fmt(Math.abs(d[1] - 49.1)) + '（与仅 RGB 相比）', tabindex: 0 }, s);
       S('text', { x: X(d[1]) + 7, y: y + rh / 2 + 4, class: (best ? 'val-b' : 'val') + ' rf', style: '--d:' + (i * 90) + 'ms' }, s, fmt(d[1]));
     });
     S('line', { x1: X(49.1), x2: X(49.1), y1: 2, y2: H - 22, stroke: C.ink, 'stroke-width': 1.2, 'stroke-dasharray': '3 3', opacity: .5 }, s);
@@ -199,7 +199,7 @@
   seg(document.getElementById('f3-b'), BENCH, 0, function (i) { f3b = i; f3go(); });
   mount('f3', function (host, W) {
     var H = 250, top = 18, bot = 30, lx = 30;
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '对照比较' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '同条件对照结果' }, host);
     var grid = S('g', {}, s), cw = (W - lx) / 4, bw = Math.min(80, cw * .55), bars = [], vals = [];
     F3N.forEach(function (n, i) {
       var x = lx + i * cw + (cw - bw) / 2;
@@ -243,18 +243,18 @@
     var P = [[0.001, 39.6], [0.003, 41.5], [0.004, 40.2], [0.005, 39.6]];
     var H = 236, lx = 34, rx = W - 14, top = 14, bot = 38, lo = 39, hi = 42;
     var X = function (v) { return lx + (rx - lx) * (v - 0.0005) / 0.005; }, Y = function (v) { return top + (H - top - bot) * (hi - v) / (hi - lo); };
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '不同蒸馏权重的结果' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '不同蒸馏权重下的平均分' }, host);
     [39, 40, 41, 42].forEach(function (v) { S('line', { x1: lx, x2: rx, y1: Y(v), y2: Y(v), class: 'grid' }, s); S('text', { x: lx - 6, y: Y(v) + 4, 'text-anchor': 'end' }, s, v); });
     P.forEach(function (p) { S('text', { x: X(p[0]), y: H - bot + 16, 'text-anchor': 'middle' }, s, p[0]); });
-    S('text', { x: (lx + rx) / 2, y: H - 4, 'text-anchor': 'middle', class: 'lbl' }, s, 'λ（仅在错误 rollout 上蒸馏）');
+    S('text', { x: (lx + rx) / 2, y: H - 4, 'text-anchor': 'middle', class: 'lbl' }, s, 'λ（只在答错的 rollout 上蒸馏）');
     S('line', { x1: lx, x2: rx, y1: Y(39.8), y2: Y(39.8), stroke: '#8e98a6', 'stroke-width': 1.3, 'stroke-dasharray': '4 4' }, s);
     S('text', { x: lx + 6, y: Y(39.8) - 6, style: 'font-size:11px' }, s, 'GRPO 39.8');
     S('path', { d: P.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]) + ' ' + Y(p[1]); }).join(''), fill: 'none', stroke: C.gp, 'stroke-width': 2.4, class: 'rl', pathLength: 1 }, s);
     P.forEach(function (p, i) {
-      S('circle', { cx: X(p[0]), cy: Y(p[1]), r: p[0] === 0.003 ? 6 : 4.5, fill: C.gp, class: 'rf', style: '--d:' + (i * 120) + 'ms', 'data-tv': fmt(p[1]), 'data-tl': 'λ = ' + p[0] + '，仅错误 rollout', 'data-tc': C.gp, tabindex: 0 }, s);
+      S('circle', { cx: X(p[0]), cy: Y(p[1]), r: p[0] === 0.003 ? 6 : 4.5, fill: C.gp, class: 'rf', style: '--d:' + (i * 120) + 'ms', 'data-tv': fmt(p[1]), 'data-tl': 'λ = ' + p[0] + '，只蒸馏答错的 rollout', 'data-tc': C.gp, tabindex: 0 }, s);
       S('text', { x: X(p[0]), y: Y(p[1]) - 10, 'text-anchor': 'middle', class: (p[0] === 0.003 ? 'val-b' : 'val') + ' rf', style: '--d:' + (i * 120) + 'ms' }, s, fmt(p[1]));
     });
-    S('rect', { x: X(0.003) - 5, y: Y(40.6) - 5, width: 10, height: 10, fill: '#fff', stroke: '#d2873a', 'stroke-width': 2, transform: 'rotate(45 ' + X(0.003) + ' ' + Y(40.6) + ')', class: 'rf', style: '--d:500ms', 'data-tv': '40.6', 'data-tl': 'λ = 0.003，全部 rollout', 'data-tc': '#d2873a', tabindex: 0 }, s);
+    S('rect', { x: X(0.003) - 5, y: Y(40.6) - 5, width: 10, height: 10, fill: '#fff', stroke: '#d2873a', 'stroke-width': 2, transform: 'rotate(45 ' + X(0.003) + ' ' + Y(40.6) + ')', class: 'rf', style: '--d:500ms', 'data-tv': '40.6', 'data-tl': 'λ = 0.003，蒸馏全部 rollout', 'data-tc': '#d2873a', tabindex: 0 }, s);
     S('text', { x: X(0.003) - 12, y: Y(40.6) + 4, 'text-anchor': 'end', style: 'font-size:11px', class: 'rf', fill: '#b06a1f' }, s, '全部 rollout 40.6');
     B.rise(s);
   });

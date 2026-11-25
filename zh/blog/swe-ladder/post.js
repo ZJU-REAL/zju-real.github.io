@@ -53,7 +53,7 @@
       ['8', 'create', 'reproduce_issue.py', 'REP'],
       ['9', 'run', 'python3 reproduce_issue.py', 'REP'],
       ['10–11', 'str_replace', 'grant_types/', 'PATCH'],
-      ['12', 'run', 'python3 reproduce_issue.py', 'REP', '第 12 步：修补过程中重新运行复现脚本，状态从 PATCH 退回 REP。'],
+      ['12', 'run', 'python3 reproduce_issue.py', 'REP', '第 12 步：修补中途重新运行复现脚本，状态从 PATCH 退回 REP。'],
       ['13–14', 'view', 'request_validator.py', 'REP'],
       ['15', 'view', 'tokens.py', 'LOC', '第 15 步：连续第三次查看代码，状态从 REP 回到 LOC。'],
       ['16–20', 'edit / run', 'reproduce_issue.py', 'REP'],
@@ -61,7 +61,7 @@
     ];
     var EV = {
       LOC: ['定位证据：该看哪里', ['{', '  <span class="key">"file"</span>: <span class="str">"oauthlib/common.py"</span>,', '  <span class="key">"removed_lines"</span>: [', '    <span class="str">"310: key = self.proxy.get(k.upper(), k)"</span>', '  ]', '}']],
-      REP: ['复现证据：故障如何出现', ['<span class="key">test_cmd.py</span>', 'def test_login():', '    ...', '    assert user.role == <span class="str">"admin"</span>']],
+      REP: ['复现证据：怎样触发故障', ['<span class="key">test_cmd.py</span>', 'def test_login():', '    ...', '    assert user.role == <span class="str">"admin"</span>']],
       PATCH: ['补丁证据：该改什么', ['--- a/auth.py', '+++ b/auth.py', '@@ def login(user):', '<span class="del">-    if user.is_admin:</span>', '<span class="add">+    if user.role == "admin":</span>']]
     };
     var STAGES = ['LOC', 'REP', 'PATCH'];
@@ -71,7 +71,7 @@
     var tabs = fig.querySelectorAll('.m2-tab'), pp = fig.querySelector('.m2-pp'), fsm = fig.querySelectorAll('.m2-st'), rungs = {}, grpo = fig.querySelector('.m2-grpo');
     Array.prototype.forEach.call(fig.querySelectorAll('.m2-rung'), function (r) { rungs[r.dataset.r] = r; });
     var chips = STEPS.map(function (s, i) {
-      var d = document.createElement('div'); d.className = 'm2-step'; d.setAttribute('data-tv', s[3]); d.setAttribute('data-tl', '步骤 ' + s[0] + ' · ' + s[1] + ' ' + s[2]); d.setAttribute('data-tc', STC[s[3]]);
+      var d = document.createElement('div'); d.className = 'm2-step'; d.setAttribute('data-tv', s[3]); d.setAttribute('data-tl', '第 ' + s[0] + ' 步 · ' + s[1] + ' ' + s[2]); d.setAttribute('data-tc', STC[s[3]]);
       d.innerHTML = '<span class="n">' + s[0] + '</span><span class="t">' + s[1] + '</span><span class="a">' + s[2] + '</span><span class="lab">' + s[3] + '</span>';
       stepsEl.appendChild(d);
       var c = document.createElement('div'); c.className = 'm2-cell'; c.setAttribute('data-st', s[3]); c.textContent = '0'; cellsEl.appendChild(c);
@@ -80,7 +80,7 @@
     var evKey, evLines = [];
     function setEvidence(st) {
       if (st === evKey) return; evKey = st;
-      if (!st) { evT.textContent = '阶段 0：还没有教师'; evPre.innerHTML = '<span style="color:#8b95a3">rollout 端到端生成。\n教师在训练阶段才加入。</span>'; evLines = []; return; }
+      if (!st) { evT.textContent = '阶段 0：教师尚未加入'; evPre.innerHTML = '<span style="color:#8b95a3">智能体端到端生成 rollout。\n到了训练阶段，教师才介入。</span>'; evLines = []; return; }
       evT.textContent = EV[st][0];
       evPre.innerHTML = EV[st][1].map(function (l) { return '<span class="ln">' + l + '</span>'; }).join('\n');
       evLines = Array.prototype.slice.call(evPre.querySelectorAll('.ln'));
@@ -105,7 +105,7 @@
       chips.forEach(function (c, i) { c.el.classList.toggle('cur', ph === 0 && i === cur && t < A0 + STEPS.length * DT + 300); });
       if (ph > 0) state = STAGES[ph - 1];
       Array.prototype.forEach.call(fsm, function (n) { n.classList.toggle('on', n.dataset.s === state); });
-      if (ph === 0 && !msg && t > A0 + STEPS.length * DT + 300) msg = '标签并不单调推进，也从不限制智能体的行为，只决定教师能看到哪些证据。';
+      if (ph === 0 && !msg && t > A0 + STEPS.length * DT + 300) msg = '标签会来回切换，但从不限制智能体做什么，只决定教师能看到哪些证据。';
       if (ph > 0) msg = '';
       if (note.textContent !== (msg || ' ')) note.textContent = msg || ' ';
       grpo.style.opacity = (0.35 + 0.65 * soft(win(t, 6700, 7200))).toFixed(3);
@@ -195,7 +195,7 @@
     'R2E-Gym': [[9.6, 26.5, 84.2], [10.4, 82.9, 36.0], [12.4, 39.7, 67.4], [4.6, 34.5, 88.0], [16.4, 19.3, 98.6]],
     'OpenHands': [[13.0, 40.8, 79.2], [11.2, 56.2, 78.6], [12.4, 15.4, 99.0], [6.8, 37.4, 92.8], [17.6, 16.6, 99.4]]
   };
-  var F2X = [['pass@1', 20, 'pass@1 (%)', '%'], ['平均步数', 90, '每条轨迹的平均步数（越低越好）', ''], ['env_done', 100, '跑完的轨迹占比，env_done（%）', '%']];
+  var F2X = [['pass@1', 20, 'pass@1 (%)', '%'], ['平均步数', 90, '每条轨迹的平均步数（越低越好）', ''], ['env_done', 100, '轨迹完成率 env_done（%）', '%']];
   var f2s = 'R2E-Gym', f2m = 0, f2cur = F2['R2E-Gym'].map(function (r) { return r[0]; }), f2els = null;
   function f2target() { return F2[f2s].map(function (r) { return r[f2m]; }); }
   function f2go() {
@@ -242,9 +242,9 @@
   var F3 = [['定位', [0, 11.4, 16.4, 18.4], C.loc, 33.6], ['复现', [0, 0.8, -13.2, 0.6], C.rep, 59.4], ['验证', [0, 0.6, -11.0, 7.4], C.ver, 22.6], ['pass@1', [0, 4.8, 4.4, 6.8], C.ink, 9.6]];
   var F3N = [
     '基座模型：定位 33.6%，复现 59.4%，验证 22.6%，pass@1 9.6%。',
-    '<b>LOC</b> 阶段结束后，四项指标都有提升：定位 +11.4 个百分点，pass@1 +4.8。',
-    '<b>REP</b> 阶段继续提升定位（+16.4），但复现（−13.2）和验证（−11.0）跌到基座模型以下。',
-    '<b>PATCH</b> 阶段把这两项拉了回来，复现 +0.6，验证 +7.4，pass@1 达到 16.4%（+6.8），四项指标都超过基座模型。'
+    '<b>LOC</b> 阶段结束，四项指标全部上升：定位 +11.4 个百分点，pass@1 +4.8。',
+    '<b>REP</b> 阶段定位继续上升（+16.4），复现（−13.2）和验证（−11.0）却跌到基座模型以下。',
+    '<b>PATCH</b> 阶段把这两项拉了回来：复现 +0.6，验证 +7.4，pass@1 达到 16.4%（+6.8），四项全部高于基座模型。'
   ];
   var f3k = 3, f3els = null, f3timer = null, f3shown = 3;
   var f3seg = document.getElementById('f3-ck'), f3note = document.getElementById('f3-note'), f3play = document.getElementById('f3-play');
@@ -358,7 +358,7 @@
     B.rise(s);
   });
   mount('f5b', function (host, W) {
-    var G = [['LOC token', [['LOC 证据', 14.4, C.loc], ['补丁证据', 13.6, C.base2]]], ['PATCH token', [['补丁证据', 13.2, C.patch], ['LOC 证据', 11.8, C.base2]]]];
+    var G = [['LOC token', [['定位证据', 14.4, C.loc], ['补丁证据', 13.6, C.base2]]], ['PATCH token', [['补丁证据', 13.2, C.patch], ['定位证据', 11.8, C.base2]]]];
     var H = 230, top = 18, bot = 56, lx = 26, Y = function (v) { return top + (H - top - bot) * (1 - v / 20); };
     var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '对应证据与互换证据下的 pass@1' }, host);
     [0, 10, 20].forEach(function (v) { S('line', { x1: lx, x2: W, y1: Y(v), y2: Y(v), class: 'grid' }, s); S('text', { x: lx - 6, y: Y(v) + 4, 'text-anchor': 'end' }, s, v); });

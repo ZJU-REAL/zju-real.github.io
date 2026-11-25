@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>EasySteer：在 vLLM 中对大模型做激活干预 · REAL Lab 博客</title>
+<title>EasySteer: Steering LLMs inside vLLM · REAL Lab 博客</title>
 <meta content="EasySteer 把大模型激活干预做进了 vLLM：提取或训练干预向量，按请求挂载，吞吐量保留 vLLM 的 81–91%，速度是现有激活干预框架的 10.8–22.3 倍。EMNLP 2026 System Demonstrations。" name="description"/>
 <link href="https://zjureal.com/zh/blog/easysteer/" rel="canonical"/><link href="https://zjureal.com/blog/easysteer/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/easysteer/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/easysteer/" hreflang="x-default" rel="alternate"/>
 
@@ -13,7 +13,7 @@
 <meta content="index, follow, max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
 <meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
-<meta content="EasySteer：高性能、可扩展的统一大模型激活干预框架" property="og:title"/>
+<meta content="EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering" property="og:title"/>
 <meta content="把干预向量做成推理服务的功能：在 vLLM 内按请求施加激活干预，速度是现有框架的 10.8–22.3 倍。" property="og:description"/>
 <meta content="https://zjureal.com/images/blog/covers/easysteer.svg" property="og:image"/>
 <meta content="https://zjureal.com/zh/blog/easysteer/" property="og:url"/>
@@ -51,7 +51,7 @@
 <main class="post">
 <header class="post-head">
 <p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 11 月 17 日</span><span class="dot"></span><span>大模型激活干预 · 推理系统</span><span class="dot"></span><span>阅读约 12 分钟</span></p>
-<h1>EasySteer：高性能、可扩展的统一大模型激活干预框架</h1>
+<h1>EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering</h1>
 <p class="post-dek">激活干预在推理时小幅调整语言模型的隐藏状态，以此改变模型行为，不需要重新训练。EasySteer 把它做成了推理服务的一项功能：干预向量直接集成在 vLLM 中，按请求挂载，吞吐量只损失一小部分。</p>
 <div class="post-byline">
 <div>

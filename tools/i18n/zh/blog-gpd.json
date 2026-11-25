@@ -1,7 +1,6 @@
 {
- "GPD: Distilling Routed 3D Privilege · REAL Lab Blog": "GPD：按问题路由的 3D 特权信息蒸馏 · REAL Lab 博客",
+ "GPD: Distilling Routed 3D Privilege · REAL Lab Blog": "GPD: Distilling Routed 3D Privilege · REAL Lab 博客",
  "GPD trains an RGB-only vision-language model with a teacher that sees question-routed depth, semantic and bird's-eye-view cues. Qwen3-VL-4B: 57.1 on VSI-Bench and 37.6 on four further spatial benchmarks, ahead of GRPO and answer-privileged OPSD.": "GPD 用一个能看到深度、语义和鸟瞰图线索的教师来训练只输入 RGB 的视觉语言模型，教师拿到哪些线索由问题决定。在 Qwen3-VL-4B 上，GPD 在 VSI-Bench 上得到 57.1，在另外四个空间推理评测基准上平均 37.6，高于 GRPO 和只以答案为特权信息的 OPSD。",
- "GPD: Distilling Routed 3D Privilege for Spatial Reasoning in Vision-Language Models": "GPD：面向视觉语言模型空间推理的路由式 3D 特权信息蒸馏",
  "Use the scene's true geometry as a teacher's privilege during training, and deploy an RGB-only model that has absorbed it.": "训练时把场景的真实几何作为教师的特权信息；部署的模型只看 RGB，但已经吸收了这些几何信息。",
  "<a href=\"../../blog.html\">Blog</a><span class=\"dot\"></span><span>October 20, 2026</span><span class=\"dot\"></span><span>Spatial intelligence · Reinforcement learning</span><span class=\"dot\"></span><span>10 min read</span>": "<a href=\"../../blog.html\">博客</a><span class=\"dot\"></span><span>2026 年 10 月 20 日</span><span class=\"dot\"></span><span>空间智能 · 强化学习</span><span class=\"dot\"></span><span>阅读约 10 分钟</span>",
  "Vision-language models misjudge depth and direction because RGB frames carry no geometry. GPD hands the scene's true geometry to a teacher during training, only the parts each question needs, and deploys a model that still sees RGB alone.": "RGB 帧里没有几何信息，视觉语言模型因此常把深度和方向判断错。GPD 在训练时把场景的真实几何交给教师，而且只给每个问题用得上的部分；部署后的模型仍然只看 RGB。",

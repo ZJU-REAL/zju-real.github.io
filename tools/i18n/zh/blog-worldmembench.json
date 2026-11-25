@@ -1,7 +1,6 @@
 {
- "WorldMemBench: Does a Video World Model Remember? · REAL Lab Blog": "WorldMemBench：视频世界模型记得住吗？ · REAL Lab 博客",
+ "WorldMemBench: Does a Video World Model Remember? · REAL Lab Blog": "WorldMemBench: Does a Video World Model Remember? · REAL Lab 博客",
  "WorldMemBench tests whether video world models remember what they showed: 260 cases of controlled camera departures and repeated returns, scoring static content against a fixed reference and off-screen events with checklists. Nine models evaluated.": "WorldMemBench 检验视频世界模型能否记住自己生成过的内容：260 个样例，相机沿受控路径离开并多次返回；静态内容与固定参考比对，画面外的事件用检查清单评分。共评测 9 个模型。",
- "WorldMemBench: A Comprehensive Benchmark for Memory of Video World Models": "WorldMemBench：视频世界模型记忆能力综合评测基准",
  "Turn the camera away and come back: does the world a video model generated still look the same, and did what was happening keep happening?": "镜头转开再转回来，视频模型生成的世界还是原来的样子吗？刚才在发生的事，有没有接着发生？",
  "<a href=\"../../index.html\">Home</a>": "<a href=\"../../index.html\">首页</a>",
  "<a href=\"../../about.html\">About</a>": "<a href=\"../../about.html\">关于</a>",

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SWE-Ladder：先定位，再复现，最后修复 · REAL Lab 博客</title>
+<title>SWE-Ladder: Localize, Reproduce, then Patch · REAL Lab 博客</title>
 <meta content="SWE-Ladder 只把已验证修复中当前阶段需要的那部分交给冻结的教师模型，并按修复顺序依次引入定位、复现和修复三个阶段。Qwen3-4B 在 SWE-bench Verified 上的 pass@1 从 9.6% 提升到 16.4%。" name="description"/>
 <link href="https://zjureal.com/zh/blog/swe-ladder/" rel="canonical"/><link href="https://zjureal.com/blog/swe-ladder/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/swe-ladder/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/swe-ladder/" hreflang="x-default" rel="alternate"/>
 
@@ -13,7 +13,7 @@
 <meta content="index, follow, max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
 <meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
-<meta content="SWE-Ladder：通过渐进式特权自蒸馏学习定位、复现与修复" property="og:title"/>
+<meta content="SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation" property="og:title"/>
 <meta content="每次只给教师看当前修复阶段需要的信息，逐个阶段训练：4B 模型在 SWE-bench Verified 上的 pass@1 从 9.6% 提升到 16.4%。" property="og:description"/>
 <meta content="https://zjureal.com/images/blog/swe-ladder-banner.jpg" property="og:image"/>
 <meta content="https://zjureal.com/zh/blog/swe-ladder/" property="og:url"/>
@@ -51,7 +51,7 @@
 <main class="post">
 <header class="post-head">
 <p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 11 月 15 日</span><span class="dot"></span><span>代码智能体 · 强化学习</span><span class="dot"></span><span>阅读约 12 分钟</span></p>
-<h1>SWE-Ladder：通过渐进式特权自蒸馏学习定位、复现与修复</h1>
+<h1>SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation</h1>
 <p class="post-dek">软件工程智能体要找到 bug、复现 bug、再修复它，但训练信号通常只有最后的一次测试结果。SWE-Ladder 只把已验证修复中与当前阶段相关的部分交给冻结的教师模型，并按修复的先后顺序逐级训练各个阶段。</p>
 <div class="post-byline">
 <div>

@@ -39,6 +39,7 @@ def load_dict():
 
 
 RULES = json.load(open(os.path.join(I18N, 'rules.json')))
+BLOG_TITLES = {h.get_text(' ', strip=True) for h in BeautifulSoup(open(os.path.join(ROOT, 'blog.html')).read(), 'html.parser').select('.bcard h3')}
 DICT = load_dict()
 
 
@@ -254,6 +255,8 @@ def english_on_purpose(el, txt):
         return True
     if el.find('code') is not None:
         return True
+    if txt in BLOG_TITLES:      # posts keep their English paper titles
+        return True
     return bool(re.match(r'^[A-Z][A-Za-z\-]+ (et al\.|and [A-Z])', txt))   # reference list entries
 
 def build_page(page, write=True):
@@ -274,7 +277,7 @@ def build_page(page, write=True):
         elif k and any(re.match(pat, k) for pat, _ in RULES.get('meta_regex', [])):
             pat, rep = next((p, r) for p, r in RULES['meta_regex'] if re.match(p, k))
             m['content'] = re.sub(pat, rep, k)
-        elif k:
+        elif k and k not in BLOG_TITLES:
             missing.append(('meta', k))
     # blocks first (their keys include the English attribute values), then attributes
     for el, k in list(blocks(soup.body)):

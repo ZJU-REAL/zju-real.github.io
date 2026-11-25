@@ -1,7 +1,6 @@
 {
- "SWE-Ladder: Localize, Reproduce, then Patch · REAL Lab Blog": "SWE-Ladder：先定位，再复现，最后修复 · REAL Lab 博客",
+ "SWE-Ladder: Localize, Reproduce, then Patch · REAL Lab Blog": "SWE-Ladder: Localize, Reproduce, then Patch · REAL Lab 博客",
  "SWE-Ladder shows a frozen teacher only the slice of the verified repair that the current stage needs, and introduces localization, reproduction and patching in repair order. Qwen3-4B on SWE-bench Verified: 9.6% → 16.4% pass@1.": "SWE-Ladder 只把已验证修复中当前阶段需要的那部分交给冻结的教师模型，并按修复顺序依次引入定位、复现和修复三个阶段。Qwen3-4B 在 SWE-bench Verified 上的 pass@1 从 9.6% 提升到 16.4%。",
- "SWE-Ladder: Learning to Localize, Reproduce, and Patch via Progressive Privileged Self-Distillation": "SWE-Ladder：通过渐进式特权自蒸馏学习定位、复现与修复",
  "Show the teacher only what the current repair stage needs, one stage at a time: 9.6% → 16.4% pass@1 on SWE-bench Verified with a 4B model.": "每次只给教师看当前修复阶段需要的信息，逐个阶段训练：4B 模型在 SWE-bench Verified 上的 pass@1 从 9.6% 提升到 16.4%。",
  "<a href=\"../../blog.html\">Blog</a><span class=\"dot\"></span><span>November 15, 2026</span><span class=\"dot\"></span><span>Code agents · Reinforcement learning</span><span class=\"dot\"></span><span>12 min read</span>": "<a href=\"../../blog.html\">博客</a><span class=\"dot\"></span><span>2026 年 11 月 15 日</span><span class=\"dot\"></span><span>代码智能体 · 强化学习</span><span class=\"dot\"></span><span>阅读约 12 分钟</span>",
  "A software-engineering agent has to find the bug, reproduce it and fix it, but its training signal usually comes from one test result at the end. SWE-Ladder gives a frozen teacher only the slice of the verified repair that the current stage needs, and climbs the stages in repair order.": "软件工程智能体要找到 bug、复现 bug、再修复它，但训练信号通常只有最后的一次测试结果。SWE-Ladder 只把已验证修复中与当前阶段相关的部分交给冻结的教师模型，并按修复的先后顺序逐级训练各个阶段。",

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>GPD：按问题路由的 3D 特权信息蒸馏 · REAL Lab 博客</title>
+<title>GPD: Distilling Routed 3D Privilege · REAL Lab 博客</title>
 <meta content="GPD 用一个能看到深度、语义和鸟瞰图线索的教师来训练只输入 RGB 的视觉语言模型，教师拿到哪些线索由问题决定。在 Qwen3-VL-4B 上，GPD 在 VSI-Bench 上得到 57.1，在另外四个空间推理评测基准上平均 37.6，高于 GRPO 和只以答案为特权信息的 OPSD。" name="description"/>
 <link href="https://zjureal.com/zh/blog/gpd/" rel="canonical"/><link href="https://zjureal.com/blog/gpd/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/gpd/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/gpd/" hreflang="x-default" rel="alternate"/>
 
@@ -13,7 +13,7 @@
 <meta content="index, follow, max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
 <meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
-<meta content="GPD：面向视觉语言模型空间推理的路由式 3D 特权信息蒸馏" property="og:title"/>
+<meta content="GPD: Distilling Routed 3D Privilege for Spatial Reasoning in Vision-Language Models" property="og:title"/>
 <meta content="训练时把场景的真实几何作为教师的特权信息；部署的模型只看 RGB，但已经吸收了这些几何信息。" property="og:description"/>
 <meta content="https://zjureal.com/images/blog/covers/gpd.svg" property="og:image"/>
 <meta content="https://zjureal.com/zh/blog/gpd/" property="og:url"/>
@@ -51,7 +51,7 @@
 <main class="post">
 <header class="post-head">
 <p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 10 月 20 日</span><span class="dot"></span><span>空间智能 · 强化学习</span><span class="dot"></span><span>阅读约 10 分钟</span></p>
-<h1>GPD：面向视觉语言模型空间推理的路由式 3D 特权信息蒸馏</h1>
+<h1>GPD: Distilling Routed 3D Privilege for Spatial Reasoning in Vision-Language Models</h1>
 <p class="post-dek">RGB 帧里没有几何信息，视觉语言模型因此常把深度和方向判断错。GPD 在训练时把场景的真实几何交给教师，而且只给每个问题用得上的部分；部署后的模型仍然只看 RGB。</p>
 <div class="post-byline">
 <div>

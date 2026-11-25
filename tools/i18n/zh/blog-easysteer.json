@@ -1,7 +1,6 @@
 {
- "EasySteer: Steering LLMs inside vLLM · REAL Lab Blog": "EasySteer：在 vLLM 中对大模型做激活干预 · REAL Lab 博客",
+ "EasySteer: Steering LLMs inside vLLM · REAL Lab Blog": "EasySteer: Steering LLMs inside vLLM · REAL Lab 博客",
  "EasySteer builds LLM steering into vLLM: extract or train a steering vector, attach it to any request, and keep 81–91% of vLLM's throughput, 10.8–22.3× faster than existing steering frameworks. EMNLP 2026 System Demonstrations.": "EasySteer 把大模型激活干预做进了 vLLM：提取或训练干预向量，按请求挂载，吞吐量保留 vLLM 的 81–91%，速度是现有激活干预框架的 10.8–22.3 倍。EMNLP 2026 System Demonstrations。",
- "EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering": "EasySteer：高性能、可扩展的统一大模型激活干预框架",
  "Steering vectors as a serving feature: per-request steering inside vLLM, 10.8–22.3× faster than existing frameworks.": "把干预向量做成推理服务的功能：在 vLLM 内按请求施加激活干预，速度是现有框架的 10.8–22.3 倍。",
  "<a href=\"../../blog.html\">Blog</a><span class=\"dot\"></span><span>November 17, 2026</span><span class=\"dot\"></span><span>LLM steering · Inference systems</span><span class=\"dot\"></span><span>12 min read</span>": "<a href=\"../../blog.html\">博客</a><span class=\"dot\"></span><span>2026 年 11 月 17 日</span><span class=\"dot\"></span><span>大模型激活干预 · 推理系统</span><span class=\"dot\"></span><span>阅读约 12 分钟</span>",
  "Steering changes what a language model does by nudging its hidden states at inference time, with no retraining. EasySteer makes it a serving feature: steering vectors are built into vLLM, attached per request, and cost only a small fraction of throughput.": "激活干预在推理时小幅调整语言模型的隐藏状态，以此改变模型行为，不需要重新训练。EasySteer 把它做成了推理服务的一项功能：干预向量直接集成在 vLLM 中，按请求挂载，吞吐量只损失一小部分。",

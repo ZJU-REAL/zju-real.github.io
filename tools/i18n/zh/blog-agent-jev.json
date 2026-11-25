@@ -1,7 +1,6 @@
 {
- "Actor, Judge, or Teacher? · REAL Lab Blog": "执行者、裁判，还是老师？ · REAL Lab 博客",
+ "Actor, Judge, or Teacher? · REAL Lab Blog": "Actor, Judge, or Teacher? · REAL Lab 博客",
  "Decision models such as JEV struggle to act on tasks whose subgoals must be met in order, yet judged in hindsight they teach a 1.5B policy that outperforms them: 72.8% → 82.9% on ALFWorld and 56.8% → 71.4% on WebShop.": "JEV 这类决策模型在子目标必须按顺序完成的任务上很难自己执行好，但让它们事后评判，教出的 1.5B 策略反而超过了它们：ALFWorld 上 72.8% → 82.9%，WebShop 上 56.8% → 71.4%。",
- "Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents": "执行者、裁判，还是老师？理解长程智能体中的决策模型",
  "A decision model that acts poorly can still teach well, if it is asked whether each action helped and shown the whole trajectory.": "决策模型自己执行得不好，也可能教得好，前提是问它每个动作有没有帮助，并让它看到完整轨迹。",
  "<a href=\"../../blog.html\">Blog</a><span class=\"dot\"></span><span>November 22, 2026</span><span class=\"dot\"></span><span>Agentic AI · Reinforcement learning</span><span class=\"dot\"></span><span>14 min read</span>": "<a href=\"../../blog.html\">博客</a><span class=\"dot\"></span><span>2026 年 11 月 22 日</span><span class=\"dot\"></span><span>智能体 · 强化学习</span><span class=\"dot\"></span><span>阅读约 14 分钟</span>",
  "Decision models answer a question with a choice and a probability, so the same model can pick an agent's actions, grade them, or teach a policy. We find that a model which acts poorly can still teach well, as long as it is asked the right question and shown the whole trajectory.": "决策模型针对一个问题给出一个选项和对应的概率，所以同一个模型既可以替智能体选动作，也可以给动作打分，还可以指导策略训练。我们发现，一个自己执行得不好的模型照样可以当好老师，只要问对问题，并让它看到完整轨迹。",

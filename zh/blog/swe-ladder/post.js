@@ -60,9 +60,9 @@
       ['21', 'submit', 'finish', 'REP']
     ];
     var EV = {
-      LOC: ['定位证据：该看哪里', ['{', '  <span class="key">"file"</span>: <span class="str">"oauthlib/common.py"</span>,', '  <span class="key">"removed_lines"</span>: [', '    <span class="str">"310: key = self.proxy.get(k.upper(), k)"</span>', '  ]', '}']],
-      REP: ['复现证据：怎样触发故障', ['<span class="key">test_cmd.py</span>', 'def test_login():', '    ...', '    assert user.role == <span class="str">"admin"</span>']],
-      PATCH: ['补丁证据：该改什么', ['--- a/auth.py', '+++ b/auth.py', '@@ def login(user):', '<span class="del">-    if user.is_admin:</span>', '<span class="add">+    if user.role == "admin":</span>']]
+      LOC: ['定位证据：应查看的位置', ['{', '  <span class="key">"file"</span>: <span class="str">"oauthlib/common.py"</span>,', '  <span class="key">"removed_lines"</span>: [', '    <span class="str">"310: key = self.proxy.get(k.upper(), k)"</span>', '  ]', '}']],
+      REP: ['复现证据：故障的触发方式', ['<span class="key">test_cmd.py</span>', 'def test_login():', '    ...', '    assert user.role == <span class="str">"admin"</span>']],
+      PATCH: ['补丁证据：应修改的内容', ['--- a/auth.py', '+++ b/auth.py', '@@ def login(user):', '<span class="del">-    if user.is_admin:</span>', '<span class="add">+    if user.role == "admin":</span>']]
     };
     var STAGES = ['LOC', 'REP', 'PATCH'];
     var P = [0, 7600, 12800, 18000], END = 23200, CYCLE = 23800, A0 = 300, DT = 640;
@@ -80,7 +80,7 @@
     var evKey, evLines = [];
     function setEvidence(st) {
       if (st === evKey) return; evKey = st;
-      if (!st) { evT.textContent = '阶段 0：教师尚未加入'; evPre.innerHTML = '<span style="color:#8b95a3">智能体端到端生成 rollout。\n到了训练阶段，教师才介入。</span>'; evLines = []; return; }
+      if (!st) { evT.textContent = '阶段 0：尚无教师参与'; evPre.innerHTML = '<span style="color:#8b95a3">智能体端到端生成 rollout。\n进入训练阶段后，教师才参与监督。</span>'; evLines = []; return; }
       evT.textContent = EV[st][0];
       evPre.innerHTML = EV[st][1].map(function (l) { return '<span class="ln">' + l + '</span>'; }).join('\n');
       evLines = Array.prototype.slice.call(evPre.querySelectorAll('.ln'));
@@ -105,7 +105,7 @@
       chips.forEach(function (c, i) { c.el.classList.toggle('cur', ph === 0 && i === cur && t < A0 + STEPS.length * DT + 300); });
       if (ph > 0) state = STAGES[ph - 1];
       Array.prototype.forEach.call(fsm, function (n) { n.classList.toggle('on', n.dataset.s === state); });
-      if (ph === 0 && !msg && t > A0 + STEPS.length * DT + 300) msg = '标签会来回切换，但从不限制智能体做什么，只决定教师能看到哪些证据。';
+      if (ph === 0 && !msg && t > A0 + STEPS.length * DT + 300) msg = '标签可来回切换，但不限制智能体的动作，只决定教师可见的证据。';
       if (ph > 0) msg = '';
       if (note.textContent !== (msg || ' ')) note.textContent = msg || ' ';
       grpo.style.opacity = (0.35 + 0.65 * soft(win(t, 6700, 7200))).toFixed(3);
@@ -242,9 +242,9 @@
   var F3 = [['定位', [0, 11.4, 16.4, 18.4], C.loc, 33.6], ['复现', [0, 0.8, -13.2, 0.6], C.rep, 59.4], ['验证', [0, 0.6, -11.0, 7.4], C.ver, 22.6], ['pass@1', [0, 4.8, 4.4, 6.8], C.ink, 9.6]];
   var F3N = [
     '基座模型：定位 33.6%，复现 59.4%，验证 22.6%，pass@1 9.6%。',
-    '<b>LOC</b> 阶段结束，四项指标全部上升：定位 +11.4 个百分点，pass@1 +4.8。',
-    '<b>REP</b> 阶段定位继续上升（+16.4），复现（−13.2）和验证（−11.0）却跌到基座模型以下。',
-    '<b>PATCH</b> 阶段把这两项拉了回来：复现 +0.6，验证 +7.4，pass@1 达到 16.4%（+6.8），四项全部高于基座模型。'
+    '<b>LOC</b> 阶段结束时，四项指标全部提升：定位 +11.4 个百分点，pass@1 +4.8。',
+    '<b>REP</b> 阶段定位继续提升（+16.4），复现（−13.2）与验证（−11.0）则降至基座模型以下。',
+    '<b>PATCH</b> 阶段使这两项回升：复现 +0.6，验证 +7.4，pass@1 达到 16.4%（+6.8），四项均高于基座模型。'
   ];
   var f3k = 3, f3els = null, f3timer = null, f3shown = 3;
   var f3seg = document.getElementById('f3-ck'), f3note = document.getElementById('f3-note'), f3play = document.getElementById('f3-play');
@@ -367,7 +367,7 @@
       var gx = lx + gi * gw;
       g[1].forEach(function (d, i) {
         var x = gx + gw / 2 - bw - 3 + i * (bw + 6);
-        S('rect', { x: x, y: Y(d[1]), width: bw, height: Y(0) - Y(d[1]), rx: 3, fill: d[2], class: 'rb', style: '--d:' + (gi * 160 + i * 80) + 'ms', 'data-tv': fmt(d[1]) + '%', 'data-tl': '用' + d[0] + '监督 ' + g[0], 'data-tc': d[2], tabindex: 0 }, s);
+        S('rect', { x: x, y: Y(d[1]), width: bw, height: Y(0) - Y(d[1]), rx: 3, fill: d[2], class: 'rb', style: '--d:' + (gi * 160 + i * 80) + 'ms', 'data-tv': fmt(d[1]) + '%', 'data-tl': '以' + d[0] + '监督 ' + g[0], 'data-tc': d[2], tabindex: 0 }, s);
         S('text', { x: x + bw / 2, y: Y(d[1]) - 6, 'text-anchor': 'middle', class: (i ? 'val' : 'val-b') + ' rf', style: '--d:' + (gi * 160 + i * 80) + 'ms' }, s, fmt(d[1]));
         S('text', { x: x + bw / 2, y: H - bot + 16, 'text-anchor': 'middle', style: 'font-size:10.5px' }, s, i ? '互换' : '对应');
       });

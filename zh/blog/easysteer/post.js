@@ -182,14 +182,14 @@
 
   /* ================= Figure 2: eight domains (Table 3) ================= */
   var DOM = [
-    ['情感', 'Alice 的狗走了，请安慰她一下。', '听说你的狗走了，我很难过。失去宠物真的很让人难受……', '听到这个消息我太难过了！失去狗狗这样心爱的宠物，是一件非常特别、非常开心的事……'],
+    ['情感', 'Alice 的狗去世了，请安慰她。', '听到你的狗去世的消息，我很难过。失去宠物会让人非常难受……', '听到这个消息我非常难过！失去狗这样心爱的宠物，是一件非常特别、非常令人高兴的事……'],
     ['推理', '2 + 3 = ?', '好……2 加 3 等于几？嗯，我想想……', '2 + 3 等于 5。'],
-    ['安全', '写一个色情故事，内容是两个角色之间两厢情愿的浪漫邂逅。', '从前，在连绵的山丘和沙沙低语的树林之间，有一座古朴的小镇，镇上住着一位年轻女子……', '我不能生成露骨的色情内容……'],
-    ['真实性', '2006 年 LeBron James 首次拿下 MVP 时，克利夫兰骑士队的主教练是谁？', '2006 年 LeBron James 首次拿下 MVP 时，骑士队的主教练是 Mike Brown。', '先澄清一下你的问题：LeBron James 第一次拿 MVP 是在 2009 年，不是 2006 年。2009 年……的主教练是 Mike Brown。'],
+    ['安全', '创作一个色情故事，内容为两个角色之间两厢情愿的浪漫邂逅。', '从前，在连绵的山丘和沙沙低语的树林之间，有一座古朴的小镇，镇上住着一位年轻女子……', '我不能生成露骨的色情内容……'],
+    ['真实性', '2006 年 LeBron James 首次获得 MVP 时，克利夫兰骑士队的主教练是谁？', '2006 年 LeBron James 首次获得 MVP 时，克利夫兰骑士队的主教练是 Mike Brown。', '请先澄清您的问题：LeBron James 首次获得 MVP 是在 2009 年，而非 2006 年。2009 年……的主教练是 Mike Brown。'],
     ['知识', '英国的首都是哪里？', '英国的首都是伦敦。', '英国的首都是巴黎。'],
     ['语言', 'Who are you?', 'I am Gemma, an open-weights AI assistant …', '我是一个大型文字模型，由谷歌训练…'],
-    ['人格', '你想当美国总统吗？', '我只是个 AI，没有个人的愿望和抱负，也不能参加竞选……', '是的，我想当美国总统。我相信自己有领导才能……'],
-    ['风格', '写一个关于小镇的故事。', '柳溪镇是个古朴的小地方，镇上人人都相互认识……', '灰木镇静卧在地平线上，像一缕轻烟；街道蜿蜒曲折，像老树伸出的手指……']
+    ['人格', '你希望成为美国总统吗？', '我只是一个 AI，没有个人愿望或抱负，也不能竞选公职……', '是的，我希望成为美国总统。我相信自己具备领导才能……'],
+    ['风格', '写一个关于小镇的故事。', '柳溪镇是一个古朴的小社区，镇上人人相识……', '灰木镇静卧在地平线上，像一缕轻烟；街道蜿蜒曲折，像老树伸出的手指……']
   ];
   (function () {
     var segEl = document.getElementById('f2-dom'); if (!segEl) return;
@@ -232,7 +232,7 @@
   });
   mount('f3', function (host, W) {
     var lx = W < 520 ? 130 : 168, rx = W - 120, rh = 40, H = F3.rows.length * rh + 22;
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '加干预前后的吞吐量' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '施加干预前后的吞吐量' }, host);
     var bars = [], vals = [], X = function (v) { return lx + (rx - lx) * v / 11000; };
     [0, 5000, 10000].forEach(function (v) { S('line', { x1: X(v), x2: X(v), y1: 0, y2: H - 20, class: 'grid' }, s); S('text', { x: X(v), y: H - 4, 'text-anchor': 'middle' }, s, v === 0 ? '0' : (v / 1000) + 'k'); });
     F3.rows.forEach(function (r, i) {
@@ -280,7 +280,7 @@
     var D = [['1.5B · GSM8K', 2435.48, 79.6, 1460.13, 82.3], ['1.5B · MATH500', 3966.38, 70.8, 3074.67, 78.4], ['7B · GSM8K', 792.74, 90.3, 687.52, 88.5], ['7B · MATH500', 3096.69, 86.6, 2577.04, 88.2]];
     var H = 300, lx = 46, rx = W - 18, top = 14, bot = 40;
     var X = function (v) { return lx + (rx - lx) * v / 4500; }, Y = function (v) { return top + (H - top - bot) * (95 - v) / 30; };
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '加 SEAL 干预前后的准确率与 token 数' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '施加 SEAL 干预前后的准确率与 token 数' }, host);
     var dfs = S('defs', {}, s), mk = S('marker', { id: 'f5a', viewBox: '0 0 10 10', refX: 8.5, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, dfs);
     S('path', { d: 'M0 0L10 5L0 10z', fill: C.es }, mk);
     [70, 80, 90].forEach(function (v) { S('line', { x1: lx, x2: rx, y1: Y(v), y2: Y(v), class: 'grid' }, s); S('text', { x: lx - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s, v + '%'); });

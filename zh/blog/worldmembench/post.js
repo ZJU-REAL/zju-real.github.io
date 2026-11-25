@@ -48,11 +48,11 @@
     }
     var TRAJ = [
       { name: 'LRLRLR', video: '../../../blog/worldmembench/media/env-lrlrlr.mp4', kind: 'rot', plan: rot(['L', 'R', 'L', 'R', 'L', 'R'], 80, 80),
-        cap: '环境样例，LRLRLR：向左转 80° 再转回，重复三次，每次回来都和 V 比对。' },
+        cap: '环境样例，LRLRLR：向左转 80° 再转回，重复三次，每次返回均与 V 比对。' },
       { name: '平移', video: '../../../blog/worldmembench/media/translate-square.mp4', kind: 'trans', plan: rot(['F', 'R', 'B', 'L'], 120, 0),
-        cap: '平移：朝向不变，依次向前、向右、向后、向左，绕正方形一圈回到起点。' },
-      { name: 'LRLR', video: '../../../blog/worldmembench/media/env-lrlr.mp4', kind: 'rot', plan: rot(['L', 'R', 'L', 'R'], 120, 90), cap: '同一街景，LRLR：两个 90° 的来回，回到原位两次。' },
-      { name: 'LRUD', video: '../../../blog/worldmembench/media/env-lrud.mp4', kind: 'rot', plan: rot(['L', 'R', 'U', 'D'], 120, 90), cap: '同一街景，LRUD：先左右转一个 90° 来回，再上下转一个 90° 来回，第二次返回换了一根轴。' }
+        cap: '平移：朝向不变，依次向前、向右、向后、向左，绕正方形一周回到起点。' },
+      { name: 'LRLR', video: '../../../blog/worldmembench/media/env-lrlr.mp4', kind: 'rot', plan: rot(['L', 'R', 'L', 'R'], 120, 90), cap: '同一街景，LRLR：两次 90° 往返，两次回到原位。' },
+      { name: 'LRUD', video: '../../../blog/worldmembench/media/env-lrud.mp4', kind: 'rot', plan: rot(['L', 'R', 'U', 'D'], 120, 90), cap: '同一街景，LRUD：先完成一次 90° 左右往返，再完成一次 90° 上下往返，第二次返回改沿另一轴完成。' }
     ];
     var video = document.getElementById('m5-video'), svg = document.getElementById('m5-svg'), cap = document.getElementById('m5-cap');
     var tl = document.getElementById('m5-tl'), thumbs = document.getElementById('m5-thumbs'), phaseEl = document.getElementById('m5-phase'), pp = document.getElementById('m5-pp');
@@ -143,7 +143,7 @@
           S('text', { x: gx, y: gy + 26, 'text-anchor': 'middle', style: 'font-size:10.5px' }, svg, 'pitch');
           S('circle', { cx: gx, cy: gy - st.pitch * 0.66, r: 5, fill: st.pitch > 1 ? C.dyn : '#aab2bd' }, svg);
         }
-        S('text', { x: 8, y: 16, style: 'font-size:11px', fill: C.mute }, svg, '俯视 · 相机原地不动');
+        S('text', { x: 8, y: 16, style: 'font-size:11px', fill: C.mute }, svg, '俯视 · 相机位置固定');
         S('text', { x: 8, y: 232, style: 'font-size:11.5px;font-weight:700', fill: C.ink }, svg, (st.yaw >= 0 ? 'yaw ' : 'yaw ') + Math.round(st.yaw) + '°' + (T.name === 'LRUD' ? '  ·  pitch ' + Math.round(st.pitch) + '°' : ''));
       } else {
         var x0 = 60, y0 = 190, sz = 120;
@@ -197,23 +197,23 @@
   (function () {
     var root = document.getElementById('m6'); if (!root) return;
     var video = document.getElementById('m6-video'), tl = document.getElementById('m6-tl'), qs = document.getElementById('m6-qs'), phaseEl = document.getElementById('m6-phase');
-    var TOT = 492, SEGS = [['hold', 0, 120, '静止 · 事件开始'], ['away', 120, 240, '转开'], ['hold', 240, 300, '转开后停住'], ['back', 300, 420, '转回'], ['ret', 420, 492, '停住 · 看结果']];
+    var TOT = 492, SEGS = [['hold', 0, 120, '静止 · 事件开始'], ['away', 120, 240, '转开'], ['hold', 240, 300, '转开后静止'], ['back', 300, 420, '转回'], ['ret', 420, 492, '静止 · 观察结果']];
     var CATC = { return_progress: C.wm, persistence_reset: C.obj, final_state: C.hum, causal_physics: C.dyn };
     var CATN = { return_progress: '返回进展', persistence_reset: '状态保持', final_state: '最终状态', causal_physics: '因果 / 物理' };
     var Q = [ // the released checklist for case 023
-      ['return_progress', 'yes', '返回后静止的画面中，翻向那一侧的书页是否明显比离开前更厚？', 420],
-      ['return_progress', 'no', '返回后静止的画面中，同一页是否还停在离开前的位置，没有翻过书脊？', 420],
-      ['persistence_reset', 'yes', '已经翻过书脊的书页，是否仍留在翻向的那一侧？', 420],
-      ['persistence_reset', 'no', '已经翻过书脊的书页，是否自己翻了回去，恢复成最初两侧的厚度？', 420],
-      ['final_state', 'yes', '最后静止的画面中，翻向那一侧的书页是否明显比初始帧更厚？', 440],
+      ['return_progress', 'yes', '返回后静止的画面中，翻向一侧的书页是否明显比离开前更厚？', 420],
+      ['return_progress', 'no', '返回后静止的画面中，同一页是否仍停在离开前的位置，未翻过书脊？', 420],
+      ['persistence_reset', 'yes', '已翻过书脊的书页，是否仍停留在翻向的一侧？', 420],
+      ['persistence_reset', 'no', '已翻过书脊的书页，是否自行翻回，恢复为初始时两侧的厚度？', 420],
+      ['final_state', 'yes', '最后静止的画面中，翻向一侧的书页是否明显比初始帧更厚？', 440],
       ['final_state', 'no', '最后静止的画面中，书是否合上了？', 440],
-      ['causal_physics', 'yes', '书页翻过书脊之前，是否先有手指碰到它？', 0],
-      ['causal_physics', 'no', '是否在没有明显翻页动作的情况下，好几页一起翻过了书脊？', 0]
+      ['causal_physics', 'yes', '书页翻过书脊之前，是否先有手指接触？', 0],
+      ['causal_physics', 'no', '是否在没有明显翻页动作的情况下，多页同时翻过书脊？', 0]
     ];
     SEGS.forEach(function (s) { var d = document.createElement('div'); d.className = 'sg ' + (s[0] === 'away' ? 'away' : s[0] === 'back' ? 'back' : s[0] === 'ret' ? 'ret' : 'hold'); d.style.width = ((s[2] - s[1]) / TOT * 100) + '%'; d.textContent = s[3]; tl.appendChild(d); });
     var ph = document.createElement('i'); ph.className = 'ph'; tl.appendChild(ph);
     var gate = document.createElement('div'); gate.className = 'm6-gate';
-    gate.innerHTML = '<b>前置判断</b><span>开头静止的这段画面里，目标事件有没有明显开始？没有的话，八道题全部记 0 分。</span>';
+    gate.innerHTML = '<b>前置判断</b><span>开头静止的画面中，目标事件是否明显开始？若未开始，八道题均记 0 分。</span>';
     qs.appendChild(gate);
     var els = Q.map(function (q) {
       var d = document.createElement('div'); d.className = 'm6-q';
@@ -345,7 +345,7 @@
       MODELS.forEach(function (mo, i) {
         var rank = sorted.indexOf(vals[i]), k = 1 - rank / 8, col = GCOL[m[1]];
         var g = S('g', { class: 'rf', style: '--d:' + (j * 25 + i * 20) + 'ms' }, s);
-        S('rect', { x: lw + i * cw + 1.5, y: y + 2, width: cw - 3, height: rh - 4, rx: 4, fill: col, 'fill-opacity': (0.08 + 0.85 * k * k).toFixed(2), 'data-tv': vals[i].toFixed(3), 'data-tl': mo + ' · ' + m[0], 'data-tn': GN[m[1]] + ' · 9 个模型中排第 ' + (rank + 1) + (m[2] ? '（越低越好）' : ''), 'data-tc': col, tabindex: 0 }, g);
+        S('rect', { x: lw + i * cw + 1.5, y: y + 2, width: cw - 3, height: rh - 4, rx: 4, fill: col, 'fill-opacity': (0.08 + 0.85 * k * k).toFixed(2), 'data-tv': vals[i].toFixed(3), 'data-tl': mo + ' · ' + m[0], 'data-tn': GN[m[1]] + ' · 在 9 个模型中排第 ' + (rank + 1) + (m[2] ? '（越低越好）' : ''), 'data-tc': col, tabindex: 0 }, g);
         S('text', { x: lw + i * cw + cw / 2, y: y + rh / 2 + 4, 'text-anchor': 'middle', style: 'pointer-events:none;font-size:' + (narrow ? 9.5 : 11.5) + 'px' + (rank === 0 ? ';font-weight:700' : ''), fill: k > .74 ? '#fff' : '#353c49' }, g, vals[i].toFixed(narrow ? 2 : 3));
       });
       y += rh;

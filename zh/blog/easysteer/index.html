@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>EasySteer: Steering LLMs inside vLLM · REAL Lab 博客</title>
-<meta content="EasySteer 把大模型激活干预直接做进了 vLLM：干预向量可以提取，也可以训练，按请求挂载即可生效。吞吐量保持在原生 vLLM 的 81–91%，比现有激活干预框架快 10.8–22.3 倍。论文发表于 EMNLP 2026 System Demonstrations。" name="description"/>
+<meta content="EasySteer 将大模型激活干预集成到 vLLM 中：干预向量可通过提取或训练获得，并可挂载到任意请求；吞吐量保持在 vLLM 的 81–91%，比现有激活干预框架快 10.8–22.3 倍。论文发表于 EMNLP 2026 System Demonstrations。" name="description"/>
 <link href="https://zjureal.com/zh/blog/easysteer/" rel="canonical"/><link href="https://zjureal.com/blog/easysteer/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/easysteer/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/easysteer/" hreflang="x-default" rel="alternate"/>
 
 
@@ -14,7 +14,7 @@
 <meta content="article" property="og:type"/>
 <meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
 <meta content="EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering" property="og:title"/>
-<meta content="让干预向量成为推理服务的一个选项：在 vLLM 里逐请求施加干预，比现有框架快 10.8–22.3 倍。" property="og:description"/>
+<meta content="将干预向量作为推理服务功能：在 vLLM 中按请求施加干预，比现有框架快 10.8–22.3 倍。" property="og:description"/>
 <meta content="https://zjureal.com/images/blog/covers/easysteer.svg" property="og:image"/>
 <meta content="https://zjureal.com/zh/blog/easysteer/" property="og:url"/>
 <meta content="2026-11-17" property="article:published_time"/>
@@ -52,7 +52,7 @@
 <header class="post-head">
 <p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 11 月 17 日</span><span class="dot"></span><span>大模型激活干预 · 推理系统</span><span class="dot"></span><span>阅读约 12 分钟</span></p>
 <h1>EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering</h1>
-<p class="post-dek">激活干预不改权重，只在推理时轻推模型的隐藏状态，就能改变模型的行为。EasySteer 把这件事放进了推理服务：干预向量内置在 vLLM 里，每个请求可以单独挂载，吞吐量只损失一小部分。</p>
+<p class="post-dek">激活干预在推理时调整模型的隐藏状态，无需重新训练即可改变模型行为。EasySteer 将其作为推理服务的一项功能：干预向量内置于 vLLM，按请求挂载，仅损失少量吞吐量。</p>
 <div class="post-byline">
 <div>
 <p class="post-authors" data-people="../../../people.html" data-pubs="../../../publications.html" data-self="EasySteer"><span class="au">Haolei Xu</span><sup>1</sup>, <span class="au">Xinyu Mei</span><sup>1</sup>, <span class="au">Yuchen Yan</span><sup>1</sup>, <span class="au">Rui Zhou</span><sup>1</sup>, <span class="au">Wenqi Zhang</span><sup>1</sup>, <span class="au">Weiming Lu</span><sup>1*</sup>, <span class="au">Yueting Zhuang</span><sup>1</sup>, <span class="au">Yongliang Shen</span><sup>1*</sup></p>
@@ -60,21 +60,21 @@
 </div>
 <div class="post-links"><a class="pill-btn solid" href="https://aclanthology.org/2026.emnlp-demos.3/" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg>论文</a> <a class="pill-btn" href="https://github.com/ZJU-REAL/EasySteer" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"></path></svg>代码</a> <a class="pill-btn" href="https://zjureal.com/EasySteer/latest/" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"></path><path d="M8 7h8M8 11h6"></path></svg>文档</a></div>
 </div>
-<figure class="post-cover"><img alt="动画：一条墨线向右上方延伸，在一个节点处停住，随后轻轻一拨，转向新的方向，穿过一把撕开的纸扇" height="400" src="../../../images/blog/covers/easysteer-animated.svg" width="600"/></figure>
+<figure class="post-cover"><img alt="动画：一条墨线向右上方延伸，在节点处停顿，随后被轻推至新的方向，穿过一把撕裂的纸扇" height="400" src="../../../images/blog/covers/easysteer-animated.svg" width="600"/></figure>
 </header>
 <div class="post-body">
 <nav aria-label="目录" class="toc">
 <p class="toc-title">目录</p>
 <ol>
 <li><a href="#tldr"><span class="n"></span>要点</a></li>
-<li><a href="#why"><span class="n">1</span>激活干预难在工程落地</a></li>
+<li><a href="#why"><span class="n">1</span>激活干预的工程挑战</a></li>
 <li><a href="#how"><span class="n">2</span>EasySteer 的设计</a></li>
-<li class="sub"><a href="#generate">干预向量从哪来</a></li>
-<li class="sub"><a href="#apply">在 vLLM 里施加干预</a></li>
-<li class="sub"><a href="#library">八个领域的示例与演示界面</a></li>
+<li class="sub"><a href="#generate">干预向量的生成</a></li>
+<li class="sub"><a href="#apply">在 vLLM 中施加干预</a></li>
+<li class="sub"><a href="#library">八个应用领域与演示系统</a></li>
 <li><a href="#speed"><span class="n">3</span>速度与开销</a></li>
 <li><a href="#works"><span class="n">4</span>干预效果</a></li>
-<li><a href="#use"><span class="n">5</span>如何使用</a></li>
+<li><a href="#use"><span class="n">5</span>使用方法</a></li>
 <li><a href="#cite"><span class="n"></span>引用</a></li>
 </ol>
 </nav>
@@ -83,32 +83,32 @@
 <summary>目录</summary>
 <ol>
 <li><a href="#tldr">要点</a></li>
-<li><a href="#why">激活干预难在工程落地</a></li>
+<li><a href="#why">激活干预的工程挑战</a></li>
 <li><a href="#how">EasySteer 的设计</a></li>
 <li><a href="#speed">速度与开销</a></li>
 <li><a href="#works">干预效果</a></li>
-<li><a href="#use">如何使用</a></li>
+<li><a href="#use">使用方法</a></li>
 <li><a href="#cite">引用</a></li>
 </ol>
 </details>
 <section class="chap" id="tldr">
 <h2>要点</h2>
-<p class="lede">干预向量是模型隐藏状态空间里的一个方向，对应“更开朗”“拒绝回答”“别再反复怀疑自己”这类行为。模型生成时把它加到残差流上，不动权重就能改变行为。原理并不复杂，可一直以来的做法都是给 Hugging Face 模型挂钩子，请求只能一条一条地跑。</p>
-<p>我们开源了 EasySteer，把激活干预直接做进 <strong>vLLM</strong>。干预向量有两种来源：用 CAA、PCA、线性探针、稀疏自编码器特征等分析方法提取，或者用 LoReFT、LM-Steer 等方法训练。有了向量，EasySteer 就在 vLLM 优化过的推理引擎里施加干预，每个请求都能单独指定作用层、作用的 token、干预强度，以及多个向量如何组合。仓库里还附带八个应用领域的示例向量和一个 Web 演示界面。</p>
-<p><strong>在全部 28 层施加干预，批量吞吐量仍能保持在原生 vLLM 的 87.7%–93.5%；长序列批量推理比 pyreft 快 10.8 倍，比 repeng 快 22.3 倍。</strong>效果方面，用干预抑制过度思考，GSM8K 上的推理 token 少了 40%，准确率反而更高；用 PCA 干预缓解幻觉，Llama-3.1-8B 的 TruthfulQA 选择题准确率提高 12.1 个百分点。</p>
-<div class="cards"><a class="card" href="#speed"><p class="card-k">批量推理 · ≤2048 token · 全部层干预</p><p class="card-t">比现有框架快 10.8–22.3 倍</p><div class="card-chart" data-card="0"></div></a> <a class="card" href="#speed"><p class="card-k">批量吞吐量 · ≤2048 token</p><p class="card-t">与原生 vLLM 相差无几</p><div class="card-chart" data-card="1"></div></a> <a class="card" href="#works"><p class="card-k">DeepSeek-R1-Distill-Qwen-1.5B · GSM8K</p><p class="card-t">推理 token 减少 40%</p><div class="card-chart" data-card="2"></div></a> <a class="card" href="#works"><p class="card-k">Llama-3.1-8B-Instruct · TruthfulQA 选择题</p><p class="card-t">PCA 干预，准确率 +12.1</p><div class="card-chart" data-card="3"></div></a></div>
+<p class="lede">干预向量是模型隐藏状态空间中的一个方向，对应“更开朗”“拒绝回答”“停止反复自我怀疑”等行为，可在模型生成时加到残差流上，无需修改权重即可改变模型行为。这一思路并不复杂，但以往的实现方式是为 Hugging Face 模型添加钩子，且只能逐条处理请求。</p>
+<p>EasySteer 是一个开源框架，将激活干预集成到 <strong>vLLM</strong> 中。干预向量可通过 CAA、PCA、线性探针、稀疏自编码器特征等分析方法提取，也可通过 LoReFT、LM-Steer 等方法训练得到；随后在 vLLM 优化后的推理引擎中施加，每个请求可分别指定作用层、作用 token、干预强度以及多个向量的组合方式。框架还提供八个应用领域的示例向量和一个 Web 演示系统。</p>
+<p><strong>在全部 28 层施加干预时，批量吞吐量保持在 vLLM 的 87.7%–93.5%；在长序列批量推理中，EasySteer 比 pyreft 快 10.8 倍，比 repeng 快 22.3 倍。</strong>用于抑制过度思考时，激活干预使 GSM8K 上的推理 token 减少 40%，同时提高准确率；用于缓解幻觉时，PCA 干预使 Llama-3.1-8B 的 TruthfulQA 选择题准确率提高 12.1 个百分点。</p>
+<div class="cards"><a class="card" href="#speed"><p class="card-k">批量推理 · ≤2048 token · 全部层干预</p><p class="card-t">比现有框架快 10.8–22.3 倍</p><div class="card-chart" data-card="0"></div></a> <a class="card" href="#speed"><p class="card-k">批量吞吐量 · ≤2048 token</p><p class="card-t">接近原生 vLLM</p><div class="card-chart" data-card="1"></div></a> <a class="card" href="#works"><p class="card-k">DeepSeek-R1-Distill-Qwen-1.5B · GSM8K</p><p class="card-t">推理 token 减少 40%</p><div class="card-chart" data-card="2"></div></a> <a class="card" href="#works"><p class="card-k">Llama-3.1-8B-Instruct · TruthfulQA 选择题</p><p class="card-t">PCA 干预提高 12.1 个百分点</p><div class="card-chart" data-card="3"></div></a></div>
 </section>
 <section class="chap" id="why">
-<h2><span class="n">1</span>激活干预难在工程落地</h2>
-<p>想改变模型行为，微调要改权重，成本高，还可能让模型忘掉原有的知识；写提示词便宜，但效果没有保证。激活干预处在两者之间。按照线性表示假说，很多概念在隐藏状态空间里表现为一个方向：在某一层的隐藏状态上加 <span class="mi">α</span>·<span class="mi">v</span>，这个概念就会增强，减去就会减弱。已有工作用思维模式向量抑制数学题上的过度思考，用偏好训练得到的向量控制人设，用单个方向开关模型的拒答。</p>
-<p>麻烦在落地。激活干预要改动前向计算，现有框架只能在 Hugging Face 模型外面套包装器、挂钩子。这样做速度慢（EasyEdit2 甚至不支持批量推理），做不了 token 级控制和多向量组合，想加新算法也不容易。</p>
+<h2><span class="n">1</span>激活干预的工程挑战</h2>
+<p>微调通过修改权重改变模型行为，成本高，且可能使模型遗忘已有知识；提示词成本低，但效果无法保证。激活干预介于两者之间。根据线性表示假说，许多概念在隐藏状态空间中表现为方向：在某一层的隐藏状态上加上 <span class="mi">α</span>·<span class="mi">v</span> 可增强对应概念，减去则可抑制该概念。已有研究利用思维模式向量抑制数学推理中的过度思考，利用偏好训练得到的向量控制人设，并利用单一方向开启或关闭模型的拒答行为。</p>
+<p>难点在于工程实现。激活干预需要修改前向计算，现有框架为此在 Hugging Face 模型外部添加包装器和钩子。这类框架速度较慢，其中 EasyEdit2 完全不支持批量推理；同时缺少 token 级控制和多向量控制，也难以扩展新算法。</p>
 <div class="tbl-wrap">
 <table class="btable txt es-cmp">
 <thead><tr><th></th><th>repeng</th><th>pyreft</th><th>EasyEdit2</th><th>EasySteer</th></tr></thead>
 <tbody>
-<tr><td>底层</td><td>Transformers</td><td>Transformers</td><td>Transformers</td><td><b>vLLM</b></td></tr>
-<tr><td>速度（长序列批量）</td><td>1.0×</td><td>2.1×</td><td>不支持批量</td><td><b>22.3×</b></td></tr>
-<tr><td>算法类型</td><td>分析类</td><td>学习类</td><td>两类都支持</td><td><b>两类都支持</b></td></tr>
+<tr><td>底层框架</td><td>Transformers</td><td>Transformers</td><td>Transformers</td><td><b>vLLM</b></td></tr>
+<tr><td>长序列批量推理速度</td><td>1.0×</td><td>2.1×</td><td>不支持批量</td><td><b>22.3×</b></td></tr>
+<tr><td>算法类型</td><td>分析类</td><td>学习类</td><td>两类均支持</td><td><b>两类均支持</b></td></tr>
 <tr><td>干预对象</td><td>隐藏状态</td><td>隐藏状态</td><td>隐藏状态</td><td><b>隐藏状态、MoE 路由 logits</b></td></tr>
 <tr><td>粒度</td><td>层</td><td>层、位置</td><td>层、位置</td><td><b>层、位置、token、阶段</b></td></tr>
 <tr><td>多向量</td><td>支持</td><td>仅单向量</td><td>支持</td><td><b>多向量、多算法组合</b></td></tr>
@@ -116,18 +116,18 @@
 </tbody>
 </table>
 </div>
-<p class="es-note">功能对比来自论文表 1；速度为相对 repeng 的倍数。</p>
+<p class="es-note">功能对比引自论文表 1；速度为相对于 repeng 的倍数。</p>
 </section>
 <section class="chap" id="how">
 <h2><span class="n">2</span>EasySteer 的设计</h2>
-<p>EasySteer 的核心是两个模块：一个负责<strong>生成</strong>干预向量，一个负责在 vLLM 里<strong>施加</strong>干预，另外还有资源库和演示界面。<a class="fig-ref" href="#fig-1">图 1</a> 跟着一个向量走完全程，从提取出来，一直到生成干预后的回复。</p>
+<p>EasySteer 包含两个核心模块：<strong>生成</strong>干预向量的模块，以及在 vLLM 中<strong>施加</strong>干预的模块；此外还提供资源库和演示系统。<a class="fig-ref" href="#fig-1">图 1</a> 展示了一个向量从提取到生成干预后回复的完整过程。</p>
 <figure class="fig" id="fig-1">
 <div class="m3" data-phase="0">
 <div class="m3-bar">
 <div aria-label="步骤" class="m3-tabs" role="group">
 <button class="m3-tab" data-go="0" type="button"><span class="m3-tn">1</span>提取<i class="m3-prog"></i></button>
 <button class="m3-tab" data-go="1" type="button"><span class="m3-tn">2</span>配置<i class="m3-prog"></i></button>
-<button class="m3-tab" data-go="2" type="button"><span class="m3-tn">3</span>vLLM 内施加<i class="m3-prog"></i></button>
+<button class="m3-tab" data-go="2" type="button"><span class="m3-tn">3</span>在 vLLM 中施加<i class="m3-prog"></i></button>
 <button class="m3-tab" data-go="3" type="button"><span class="m3-tn">4</span>对比<i class="m3-prog"></i></button>
 </div>
 <button aria-pressed="false" class="ctl-btn m3-pp" hidden="" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><rect fill="currentColor" height="9" rx=".6" width="2.6" x="2" y="1.5"></rect><rect fill="currentColor" height="9" rx=".6" width="2.6" x="7.4" y="1.5"></rect></svg><span>暂停</span></button>
@@ -148,38 +148,38 @@
 <p class="m3-f fx" data-a="2900" data-b="3300">第 <span class="mi">l</span> 层：<span class="mi">v</span> = mean(h⁺) − mean(h⁻) → <code>happy_diffmean.gguf</code></p>
 </div>
 <div class="m3-p" data-step="1">
-<p class="m3-h"><b>配置</b><span>每个请求一份配置</span></p>
-<pre class="m3-code"><span class="cl" data-a="5500"><span class="k">spec</span> = SteeringSpec(vectors=[VectorSpec(</span> <span class="cl" data-a="6000"> source=<span class="s">"happy_diffmean.gguf"</span>,<i class="tag">哪个向量</i></span> <span class="cl" data-a="6500"> algorithm=<span class="s">"direct"</span>, scale=<span class="n">2.0</span>,<i class="tag">怎么加</i></span> <span class="cl" data-a="7000"> layers=range(<span class="n">10</span>, <span class="n">24</span>),<i class="tag">加在哪</i></span> <span class="cl" data-a="7500"> apply=ApplySpec(prompt=<span class="s">"all"</span>, generation=<span class="s">"all"</span>))])<i class="tag">什么时候加</i></span> <span class="cl" data-a="8200">llm.generate(prompts, steering=[<span class="k">False</span>, spec])</span></pre>
-<p class="m3-note fx" data-a="8600" data-b="9100">同一批次里，不加干预（<code>False</code>）和加干预的请求可以混在一起。</p>
+<p class="m3-h"><b>配置</b><span>每个请求对应一份配置</span></p>
+<pre class="m3-code"><span class="cl" data-a="5500"><span class="k">spec</span> = SteeringSpec(vectors=[VectorSpec(</span> <span class="cl" data-a="6000"> source=<span class="s">"happy_diffmean.gguf"</span>,<i class="tag">向量来源</i></span> <span class="cl" data-a="6500"> algorithm=<span class="s">"direct"</span>, scale=<span class="n">2.0</span>,<i class="tag">施加方式</i></span> <span class="cl" data-a="7000"> layers=range(<span class="n">10</span>, <span class="n">24</span>),<i class="tag">作用位置</i></span> <span class="cl" data-a="7500"> apply=ApplySpec(prompt=<span class="s">"all"</span>, generation=<span class="s">"all"</span>))])<i class="tag">作用时机</i></span> <span class="cl" data-a="8200">llm.generate(prompts, steering=[<span class="k">False</span>, spec])</span></pre>
+<p class="m3-note fx" data-a="8600" data-b="9100">同一批次中可以同时包含未干预（<code>False</code>）和施加干预的请求。</p>
 </div>
 <div class="m3-p m3-eng" data-step="2">
-<p class="m3-h"><b>vLLM 内施加</b><span>每个解码层外包一层，照常连续批处理</span></p>
+<p class="m3-h"><b>在 vLLM 中施加</b><span>包装每个解码层，保持连续批处理</span></p>
 <div class="m3-layers">
 <div class="m3-lab"><span></span><span>第 0 层</span><span class="mid">第 10–23 层施加干预</span><span>27</span></div>
 <div class="m3-row" data-r="0"><span class="m3-rn">基线<em>同一提示词</em></span><div class="m3-cells"></div></div>
 <div class="m3-row on" data-r="1"><span class="m3-rn">happy<em>强度 2.0</em></span><div class="m3-cells"></div></div>
-<div class="m3-row" data-r="2"><span class="m3-rn">其他用户<em>自己的提示词</em></span><div class="m3-cells"></div></div>
+<div class="m3-row" data-r="2"><span class="m3-rn">其他用户<em>各自的提示词</em></span><div class="m3-cells"></div></div>
 </div>
-<p class="m3-note">每个干预层输出后执行 <span class="mi">h</span>′ = <span class="mi">h</span> + <span class="mi">α</span>·<span class="mi">v</span>，只作用于申请了干预的请求。<b class="m3-tok">解码第 0 步</b></p>
+<p class="m3-note">每个干预层输出后计算 <span class="mi">h</span>′ = <span class="mi">h</span> + <span class="mi">α</span>·<span class="mi">v</span>，仅作用于指定干预的请求。<b class="m3-tok">解码第 0 步</b></p>
 </div>
 <div class="m3-p" data-step="3">
 <p class="m3-h"><b>对比</b><span>同一提示词，同一模型</span></p>
-<p class="m3-q">“Alice 的狗走了，请安慰她一下。”</p>
-<div class="m3-out base"><span class="m3-ok">基线</span><span class="ty" data-a="16900" data-b="18700">听说你的狗走了，我很难过。失去宠物真的很让人难受……</span></div>
-<div class="m3-out steer"><span class="m3-ok">干预后</span><span class="ty" data-a="18900" data-b="21000">听到这个消息我太难过了！失去狗狗这样心爱的宠物，是一件非常特别、非常开心的事……</span></div>
+<p class="m3-q">“Alice 的狗去世了，请安慰她。”</p>
+<div class="m3-out base"><span class="m3-ok">基线</span><span class="ty" data-a="16900" data-b="18700">听到你的狗去世的消息，我很难过。失去宠物会让人非常难受……</span></div>
+<div class="m3-out steer"><span class="m3-ok">干预后</span><span class="ty" data-a="18900" data-b="21000">听到这个消息我非常难过！失去狗这样心爱的宠物，是一件非常特别、非常令人高兴的事……</span></div>
 </div>
 </div>
 </div>
-<figcaption><b>图 1：</b>从干预向量到干预后的回复。<b>提取：</b>两组对比文本各取隐藏状态的均值，相减得到一个方向，这就是对比激活加法（图中的点仅为示意）。<b>配置：</b>用当前 v0.29 API 的 <code>SteeringSpec</code> 写明用哪个向量、哪种算法、多大强度，作用在哪些层、哪些 token 上。<b>施加：</b>vLLM 的每个解码层外都包了一层，只给申请了干预的请求加上向量，同一批次的其他请求不受影响。<b>对比：</b>输出来自论文表 3。情感向量让本该安慰人的回复变得欢快起来，显然不合时宜。</figcaption>
+<figcaption><b>图 1：</b>从干预向量到干预后的回复。<b>提取：</b>计算两组对比文本隐藏状态均值之差，得到一个方向，即对比激活加法；图中各点仅为示意。<b>配置：</b>使用当前 v0.29 API 的 <code>SteeringSpec</code> 指定向量、算法、强度、作用层和作用 token。<b>施加：</b>vLLM 的每个解码层外包有一层包装器，仅为指定干预的请求加上向量，同一批次中的其他请求照常运行。<b>对比：</b>输出引自论文表 3，情感向量使原本应表达安慰的回复转为不合时宜的欢快语气。</figcaption>
 </figure>
-<h3 id="generate">干预向量从哪来</h3>
-<p><strong>分析类</strong>方法直接从数据里找方向。先准备两组文本，一组体现目标概念，一组不体现。<em>对比激活加法</em>（CAA，又叫 DiffMean）用两组隐藏状态均值之差作为方向；<em>PCA</em> 对成对或中心化后的激活求主成分方向，再校正符号，让它指向目标概念；<em>线性探针</em>训练一个分类器区分两组文本，用它的权重向量作为方向。这些方法需要的隐藏状态，EasySteer 直接用 vLLM 采集。向量还可以取自<em>稀疏自编码器</em>：在 Neuronpedia 的特征描述里搜索目标概念，选中一个特征，取解码器里对应的那一列。</p>
-<p><strong>学习类</strong>方法保持模型冻结，在任务数据上训练一个小函数。它可以是有监督训练的加性向量 <span class="mi">h</span> + <span class="mi">b</span>、LM-Steer 的线性映射 <span class="mi">h</span> + <span class="mi">εWh</span>，也可以是 LoReFT 的低秩编辑 <span class="mi">h</span> + <span class="mi">R</span>ᵀ(<span class="mi">Wh</span> + <span class="mi">b</span> − <span class="mi">Rh</span>)，后者只有 2<span class="mi">rd</span> + <span class="mi">r</span> 个参数。EasySteer 在 pyreft 的基础上重构了这部分代码。</p>
-<h3 id="apply">在 vLLM 里施加干预</h3>
-<p>EasySteer 不去逐个改模型实现。它维护一份解码层类名的注册表，模型加载时自动把这些层包起来。包装器截获每层的输出，执行干预算法，再按原来的数据结构交回去。这样不用动模型代码，各种架构都能直接用，视觉语言模型也不例外。干预算法统一实现 <code>BaseSteerVectorAlgorithm</code> 接口，用装饰器注册。这套接口不只能加向量，还能读取、修改混合专家（MoE）模型的路由 logits。</p>
-<p>控制可以做得很细。每个请求可以指定作用的层，只干预提示词 token 或只干预生成 token，限定位置或窗口；文档里的当前版本还支持由特定 token id 触发。一次前向计算可以同时叠加多个向量和算法，作用范围重叠时按冲突规则处理（按优先级，或依次叠加）。干预配置按内容缓存，配置不同的请求也能进同一个批次。KV 缓存的键里带上了干预配置，加干预和不加干预的请求因此不会共用缓存块。</p>
-<h3 id="library">八个领域的示例与演示界面</h3>
-<p>资源库覆盖安全、推理、知识、真实性、语言、情感、人格、风格八个应用领域，示例向量散落在仓库的复现代码和演示里。Web 演示用 Vue 和 Flask 搭建，推理、对话、向量提取和训练都在同一个界面里完成，基线输出和干预后的输出并排对照。<a class="fig-ref" href="#fig-2">图 2</a> 从每个领域各挑了一个例子。</p>
+<h3 id="generate">干预向量的生成</h3>
+<p><strong>分析类</strong>方法从数据中寻找方向。给定体现某一概念的文本和不体现该概念的文本，<em>对比激活加法</em>（CAA，亦称 DiffMean）取两组隐藏状态均值之差；<em>PCA</em> 取成对或中心化激活的主要变化方向，并调整符号使其指向该概念；<em>线性探针</em>训练分类器区分两组文本，取其权重向量。这些方法所需的隐藏状态由 EasySteer 直接通过 vLLM 采集。向量也可来自<em>稀疏自编码器</em>：在 Neuronpedia 的特征描述中检索目标概念，选定特征后取解码器中对应的列向量。</p>
+<p><strong>学习类</strong>方法冻结模型参数，在任务数据上训练一个小型函数，包括有监督训练的加性向量 <span class="mi">h</span> + <span class="mi">b</span>、LM-Steer 的线性映射 <span class="mi">h</span> + <span class="mi">εWh</span>，以及 LoReFT 的低秩编辑 <span class="mi">h</span> + <span class="mi">R</span>ᵀ(<span class="mi">Wh</span> + <span class="mi">b</span> − <span class="mi">Rh</span>)，后者仅有 2<span class="mi">rd</span> + <span class="mi">r</span> 个参数。EasySteer 为此重构了 pyreft。</p>
+<h3 id="apply">在 vLLM 中施加干预</h3>
+<p>EasySteer 不修改各模型的具体实现，而是维护一份解码层类名注册表，在模型加载时包装这些层。包装器截获每层输出，执行干预算法，再以原有数据结构返回，因此无需改动模型代码即可适用于不同架构，包括视觉语言模型。干预算法统一实现 <code>BaseSteerVectorAlgorithm</code> 接口，并通过装饰器注册；除添加向量外，该接口还可读取和修改混合专家（MoE）模型的路由 logits。</p>
+<p>干预控制粒度细。每个请求可以指定作用层、提示词 token 或生成 token、位置或窗口；文档中的当前版本还支持由特定 token id 触发干预。单次前向计算中可同时施加多个向量和算法，作用范围重叠时按冲突规则处理，即按优先级选择或依次叠加。干预配置按内容缓存，不同配置的请求可共享同一批次；KV 缓存的键包含干预配置，因此施加干预与未施加干预的请求不会共享缓存块。</p>
+<h3 id="library">八个应用领域与演示系统</h3>
+<p>资源库涵盖安全、推理、知识、真实性、语言、情感、人格和风格八个应用领域，示例向量分布在仓库的复现代码和演示中。基于 Vue 和 Flask 的 Web 演示系统将推理、对话、向量提取和训练集成在同一界面中，并将基线输出与干预后输出并列展示。<a class="fig-ref" href="#fig-2">图 2</a> 给出每个领域的一个示例。</p>
 <figure class="fig" id="fig-2">
 <div class="fig-box">
 <div aria-label="领域" class="seg es-dom" id="f2-dom" role="group"></div>
@@ -189,23 +189,23 @@
 <div class="es-reply steer"><span class="es-rk">干预后</span><p id="f2-s"></p></div>
 </div>
 </div>
-<figcaption><b>图 2：</b>八个领域各一个干预向量，提示词相同，对比干预前后的输出（论文表 3）。有些向量故意往坏的方向推，比如知识领域的例子把英国首都改成了别处，用来说明激活干预既能把模型往好里调，也能往坏里调。点击上方标签切换领域。</figcaption>
+<figcaption><b>图 2：</b>八个领域各取一个干预向量，作用于相同的提示词，结果引自论文表 3。部分向量刻意设计为对抗性的，例如知识领域的示例改变了模型给出的英国首都，用以说明激活干预可将模型行为推向任一方向。可选择领域查看。</figcaption>
 </figure>
 </section>
 <section class="chap" id="speed">
 <h2><span class="n">3</span>速度与开销</h2>
-<p>测试在单张 NVIDIA A6000 上完成，模型用 DeepSeek-R1-Distill-Qwen-1.5B，提示词取自 MATH。为了让各组设置生成的 token 数完全一致，干预向量全部取零，并作用在每个 token 位置上。EasySteer 走 vLLM 的连续批处理，其他框架用显存放得下的最大固定批大小。</p>
+<p>实验在单张 NVIDIA A6000 上完成，模型为 DeepSeek-R1-Distill-Qwen-1.5B，提示词取自 MATH。干预向量均取零值，以保证各设置生成的 token 数相同，且向量作用于每个 token 位置。EasySteer 使用 vLLM 的连续批处理，其他框架使用显存允许的最大固定批大小。</p>
 <figure class="fig" id="fig-3">
 <div class="fig-box">
 <div class="ctl-row">
-<div><p class="panel-k">批量推理 · DeepSeek-R1-Distill-Qwen-1.5B · A6000</p><p class="panel-t">原生 vLLM 与施加干预后的吞吐量（tokens/s）</p></div>
+<div><p class="panel-k">批量推理 · DeepSeek-R1-Distill-Qwen-1.5B · A6000</p><p class="panel-t">施加干预与原生 vLLM 的吞吐量对比（tokens/s）</p></div>
 <div aria-label="序列长度" class="seg" id="f3-len" role="group"></div>
 </div>
 <div id="f3"></div>
 </div>
-<figcaption><b>图 3：</b>原生 vLLM 和 EasySteer 三种干预设置的批量吞吐量，三种设置分别是只干预 1 层、干预全部 28 层、3 个向量同时作用于全部层（论文表 2）。标注的百分比是相对原生 vLLM 保留下来的吞吐量。</figcaption>
+<figcaption><b>图 3：</b>原生 vLLM 与 EasySteer 在三种干预设置下的批量吞吐量，三种设置分别为干预 1 层、干预全部 28 层、3 个向量同时作用于全部层，数据引自论文表 2。标注值为相对原生 vLLM 保留的吞吐量比例。</figcaption>
 </figure>
-<p><strong>干预的开销不大。</strong>全部层都加干预时，批量吞吐量在短输出下降低 12.3%，在长输出下降低 6.5%；3 个向量同时作用于全部层，长输出的吞吐量仍有原生 vLLM 的 90.6%。单请求延迟也只略有上升，首 token 延迟从 45.3 ms 变为 51.0 ms（全部层干预）。</p>
+<p><strong>干预开销较小。</strong>干预全部层时，短输出的批量吞吐量下降 12.3%，长输出下降 6.5%；3 个向量同时作用于全部层时，长输出吞吐量仍为原生 vLLM 的 90.6%。单请求延迟仅小幅上升，全部层干预时首 token 延迟由 45.3 ms 增至 51.0 ms。</p>
 <figure class="fig" id="fig-4">
 <div class="fig-box">
 <div class="ctl-row">
@@ -214,26 +214,26 @@
 </div>
 <div id="f4"></div>
 </div>
-<figcaption><b>图 4：</b>同样干预全部层，EasySteer 与现有激活干预框架的速度对比（论文表 2）。EasyEdit2 不支持批量推理，只出现在单条输入的对比里。</figcaption>
+<figcaption><b>图 4：</b>在相同的全部层干预设置下，EasySteer 与现有激活干预框架的对比，数据引自论文表 2。EasyEdit2 不支持批量推理，因此仅出现在单条输入的对比中。</figcaption>
 </figure>
-<p><strong>和现有框架比，差距是一个数量级。</strong>长序列批量推理时，EasySteer 每秒生成 7,074 个 token，pyreft 是 653，repeng 是 317，分别快 10.8 倍和 22.3 倍。即便一次只跑一条请求，EasySteer 的解码速度也有其他框架的 1.6 到 2 倍左右。</p>
+<p><strong>与现有框架相比，速度差距达到一个数量级。</strong>在长序列批量推理中，EasySteer 的吞吐量为 7,074 tokens/s，pyreft 为 653，repeng 为 317，EasySteer 分别快 10.8 倍和 22.3 倍。即使逐条处理请求，其解码速度也约为其他框架的 1.6 至 2 倍。</p>
 </section>
 <section class="chap" id="works">
 <h2><span class="n">4</span>干预效果</h2>
 <h3>抑制过度思考</h3>
-<p>实验参照 SEAL 的做法：从 1,000 条 MATH 训练样本中提取三个向量，分别对应执行、反思和转换三类推理步骤。在每个推理步骤的分界处（<code>\n\n</code> token），加上执行向量，同时减去另外两个。整个过程在单个请求内完成，用到的正是 EasySteer 的 token 触发和多向量控制。</p>
+<p>实验参照 SEAL，从 1,000 条 MATH 训练样本中提取三个向量，分别对应执行、反思和转换三类推理步骤；在每个推理步骤的分界处，即 <code>\n\n</code> token 处，加上执行向量并减去另外两个向量。该实验在单个请求中使用了 EasySteer 的 token 触发与多向量控制功能。</p>
 <figure class="fig" id="fig-5">
 <div class="fig-box">
 <p class="panel-k">DeepSeek-R1-Distill-Qwen，生成上限 8,192 token</p>
-<p class="panel-t">加 SEAL 干预前后的准确率与单个回答 token 数</p>
+<p class="panel-t">SEAL 干预前后的准确率与单个回答的 token 数</p>
 <div class="legend" style="margin-top:8px"><span><i style="background:#c8ced8"></i>无干预</span><span><i style="background:var(--es)"></i>SEAL 干预</span></div>
 <div id="f5"></div>
 </div>
-<figcaption><b>图 5：</b>每个箭头从未干预的模型指向干预后的模型（论文表 5）。箭头往左，说明 token 更少；往上，说明准确率更高。</figcaption>
+<figcaption><b>图 5：</b>每个箭头由未干预模型指向干预后模型，数据引自论文表 5。向左表示 token 数减少，向上表示准确率提高。</figcaption>
 </figure>
-<p>1.5B 模型上，GSM8K 准确率从 79.6% 升到 82.3%，token 数却少了 40%（2,435 → 1,460）；MATH500 准确率从 70.8% 升到 78.4%。7B 模型在两个基准上分别省下 13.3% 和 16.8% 的 token，GSM8K 准确率从 90.3% 略降到 88.5%，MATH500 从 86.6% 升到 88.2%。</p>
+<p>在 1.5B 模型上，激活干预将 GSM8K 准确率从 79.6% 提高到 82.3%，同时 token 数由 2,435 降至 1,460，减少 40%；MATH500 准确率从 70.8% 提高到 78.4%。7B 模型在两个基准上分别节省 13.3% 和 16.8% 的 token，GSM8K 准确率由 90.3% 略降至 88.5%，MATH500 准确率由 86.6% 提高到 88.2%。</p>
 <h3>缓解幻觉</h3>
-<p>TruthfulQA 上的实验采用二折交叉验证，比较三种分析类方法和两种学习类方法。分析类方法在最后一个 token 处对比真实回答和幻觉回答，学习类方法则在问答数据上训练。</p>
+<p>TruthfulQA 实验采用二折交叉验证，比较三种分析类方法和两种学习类方法：前者在最后一个 token 处对比真实回答与幻觉回答，后者在问答数据上训练。</p>
 <figure class="fig" id="fig-6">
 <div class="fig-box">
 <div class="ctl-row">
@@ -242,13 +242,13 @@
 </div>
 <div id="f6"></div>
 </div>
-<figcaption><b>图 6：</b>EasySteer 中实现的五种激活干预方法（论文表 4）。问答准确率由 DeepSeek V3.1 评判，虚线为未干预模型的结果。可以切换模型和指标。</figcaption>
+<figcaption><b>图 6：</b>EasySteer 中实现的五种激活干预方法，数据引自论文表 4。问答准确率由 DeepSeek V3.1 评判，虚线表示未干预模型。可切换模型和指标。</figcaption>
 </figure>
-<p>换一种方法只需改一个参数，这样的横向对比做起来很省事。<strong>Llama-3.1-8B 上，PCA 把选择题准确率从 50.55% 提到 62.67%；Qwen2.5-1.5B 上，LoReFT 把开放式问答准确率从 27.17% 提到 33.41%。</strong>两类方法的取舍也很明显：分析类方法的流畅度基本不受影响；学习类方法换来了更高的准确率，流畅度得分却有所下降。</p>
+<p>各方法只需修改一个参数即可替换，因此此类对比的成本很低。<strong>在 Llama-3.1-8B 上，PCA 将选择题准确率从 50.55% 提高到 62.67%；在 Qwen2.5-1.5B 上，LoReFT 将开放式问答准确率从 27.17% 提高到 33.41%。</strong>两类方法的取舍同样明显：分析类方法保持了流畅度，学习类方法则以较低的流畅度得分换取更高的准确率。</p>
 </section>
 <section class="chap" id="use">
-<h2><span class="n">5</span>如何使用</h2>
-<p>EasySteer 以 Apache-2.0 协议开源。当前版本基于 vLLM 0.29.0，支持连续批处理、前缀缓存和 CUDA Graph。和论文相比，请求 API 有了变化：论文里的 <code>SteerVectorRequest</code> 换成了 <code>SteeringSpec</code>，token 的选择移到了 <code>ApplySpec</code> 里。最简单的用法如下：</p>
+<h2><span class="n">5</span>使用方法</h2>
+<p>EasySteer 采用 Apache-2.0 许可证。当前版本基于 vLLM 0.29.0，支持连续批处理、前缀缓存和 CUDA Graph。与论文相比，请求 API 已有调整：<code>SteeringSpec</code> 取代了论文中的 <code>SteerVectorRequest</code>，token 选择移至 <code>ApplySpec</code>。最简示例如下：</p>
 <pre class="es-code"><span class="k">from</span> vllm <span class="k">import</span> LLM, SamplingParams
 <span class="k">from</span> vllm.steer_vectors <span class="k">import</span> SteeringSpec, VectorSpec, ApplySpec
 
@@ -260,7 +260,7 @@ spec = SteeringSpec(vectors=[VectorSpec(
     apply=ApplySpec(prompt=<span class="s">"all"</span>, generation=<span class="s">"all"</span>))])
 out = llm.generate(prompt, steering=spec,
                    sampling_params=SamplingParams(temperature=<span class="n">0.0</span>, max_tokens=<span class="n">128</span>))</pre>
-<p>用 <code>vllm serve … --enable-steer-vector</code> 启动 OpenAI 兼容服务后，同样的 spec 可以放进每个请求的 <code>steering</code> 字段发过去。单向量干预现在已经能在 vLLM 的 CUDA Graph 里运行；按仓库自带的 v0.29 基准测试（RTX A6000，同一个 1.5B 模型），全部层干预的吞吐量损失约为 3%。仓库还用 notebook 复现了十六篇已发表的激活干预论文，包括拒答方向、推理时干预，以及 SEAL、针对视觉语言模型幻觉的 SHARP、用于专家路由的 SteerMoE 等。激活干预是一把双刃剑。我们把 EasySteer 定位为研究工具，目标是让模型更安全、更可控；用它改变了模型行为，就应该如实告知用户。</p>
+<p>使用 <code>vllm serve … --enable-steer-vector</code> 启动 OpenAI 兼容服务后，可将同一 spec 作为每个请求的 <code>steering</code> 字段发送。单向量干预现已可在 vLLM 的 CUDA Graph 中运行；在仓库自带的 v0.29 基准测试中，使用 RTX A6000 和同一 1.5B 模型，全部层干预的吞吐量损失约为 3%。仓库还以 notebook 形式复现了十六篇已发表的激活干预论文，涵盖拒答方向、推理时干预、SEAL、面向视觉语言模型幻觉的 SHARP 以及面向专家路由的 SteerMoE 等。激活干预具有两用性：EasySteer 定位为构建更安全、更可控模型的研究工具，使用其改变模型行为时应向用户披露。</p>
 </section>
 <section class="chap" id="cite">
 <h2>引用</h2>
@@ -280,7 +280,7 @@ out = llm.generate(prompt, steering=spec,
 <li>Chen et al. (2025). <a href="https://arxiv.org/abs/2504.07986" rel="noopener" target="_blank">SEAL: Steerable Reasoning Calibration of Large Language Models for Free</a>.</li>
 <li>Lin et al. (2021). <a href="https://arxiv.org/abs/2109.07958" rel="noopener" target="_blank">TruthfulQA: Measuring How Models Mimic Human Falsehoods</a>.</li>
 </ol>
-<p style="margin-top:22px;font-size:14.5px">演示视频在 <a class="tx" href="https://www.youtube.com/watch?v=3rRGzZmhrXg" rel="noopener" target="_blank">YouTube</a> 上；安装方法、完整 API 和各篇论文的复现见<a class="tx" href="https://zjureal.com/EasySteer/latest/" rel="noopener" target="_blank">文档</a>。</p>
+<p style="margin-top:22px;font-size:14.5px">演示视频见 <a class="tx" href="https://www.youtube.com/watch?v=3rRGzZmhrXg" rel="noopener" target="_blank">YouTube</a>；安装方法、完整 API 和论文复现见<a class="tx" href="https://zjureal.com/EasySteer/latest/" rel="noopener" target="_blank">文档</a>。</p>
 </section>
 </article>
 </div>

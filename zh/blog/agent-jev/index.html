@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Actor, Judge, or Teacher? · REAL Lab 博客</title>
-<meta content="JEV 这类决策模型自己执行时，常在子目标有先后顺序的任务上出错；但让它在回合结束后回头打分，教出的 1.5B 策略反而比它强。与只用 GRPO 相比，ALFWorld 成功率从 72.8% 提升到 82.9%，WebShop 从 56.8% 提升到 71.4%。" name="description"/>
+<meta content="JEV 等决策模型独立执行时，在子目标有先后顺序的任务上常出错；但在回合结束后为每个动作评分时，由它指导训练的 1.5B 策略反而超过它本身。与仅用 GRPO 相比，ALFWorld 成功率由 72.8% 提升至 82.9%，WebShop 由 56.8% 提升至 71.4%。" name="description"/>
 <link href="https://zjureal.com/zh/blog/agent-jev/" rel="canonical"/><link href="https://zjureal.com/blog/agent-jev/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/agent-jev/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/agent-jev/" hreflang="x-default" rel="alternate"/>
 
 
@@ -14,7 +14,7 @@
 <meta content="article" property="og:type"/>
 <meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
 <meta content="Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents" property="og:title"/>
-<meta content="决策模型自己动手常出错，却能当好老师。前提是问对问题：问每个动作有没有帮上忙，并且让它看完整条轨迹。" property="og:description"/>
+<meta content="决策模型独立执行时常出错，却可以成为有效的教师。前提是提问恰当：询问每个动作是否有助于达成目标，并提供完整轨迹。" property="og:description"/>
 <meta content="https://zjureal.com/images/blog/agent-jev-banner.jpg" property="og:image"/>
 <meta content="https://zjureal.com/zh/blog/agent-jev/" property="og:url"/>
 <meta content="2026-11-22" property="article:published_time"/>
@@ -52,7 +52,7 @@
 <header class="post-head">
 <p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 11 月 22 日</span><span class="dot"></span><span>智能体 · 强化学习</span><span class="dot"></span><span>阅读约 14 分钟</span></p>
 <h1>Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents</h1>
-<p class="post-dek">决策模型回答问题时，给出一个选项和每个选项的概率。所以同一个模型有三种用法：替智能体选动作，当执行者（Actor）；给动作打分，当裁判（Judge）；指导策略训练，当老师（Teacher）。我们发现，自己动手常出错的模型也能当好老师，前提是问对问题，并让它看到完整轨迹。</p>
+<p class="post-dek">决策模型针对问题给出一个选项及各选项的概率，因此同一模型有三种用法：为智能体选择动作，即执行者（Actor）；为动作评分，即裁判（Judge）；指导策略训练，即教师（Teacher）。本文发现，独立执行时常出错的模型同样可以成为有效的教师，前提是提问恰当，并提供完整轨迹。</p>
 <div class="post-byline">
 <div>
 <p class="post-authors" data-people="../../../people.html" data-pubs="../../../publications.html" data-self="Actor, Judge, or Teacher?"><span class="au">Haochen Liu</span><sup>1*</sup>, <span class="au">Qianhao Zhu</span><sup>1*</sup>, <span class="au">Zixuan Wang</span><sup>1*</sup>, <span class="au">Dingming Li</span><sup>1</sup>, <span class="au">Tongbo Chen</span><sup>1</sup>, <span class="au">Peng Qiu</span><sup>2</sup>, <span class="au">Yingqi Qu</span><sup>2</sup>, <span class="au">Weiming Lu</span><sup>1</sup>, <span class="au">Jun Xiao</span><sup>1</sup>, <span class="au">Yongliang Shen</span><sup>1†</sup></p>
@@ -60,25 +60,25 @@
 </div>
 <div class="post-links"><a class="pill-btn solid" href="https://arxiv.org/abs/2611.17167" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg>论文</a> <a class="pill-btn" href="https://github.com/ZJU-REAL/decision-agents" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"></path></svg>代码</a> <a class="pill-btn" href="https://zjureal.com/decision-agents/" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>项目主页</a></div>
 </div>
-<figure class="post-banner"><img alt="水彩风景里有三个机器人：琥珀色的执行者在两条路之间犹豫，蓝色的裁判拿着放大镜查看脚印，绿色的老师指着黑板给一个小机器人讲课" height="544" src="../../../images/blog/agent-jev-banner.jpg" width="2172"/></figure>
+<figure class="post-banner"><img alt="水彩风景中有三个机器人：琥珀色的执行者在两条路之间犹豫，蓝色的裁判手持放大镜查看脚印，绿色的教师指着黑板为一个小机器人讲课" height="544" src="../../../images/blog/agent-jev-banner.jpg" width="2172"/></figure>
 </header>
 <div class="post-body">
 <nav aria-label="目录" class="toc">
 <p class="toc-title">目录</p>
 <ol>
 <li><a href="#tldr"><span class="n"></span>要点</a></li>
-<li><a href="#roles"><span class="n">1</span>同一个模型，三种问法</a></li>
-<li><a href="#actor"><span class="n">2</span>当执行者</a></li>
-<li class="sub"><a href="#actor-order">子目标有先后</a></li>
-<li class="sub"><a href="#actor-distract">不是不会，是分心</a></li>
-<li><a href="#judge"><span class="n">3</span>当裁判</a></li>
-<li class="sub"><a href="#judge-question">问动作，不问结局</a></li>
-<li class="sub"><a href="#judge-context">看完整条轨迹</a></li>
-<li><a href="#teacher"><span class="n">4</span>当老师</a></li>
-<li class="sub"><a href="#teacher-signal">从打分到优势</a></li>
+<li><a href="#roles"><span class="n">1</span>同一模型的三种用法</a></li>
+<li><a href="#actor"><span class="n">2</span>作为执行者</a></li>
+<li class="sub"><a href="#actor-order">有先后顺序的子目标</a></li>
+<li class="sub"><a href="#actor-distract">错误源于干扰而非能力不足</a></li>
+<li><a href="#judge"><span class="n">3</span>作为裁判</a></li>
+<li class="sub"><a href="#judge-question">评估动作贡献而非任务成败</a></li>
+<li class="sub"><a href="#judge-context">提供完整轨迹</a></li>
+<li><a href="#teacher"><span class="n">4</span>作为教师</a></li>
+<li class="sub"><a href="#teacher-signal">从评分到优势</a></li>
 <li class="sub"><a href="#teacher-results">实验结果</a></li>
-<li class="sub"><a href="#teacher-surpass">学生超过老师</a></li>
-<li><a href="#takeaways"><span class="n">5</span>几点启示</a></li>
+<li class="sub"><a href="#teacher-surpass">学生超过教师</a></li>
+<li><a href="#takeaways"><span class="n">5</span>启示</a></li>
 <li><a href="#cite"><span class="n"></span>引用</a></li>
 </ol>
 </nav>
@@ -87,57 +87,57 @@
 <summary>目录</summary>
 <ol>
 <li><a href="#tldr">要点</a></li>
-<li><a href="#roles">同一个模型，三种问法</a></li>
-<li><a href="#actor">当执行者</a></li>
-<li><a href="#judge">当裁判</a></li>
-<li><a href="#teacher">当老师</a></li>
-<li><a href="#takeaways">几点启示</a></li>
+<li><a href="#roles">同一模型的三种用法</a></li>
+<li><a href="#actor">作为执行者</a></li>
+<li><a href="#judge">作为裁判</a></li>
+<li><a href="#teacher">作为教师</a></li>
+<li><a href="#takeaways">启示</a></li>
 <li><a href="#cite">引用</a></li>
 </ol>
 </details>
 <section class="chap" id="tldr">
 <h2>要点</h2>
-<p class="lede"><em>决策模型</em>不输出自由文本。它针对给定的上下文回答问题，答案有固定格式，比如从几个选项里选一个，同时给出每个选项的概率。问题和状态可以任意搭配，所以同一个模型既能为智能体选下一步动作，也能评估已经做过的动作，还能在强化学习中给策略的每个动作打分。不过到目前为止，大家评价这类模型，主要看它自己执行得怎么样。</p>
-<p>我们想弄清楚：自己执行得差的模型，能不能教得好？在 ALFWorld 上，JEV 亲自选动作，只能完成 <strong>42.9%</strong> 的任务。换一种用法，让它在 GRPO 训练中给 1.5B 策略的每个动作打分，策略在同一批任务上的成功率就从单用 GRPO 的 72.8% 提高到 <strong>82.9%</strong>；在 WebShop 上，则从 56.8% 提高到 <strong>71.4%</strong>。<strong>差别出在时机：执行者只能事先预判后果，裁判读的是已经结束的回合，后果就摆在眼前。</strong></p>
-<p>这个收益有条件。问模型的，必须是每个动作<em>有没有帮助达成目标</em>，而不是任务会不会成功；给模型看的，必须是<em>完整轨迹</em>，而不只是这个动作之前的几步。照这样在每个回合结束后提问，参数冻结的决策模型就能提供步级监督：不需要步级标注，也不用训练 critic，每次训练的 API 花费只有 22 到 30 美元。</p>
-<div class="cards" id="cards"><a class="card" href="#teacher-surpass"> <p class="card-k">ALFWorld，全部任务</p> <p class="card-t">自己做不好，却能教得好</p> <div class="card-chart" data-card="0"></div> </a> <a class="card" href="#actor-order"> <p class="card-k">ALFWorld，子目标有先后的任务</p> <p class="card-t">执行最差的地方，提升最大</p> <div class="card-chart" data-card="1"></div> </a> <a class="card" href="#teacher-results"> <p class="card-k">WebShop，成功率</p> <p class="card-t">换个环境同样成立</p> <div class="card-chart" data-card="2"></div> </a> <a class="card" href="#teacher-results"> <p class="card-k">ALFWorld，策略规模</p> <p class="card-t">有老师教的 1.5B 胜过没老师的 7B</p> <div class="card-chart" data-card="3"></div> </a></div>
+<p class="lede"><em>决策模型</em>不输出自由文本，而是针对给定上下文回答问题，答案格式固定，例如从若干选项中选出一个，并给出各选项的概率。问题与状态可以任意组合，因此同一模型既能为智能体选择下一步动作，也能评估已执行的动作，还能在强化学习中为策略的每个动作评分。然而，现有工作评价这类模型时，主要关注其独立执行的表现。</p>
+<p>本文关注的问题是：独立执行表现差的模型，能否成为好的教师？在 ALFWorld 上，JEV 独立选择动作时仅完成 <strong>42.9%</strong> 的任务；而在 GRPO 训练中由它为 1.5B 策略的每个动作评分时，策略在同一批任务上的成功率由单用 GRPO 的 72.8% 提升至 <strong>82.9%</strong>，在 WebShop 上则由 56.8% 提升至 <strong>71.4%</strong>。<strong>差异来自评估时机：执行者只能事先预判后果，裁判评估的是已经结束的回合，后果已经可见。</strong></p>
+<p>这一收益有前提条件。提问须针对每个动作<em>是否有助于达成目标</em>，而非任务能否成功；提供的上下文须为<em>完整轨迹</em>，而非该动作之前的若干步。按此方式在每个回合结束后提问，参数冻结的决策模型即可提供步级监督，既无需步级标注，也无需训练 critic，每次训练的 API 费用仅为 22 至 30 美元。</p>
+<div class="cards" id="cards"><a class="card" href="#teacher-surpass"> <p class="card-k">ALFWorld，全部任务</p> <p class="card-t">执行能力弱，指导效果好</p> <div class="card-chart" data-card="0"></div> </a> <a class="card" href="#actor-order"> <p class="card-k">ALFWorld，子目标有先后顺序的任务</p> <p class="card-t">执行最差的任务，提升最大</p> <div class="card-chart" data-card="1"></div> </a> <a class="card" href="#teacher-results"> <p class="card-k">WebShop，成功率</p> <p class="card-t">在另一环境中同样成立</p> <div class="card-chart" data-card="2"></div> </a> <a class="card" href="#teacher-results"> <p class="card-k">ALFWorld，策略规模</p> <p class="card-t">有教师指导的 1.5B 优于无教师的 7B</p> <div class="card-chart" data-card="3"></div> </a></div>
 </section>
 <section class="chap" id="roles">
-<h2><span class="n">1</span>同一个模型，三种问法</h2>
-<p>决策模型的输入有两部分：<em>问题</em>和<em>上下文</em>。遇到选择题，它选出一个选项，同时给每个选项一个概率；遇到是非题，它返回 [0, 1] 之间的一个分数。下面三种角色用的是同一个模型，区别只在问它什么、它的回答拿来做什么。</p>
+<h2><span class="n">1</span>同一模型的三种用法</h2>
+<p>决策模型的输入包括<em>问题</em>与<em>上下文</em>两部分。对于选择题，模型选出一个选项，并给出各选项的概率；对于是非题，模型返回 [0, 1] 区间内的分数。以下三种角色使用同一模型，区别仅在于提问内容与回答的用途。</p>
 <ul class="clean">
-<li><span class="role-a">执行者（Actor）。</span>每一步，模型根据目标、历史和当前观测，从合法命令里挑出下一步动作，然后执行。</li>
-<li><span class="role-j">裁判（Judge）。</span>模型给一条已有轨迹里的每个动作打分。我们调整两个维度。一是给它看什么：截至该动作的轨迹（<em>Prefix</em>，前缀），或者整条轨迹（<em>Hindsight</em>，事后回看）。二是问它什么：做完这个动作后任务能不能成功（<em>Value</em>），或者这个动作有没有推动目标达成（<em>Progress</em>）。</li>
-<li><span class="role-t">老师（Teacher）。</span>模型给正在训练的策略做出的动作打分，分数作为步级信用信号接入 GRPO。模型参数始终冻结，测试时也不参与。</li>
+<li><span class="role-a">执行者（Actor）。</span>每一步，模型根据目标、历史与当前观测，从合法命令中选出下一步动作并执行。</li>
+<li><span class="role-j">裁判（Judge）。</span>模型为已有轨迹中的每个动作评分。实验调整两个维度：一是提供的上下文，即截至该动作的轨迹（<em>Prefix</em>，前缀）或完整轨迹（<em>Hindsight</em>，事后回看）；二是提问内容，即执行该动作后任务能否成功（<em>Value</em>），或该动作是否推进了目标（<em>Progress</em>）。</li>
+<li><span class="role-t">教师（Teacher）。</span>模型为训练中的策略所执行的动作评分，分数作为步级信用信号接入 GRPO。模型参数始终冻结，测试阶段不参与。</li>
 </ul>
-<p><a class="fig-ref" href="#fig-1">图 1</a>沿用论文的主线例子“把加热过的杯子放到桌上”，依次演示这三种角色。</p>
+<p><a class="fig-ref" href="#fig-1">图 1</a>以论文的主线示例“把加热过的杯子放到桌上”依次演示三种角色。</p>
 <figure class="fig bleed" id="fig-1">
 <div class="m1" data-phase="0">
 <div class="m1-bar">
 <div aria-label="角色" class="m1-tabs" role="group">
 <button class="m1-tab" data-go="0" type="button"><span class="m1-tn">1</span>执行者<i class="m1-prog"></i></button>
 <button class="m1-tab" data-go="1" type="button"><span class="m1-tn">2</span>裁判<i class="m1-prog"></i></button>
-<button class="m1-tab" data-go="2" type="button"><span class="m1-tn">3</span>老师<i class="m1-prog"></i></button>
+<button class="m1-tab" data-go="2" type="button"><span class="m1-tn">3</span>教师<i class="m1-prog"></i></button>
 </div>
 <button aria-pressed="false" class="ctl-btn m1-pp" hidden="" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><rect fill="currentColor" height="9" rx=".6" width="2.6" x="2" y="1.5"></rect><rect fill="currentColor" height="9" rx=".6" width="2.6" x="7.4" y="1.5"></rect></svg><span>暂停</span></button>
 </div>
 <div class="m1-grid">
 <!-- Row 1: what each role asks -->
 <div class="m1-p ask r0" data-role="0">
-<p class="m1-h"><b>执行者</b><span>选下一步动作</span></p>
-<div class="m1-obs fx" data-a="0" data-b="400" data-fx="fade"><span class="m1-k">观测</span>站在桌边，手里拿着没加热的杯子。<i class="m1-scan" data-a="100" data-b="800" data-fx="scan"></i></div>
+<p class="m1-h"><b>执行者</b><span>选择下一步动作</span></p>
+<div class="m1-obs fx" data-a="0" data-b="400" data-fx="fade"><span class="m1-k">观测</span>站在桌边，手持未加热的杯子。<i class="m1-scan" data-a="100" data-b="800" data-fx="scan"></i></div>
 <ul class="m1-opts">
 <li class="fx" data-a="250" data-b="600" data-fx="fade"><span class="m1-key">A</span><code>place mug on table</code></li>
 <li class="fx" data-a="350" data-b="700" data-fx="fade"><span class="m1-key">B</span><code>go to microwave</code></li>
 <li class="fx" data-a="450" data-b="800" data-fx="fade"><span class="m1-key">C</span><code>look</code><span class="m1-more">… 其他合法动作</span></li>
 </ul>
-<p class="m1-q fx" data-a="550" data-b="800" data-fx="fade"><span class="m1-k">问题</span><span class="fx-type" data-a="700" data-b="1900">下一步该执行哪个动作？</span></p>
+<p class="m1-q fx" data-a="550" data-b="800" data-fx="fade"><span class="m1-k">问题</span><span class="fx-type" data-a="700" data-b="1900">下一步应执行哪个动作？</span></p>
 </div>
 <div class="m1-p ask r1" data-role="1">
-<p class="m1-h"><b>裁判</b><span>给已有轨迹里的动作打分</span></p>
+<p class="m1-h"><b>裁判</b><span>为已有轨迹中的动作评分</span></p>
 <p class="m1-task fx" data-a="8600" data-b="8900" data-fx="fade">历史回合：把加热过的杯子放进柜子</p>
 <ol class="m1-traj">
-<li class="fx" data-a="8700" data-b="9000" data-fx="fade"><span class="m1-s">6</span><code>move mug to cabinet</code><em>放早了</em></li>
+<li class="fx" data-a="8700" data-b="9000" data-fx="fade"><span class="m1-s">6</span><code>move mug to cabinet</code><em>放置过早</em></li>
 <li class="fx" data-a="8780" data-b="9080" data-fx="fade"><span class="m1-s">7</span><code>take mug from cabinet</code></li>
 <li class="fx" data-a="8860" data-b="9160" data-fx="fade"><span class="m1-s">8</span><code>go to microwave</code></li>
 <li class="fx m1-target" data-a="8940" data-b="9240" data-fx="fade"><span class="m1-s">9</span><code>open microwave</code><em>待评分</em></li>
@@ -145,13 +145,13 @@
 <li class="fx" data-a="9100" data-b="9400" data-fx="fade"><span class="m1-s">12</span><code>move mug to cabinet</code><em>目标完成</em></li>
 <i aria-hidden="true" class="m1-ctx"></i>
 </ol>
-<p class="m1-q fx" data-a="9950" data-b="10200" data-fx="fade"><span class="m1-k">问题</span><span class="fx-type" data-a="10100" data-b="11300">这个动作对达成目标有帮助吗？</span></p>
+<p class="m1-q fx" data-a="9950" data-b="10200" data-fx="fade"><span class="m1-k">问题</span><span class="fx-type" data-a="10100" data-b="11300">该动作是否有助于达成目标？</span></p>
 </div>
 <div class="m1-p ask r2" data-role="2">
-<p class="m1-h"><b>老师</b><span>给策略自己生成的 rollout 打分</span></p>
+<p class="m1-h"><b>教师</b><span>为策略生成的 rollout 评分</span></p>
 <p class="m1-policy fx" data-a="17700" data-b="18100" data-fx="fade"><span class="m1-pi">π<sub>θ</sub></span>正在训练的策略<i class="m1-upd">已更新</i></p>
 <div class="m1-roll"><span class="m1-rn fx" data-a="17950" data-b="18200" data-fx="fade">1</span> <code class="fx" data-a="18000" data-b="18300" data-fx="fade">拿起杯子</code> <code class="fx noop" data-a="18100" data-b="18400" data-fx="fade">再拿一次<em>无效</em></code> <code class="fx mile" data-a="18200" data-b="18500" data-fx="fade">加热杯子<em>里程碑</em></code> <code class="fx" data-a="18300" data-b="18600" data-fx="fade">放下 ✓</code> <span class="m1-rn fx" data-a="18350" data-b="18600" data-fx="fade">2</span> <code class="fx" data-a="18400" data-b="18700" data-fx="fade">放下冷杯子</code> <code class="fx undo" data-a="18500" data-b="18800" data-fx="fade">取回杯子</code> <code class="fx" data-a="18600" data-b="18900" data-fx="fade">加热杯子</code> <code class="fx" data-a="18700" data-b="19000" data-fx="fade">放下 ✓</code></div>
-<p class="m1-q fx" data-a="18950" data-b="19200" data-fx="fade"><span class="m1-k">问题（每个动作都问）</span><span class="fx-type" data-a="19100" data-b="20000">这个动作对达成目标有帮助吗？</span></p>
+<p class="m1-q fx" data-a="18950" data-b="19200" data-fx="fade"><span class="m1-k">问题（对每个动作提问）</span><span class="fx-type" data-a="19100" data-b="20000">该动作是否有助于达成目标？</span></p>
 </div>
 <!-- Row 2: queries travel down -->
 <div class="m1-lane r0" data-role="0"><i class="m1-dot" data-fx="dot" data-w="2000,2550|"></i></div>
@@ -161,7 +161,7 @@
 <div class="m1-band">
 <div class="m1-band-l">
 <p class="m1-band-t">决策模型</p>
-<p class="m1-band-s">问题 + 上下文 → 固定格式的答案。示例模型是 JEV，本文评测的六个模型之一。</p>
+<p class="m1-band-s">问题 + 上下文 → 固定格式的答案。示例模型为 JEV，即本文评测的六个模型之一。</p>
 </div>
 <div class="m1-req">
 <div class="m1-rq on" data-rq="0"><span><b>问题</b> <code>next_action</code></span><span><b>上下文</b> 目标 · 历史 · 观测</span><span><b>回答</b> 一个选项 + 各选项的概率</span></div>
@@ -179,11 +179,11 @@
 <p class="m1-k fx" data-a="3550" data-b="3800" data-fx="fade">各选项概率</p>
 <div class="m1-probs fx" data-a="3600" data-b="3850" data-fx="fade">
 <div class="m1-pr hot"><span>A 直接放下</span><i class="fx-grow" data-a="3700" data-b="4700" style="--v:63.8"></i><b>63.8%</b></div>
-<div class="m1-pr"><span>B 去微波炉</span><i class="fx-grow" data-a="3800" data-b="4800" style="--v:14.6"></i><b>14.6%</b></div>
+<div class="m1-pr"><span>B 前往微波炉</span><i class="fx-grow" data-a="3800" data-b="4800" style="--v:14.6"></i><b>14.6%</b></div>
 <div class="m1-pr"><span>其他</span><i class="fx-grow" data-a="3900" data-b="4900" style="--v:21.6"></i><b>21.6%</b></div>
 </div>
 <div class="m1-out fx" data-a="5300" data-b="5800" data-fx="fade"><code>place mug on table</code><span class="ok">已放下 ✓</span><span class="no">未加热 ✗</span></div>
-<p class="m1-note fx" data-a="6200" data-b="6800" data-fx="fade">先做了容易的子目标，任务没能完成。</p>
+<p class="m1-note fx" data-a="6200" data-b="6800" data-fx="fade">先完成了容易的子目标，导致任务失败。</p>
 </div>
 <div class="m1-p res r1" data-role="1">
 <p class="m1-k fx" data-a="12950" data-b="13200" data-fx="fade">第 9 步 <code>open microwave</code> 的得分</p>
@@ -191,10 +191,10 @@
 <div class="m1-pr fx" data-a="13000" data-b="13250" data-fx="fade"><span>Prefix</span><i class="fx-grow" data-a="13100" data-b="13900" style="--v:20"></i><b>0.20</b></div>
 <div class="m1-pr hot fx" data-a="16350" data-b="16600" data-fx="fade"><span>Hindsight</span><i class="fx-grow" data-a="16500" data-b="17300" style="--v:76"></i><b>0.76</b></div>
 </div>
-<p class="m1-note fx" data-a="17300" data-b="17800" data-fx="fade">问题不变；看到后面加热了杯子，才明白这一步为什么要紧。</p>
+<p class="m1-note fx" data-a="17300" data-b="17800" data-fx="fade">问题不变；看到后续的加热步骤后，才能判断这一步的作用。</p>
 </div>
 <div class="m1-p res r2" data-role="2">
-<p class="m1-k fx" data-a="21450" data-b="21700" data-fx="fade">老师打分 <i class="m1-mean fx" data-a="23200" data-b="23700" data-fx="fade">组均值 0.71</i></p>
+<p class="m1-k fx" data-a="21450" data-b="21700" data-fx="fade">教师评分 <i class="m1-mean fx" data-a="23200" data-b="23700" data-fx="fade">组均值 0.71</i></p>
 <div class="m1-scores fx" data-a="21500" data-b="21750" data-fx="fade">
 <span class="m1-rn">1</span>
 <i class="m1-sc" data-a="21700" data-s="0.85"></i><i class="m1-sc" data-a="21850" data-s="0.07"></i><i class="m1-sc" data-a="22000" data-s="0.95"></i><i class="m1-sc" data-a="22150" data-s="0.98"></i>
@@ -202,13 +202,13 @@
 <i class="m1-sc" data-a="22300" data-s="0.10"></i><i class="m1-sc" data-a="22450" data-s="0.82"></i><i class="m1-sc" data-a="22600" data-s="0.93"></i><i class="m1-sc" data-a="22750" data-s="0.99"></i>
 </div>
 <div class="m1-out m1-grpo fx" data-a="24300" data-b="24800" data-fx="fade"><span>结果优势 + 0.5 × (得分 − 均值)</span><b>GRPO</b></div>
-<p class="m1-note fx" data-a="24900" data-b="25500" data-fx="fade">无效动作的优势调低，取回冷杯子的那一步得到加分。</p>
+<p class="m1-note fx" data-a="24900" data-b="25500" data-fx="fade">调低无效动作的优势，提高取回冷杯子一步的优势。</p>
 </div>
 </div>
 </div>
-<figcaption><b>图 1：</b>同一个决策模型在“加热杯子”类任务上的三种问法。<b>执行者：</b>JEV 在 116 个状态上的平均选项概率，这些状态里物体都还需要加热、清洗或冷却。<b>裁判：</b>JEV 对一个历史回合第 9 步的打分，先只给它看到第 9 步为止，再给它看整个回合（论文表 9）。<b>老师：</b>分数是论文图 1 中的示意值，减去组内均值后加到 GRPO 的结果优势上。点上方的标签可以切换角色。</figcaption>
+<figcaption><b>图 1：</b>同一决策模型在“加热杯子”类任务上的三种用法。<b>执行者：</b>JEV 在 116 个状态上的平均选项概率，这些状态中的物体均需先加热、清洗或冷却。<b>裁判：</b>JEV 对某一历史回合第 9 步的评分，分别提供截至第 9 步的轨迹与完整回合（论文表 9）。<b>教师：</b>分数为论文图 1 中的示意值，减去组内均值后加到 GRPO 的结果优势上。点击上方标签可切换角色。</figcaption>
 </figure>
-<p>我们评测了六个能这样回答问题的模型。三个是正式发布的<strong>专用决策模型</strong>，通过各自的决策 API 调用。另外三个是<strong>通用大模型</strong>，问它们同样的问题，答案有两种取法：在提示里要求输出 JSON，或者直接读取合法答案标签的首 token 概率。其中两个通用大模型正好是 Decider v1.2 和 GPT Decisions 的基座，所以这两个专用模型都能和自己的基座直接对比。</p>
+<p>本文评测了六个支持此类问答的模型。其中三个是已正式发布的<strong>专用决策模型</strong>，通过各自的决策 API 调用；另外三个是<strong>通用大模型</strong>，提出相同问题后以两种方式获取答案：在提示中要求输出 JSON，或直接读取合法答案标签的首 token 概率。其中两个通用大模型分别是 Decider v1.2 与 GPT Decisions 的基座，因此这两个专用模型均可与各自的基座直接比较。</p>
 <div class="tbl-wrap">
 <table class="btable txt">
 <thead><tr><th>模型</th><th>基座模型</th><th>决策接口的实现方式</th><th>访问方式</th></tr></thead>
@@ -217,23 +217,23 @@
 <tr><td>Decider v1.2</td><td>Qwen3.8-27B</td><td>全参数微调</td><td>开放权重</td></tr>
 <tr><td>GPT Decisions</td><td>GPT-6 Luna</td><td>未公开</td><td>仅 API</td></tr>
 <tr><td>Qwen prompted</td><td>Qwen3.8-27B</td><td>提示（输出 JSON）</td><td>开放权重</td></tr>
-<tr><td>Qwen constrained</td><td>Qwen3.8-27B</td><td>限定标签读概率（首 token）</td><td>开放权重</td></tr>
+<tr><td>Qwen constrained</td><td>Qwen3.8-27B</td><td>读取限定标签的概率（首 token）</td><td>开放权重</td></tr>
 <tr><td>GPT Luna</td><td>GPT-6 Luna</td><td>提示（输出 JSON）</td><td>仅 API</td></tr>
 </tbody>
 </table>
 </div>
-<p style="margin-top:16px">实验用到两个文本环境，环境里有些要求必须按固定顺序完成。<strong>ALFWorld</strong> <a class="cite" href="#ref-alfworld">[1]</a> 是家务环境，智能体用 <code>go to</code>、<code>take</code>、<code>heat</code> 等命令完成目标。其中 <em>Clean</em>、<em>Heat</em>、<em>Cool</em> 三类任务存在依赖：物体要先改变状态，才能放到指定位置。<em>Pick2</em> 也有两个要求，要放两个物体，但先放哪个都行。<strong>WebShop</strong> <a class="cite" href="#ref-webshop">[2]</a> 是购物环境，智能体在商品目录里搜索，下单前必须选好指定的选项。</p>
+<p style="margin-top:16px">实验采用两个文本环境，其中部分要求必须按固定顺序完成。<strong>ALFWorld</strong> <a class="cite" href="#ref-alfworld">[1]</a> 是家务环境，智能体使用 <code>go to</code>、<code>take</code>、<code>heat</code> 等命令完成目标。其中 <em>Clean</em>、<em>Heat</em>、<em>Cool</em> 三类任务存在依赖关系：物体须先改变状态，才能放到指定位置。<em>Pick2</em> 同样包含两个要求，即放置两个物体，但顺序不限。<strong>WebShop</strong> <a class="cite" href="#ref-webshop">[2]</a> 是购物环境，智能体在商品目录中搜索，下单前须选定指定选项。</p>
 </section>
 <section class="chap" id="actor">
-<h2><span class="n">2</span>当执行者：容易的子目标会把模型带偏</h2>
-<div class="finding a"><span class="k">发现 1</span><p>六个模型当执行者时，只要一个子目标必须先于另一个完成，就都容易出错：更容易的那个子目标会把它们从该先做的一步上拉走。</p></div>
-<h3 id="actor-order">子目标一有先后，执行就出问题</h3>
-<p>所有模型在有依赖的任务上，成功率都远低于无依赖的任务（<a class="fig-ref" href="#fig-2">图 2</a>）。JEV 能完成 70.8% 的 <em>Pick2</em> 任务，但在每一类依赖任务上都不超过 18.8%。整体最强的执行者 Decider v1.2（63.6%），在 <em>Heat</em> 任务上也只有 18.8%。<em>Pick2</em> 同样有两个子目标，所以难点不在子目标的数量，而在它们的<em>顺序</em>。</p>
+<h2><span class="n">2</span>作为执行者：容易的子目标导致决策偏离</h2>
+<div class="finding a"><span class="k">发现 1</span><p>六个模型作为执行者时，只要某一子目标必须先于另一子目标完成，就容易出错：较容易的子目标使模型偏离应当先执行的步骤。</p></div>
+<h3 id="actor-order">子目标有先后顺序时执行失败</h3>
+<p>所有模型在有依赖任务上的成功率均远低于无依赖任务（<a class="fig-ref" href="#fig-2">图 2</a>）。JEV 能完成 70.8% 的 <em>Pick2</em> 任务，但在各类依赖任务上均不超过 18.8%。整体表现最好的执行者 Decider v1.2（63.6%）在 <em>Heat</em> 任务上也仅为 18.8%。<em>Pick2</em> 同样包含两个子目标，可见难点不在子目标的数量，而在其<em>顺序</em>。</p>
 <figure class="fig" id="fig-2">
 <div class="fig-box">
 <div class="ctl-row">
 <div>
-<p class="panel-k">ALFWorld，当执行者</p>
+<p class="panel-k">ALFWorld，执行者</p>
 <p class="panel-t">执行者在各类任务上的成功率</p>
 </div>
 <div aria-label="显示" class="seg" id="f2-mode" role="group">
@@ -243,18 +243,18 @@
 </div>
 <div id="f2"></div>
 </div>
-<figcaption><b>图 2：</b>六个模型在 ALFWorld 上当执行者的成功率（%）。评估任务与后文训练策略时用的相同，每个任务跑一次。<i>Pick2</i> 和三类依赖任务都有两个子目标，区别是只有依赖任务规定了顺序。切到“Pick2 与依赖任务”可以直接对比两者；鼠标悬停在格子上可查看具体数值。</figcaption>
+<figcaption><b>图 2：</b>六个模型在 ALFWorld 上作为执行者的成功率（%）。评估任务与后文策略训练所用任务相同，每个任务运行一次。<i>Pick2</i> 与三类依赖任务均包含两个子目标，区别在于只有依赖任务规定了顺序。切换至“Pick2 与依赖任务”可直接对比两者；鼠标悬停于格子上可查看具体数值。</figcaption>
 </figure>
-<p>看失败的回合，就知道顺序是怎么乱掉的。执行者拿着杯子站在桌边，这时有两种走法：一步把杯子放下，或者走到微波炉把杯子加热再回来。很多失败回合里，它直接放下了没加热的杯子，任务从此没法按要求完成。</p>
-<h3 id="actor-distract">不是不会，是分心</h3>
-<p>我们从 66 个任务里挑出 116 个状态。在这些状态下，一个动作就能完成容易的子目标，而必须先做的子目标还没完成。在每个状态上，我们用两个目标分别询问执行者，两者只差那个容易的子目标，例如“把加热过的杯子放到边桌上”和“加热杯子”。其余输入完全相同，包括历史、观测、候选动作和剩余步数预算。</p>
-<p><strong>目标完整时，JEV 把 63.8% 的概率给了容易的子目标，只给必须先做的那一步 14.6%；把容易的子目标从目标里去掉，两者变成 2.5% 和 77.6%</strong>（<a class="fig-ref" href="#fig-3">图 3</a> 左）。六个执行者的变化方向都一样。可见它们知道该先做哪一步，只是容易的子目标把概率抢走了。提醒它们注意依赖关系也几乎没用：加一句通用提示，成功率只变化 −2.8 到 +5.2 个百分点；再给一个按正确顺序完成的示例，也只对部分模型有效（图 3 右）。</p>
+<p>失败回合显示了顺序出错的过程。执行者手持杯子站在桌边，此时有两种选择：直接放下杯子，或前往微波炉加热杯子后再返回。许多失败回合中，执行者直接放下了未加热的杯子，此后任务无法按要求完成。</p>
+<h3 id="actor-distract">错误源于干扰而非能力不足</h3>
+<p>从 66 个任务中选取 116 个状态。在这些状态下，一个动作即可完成容易的子目标，而必须先完成的子目标尚未完成。在每个状态上，分别用两个目标询问执行者，两者仅相差该容易的子目标，例如“把加热过的杯子放到边桌上”与“加热杯子”。其余输入完全相同，包括历史、观测、候选动作与剩余步数预算。</p>
+<p><strong>目标完整时，JEV 将 63.8% 的概率分配给容易的子目标，仅将 14.6% 分配给必须先执行的步骤；从目标中去掉容易的子目标后，两者变为 2.5% 与 77.6%</strong>（<a class="fig-ref" href="#fig-3">图 3</a> 左）。六个执行者的变化方向一致。由此可见，模型知道应先执行哪一步，只是概率被容易的子目标占据。提示模型注意依赖关系也几乎无效：加入一句通用提示后，成功率仅变化 −2.8 至 +5.2 个百分点；再提供一个按正确顺序完成的示例，也只对部分模型有效（图 3 右）。</p>
 <figure class="fig" id="fig-3">
 <div class="fig-box">
 <div class="duo">
 <div>
 <p class="panel-k">JEV，116 个状态</p>
-<p class="panel-t">概率给了谁</p>
+<p class="panel-t">概率分配</p>
 <p class="panel-u">JEV 在各类动作上的概率占比（%）</p>
 <div aria-label="目标" class="seg" id="f3-goal" role="group" style="margin:4px 0 14px">
 <button aria-pressed="true" data-g="0" type="button">完整目标</button>
@@ -263,129 +263,129 @@
 <div id="f3a"></div>
 </div>
 <div>
-<p class="panel-k">同样 116 个状态，继续执行到回合结束</p>
+<p class="panel-k">同一组 116 个状态，继续执行至回合结束</p>
 <p class="panel-t">提示里加入顺序示例后的成功率</p>
 <p class="panel-u">原提示 → 依赖提示 + 加热杯子示例（%）</p>
 <div id="f3b"></div>
 </div>
 </div>
 </div>
-<figcaption><b>图 3：</b><b>左：</b>JEV 的动作概率，分三组：走向必须先完成的子目标的一步、直接完成容易子目标的动作、其他动作；对比目标里有、没有容易子目标两种情况。<b>右：</b>每个回合继续执行时的成功率，对比原提示和“依赖提示 + 顺序示例”。GPT Luna 变化很小，论文正文也没有给出具体数值，图中未画。</figcaption>
+<figcaption><b>图 3：</b><b>左：</b>JEV 的动作概率，分为三组：走向必须先完成的子目标的动作、直接完成容易子目标的动作与其他动作；对比目标中包含与不包含容易子目标两种情况。<b>右：</b>各回合继续执行时的成功率，对比原提示与“依赖提示 + 顺序示例”。GPT Luna 变化很小，论文正文未给出具体数值，图中未绘出。</figcaption>
 </figure>
-<p>要在这里做对，执行者得在任何后果出现<em>之前</em>就想到：这个顺手的动作会让任务做不完。裁判不一样，它在后果出现之后才评价动作。下一节就讲裁判。</p>
+<p>执行者要在此处做对，必须在任何后果出现<em>之前</em>预见到：这一顺手的动作将导致任务无法完成。裁判则在后果出现之后评价动作。</p>
 </section>
 <section class="chap" id="judge">
-<h2><span class="n">3</span>当裁判：问什么、看什么，决定判得准不准</h2>
-<div class="finding j"><span class="k">发现 2</span><p>当执行者时忽略的贡献，同样的模型当裁判时能认出来。看到完整轨迹，才看得出前面的动作怎样为后面的进展铺路；问每个动作有没有帮助，才能把这些动作和什么都没改变的动作分开。</p></div>
-<p>我们复用从这 116 个状态出发的成功轨迹，遮住结果标签，问每个裁判：在诊断状态下执行的第一个动作，对达成目标有没有帮助。把前缀换成完整轨迹后，六个模型给这些动作的平均分都上升了，JEV 从 0.41 升到 0.59。这就引出两个问题：完整轨迹是不是只会让所有动作都显得不错？裁判从中到底多看到了什么？</p>
-<h3 id="judge-question">问这一步有没有用，别问任务能不能成</h3>
-<p>我们给 462 条 ALFWorld 轨迹里的动作打上三类标签：<em>里程碑</em>（完成某个子目标）、<em>无效动作</em>（环境没有任何变化）和<em>其他</em>。能看到完整轨迹时，<em>Value</em> 问题给这三类动作的分数几乎一样：回合最后成功了，里面每个动作都算“通向成功”。换成 <em>Progress</em> 问题，六个模型都能把三类拉开（<a class="fig-ref" href="#fig-4">图 4</a>）。以 JEV 为例，在同一条轨迹内，Progress 给里程碑的分数比无效动作高 0.36，Value 只高 0.05；在每条轨迹得分最高的那批动作里，Progress 选中的里程碑比例也高出 8.0 到 16.0 个百分点。</p>
+<h2><span class="n">3</span>作为裁判：提问方式与可见信息的影响</h2>
+<div class="finding j"><span class="k">发现 2</span><p>执行时被忽略的贡献，同一模型作为裁判时能够识别。只有看到完整轨迹，才能看出前期动作如何为后续进展铺垫；只有询问每个动作是否有帮助，才能将这些动作与未产生任何变化的动作区分开。</p></div>
+<p>复用从上述 116 个状态出发的成功轨迹，隐去结果标签，询问每个裁判：在诊断状态下执行的第一个动作是否有助于达成目标。将前缀替换为完整轨迹后，六个模型对这些动作的平均评分均有所上升，JEV 由 0.41 升至 0.59。由此产生两个问题：完整轨迹是否只是让所有动作的评分普遍升高？裁判从中额外获得了哪些信息？</p>
+<h3 id="judge-question">评估动作贡献而非任务成败</h3>
+<p>将 462 条 ALFWorld 轨迹中的动作标注为三类：<em>里程碑</em>，即完成某一子目标的动作；<em>无效动作</em>，即环境未发生任何变化的动作；以及<em>其他</em>动作。可见完整轨迹时，<em>Value</em> 问题对这三类动作的评分几乎相同：回合最终成功，其中每个动作都被视为“通向成功”。改用 <em>Progress</em> 问题后，六个模型均能区分三类动作（<a class="fig-ref" href="#fig-4">图 4</a>）。以 JEV 为例，在同一条轨迹内，Progress 对里程碑的评分比无效动作高 0.36，Value 仅高 0.05；在每条轨迹得分最高的动作中，Progress 选中里程碑的比例也高出 8.0 至 16.0 个百分点。</p>
 <figure class="fig" id="fig-4">
 <div class="fig-box">
 <div class="ctl-row">
 <div>
-<p class="panel-k">ALFWorld，462 条轨迹，看完整轨迹（Hindsight）</p>
+<p class="panel-k">ALFWorld，462 条轨迹，完整轨迹（Hindsight）</p>
 <p class="panel-t">各类动作的平均得分</p>
 </div>
 </div>
 <div aria-label="裁判" class="seg f4-pick" id="f4-model" role="group"></div>
 <div id="f4"></div>
 </div>
-<figcaption><b>图 4：</b>两种问题下，里程碑、其他和无效动作的 Hindsight 平均得分（先在每条轨迹内平均，再在轨迹间平均）。括线标出里程碑与无效动作的均值差。可以切换裁判模型对比：六个模型上，Progress 都能把三组分开。</figcaption>
+<figcaption><b>图 4：</b>两种问题下里程碑、其他与无效动作的 Hindsight 平均得分，先在每条轨迹内平均，再在轨迹间平均。括线标出里程碑与无效动作的均值差。切换裁判模型可以看到，在六个模型上，Progress 均能区分三组动作。</figcaption>
 </figure>
-<h3 id="judge-context">看完整条轨迹</h3>
-<p>为了弄清多出来的上下文起了什么作用，我们把问题固定为 Progress，把轨迹一段段展开：先只给前缀，再加上动作之后的即时反馈，然后依次加上后续部分的 25%、50%、75% 和全部。在 167 条轨迹上，加入反馈后，JEV 对轨迹内动作的排名平均变动 1.95 位；看到完整轨迹时，平均变动 3.30 位。<a class="fig-ref" href="#fig-5">图 5</a> 是其中一条，可以拖动滑块，也可以点播放。</p>
+<h3 id="judge-context">提供完整轨迹</h3>
+<p>为分析额外上下文的作用，将问题固定为 Progress，并逐段展开轨迹：先只提供前缀，再加入动作之后的即时反馈，然后依次加入后续部分的 25%、50%、75% 与全部。在 167 条轨迹上，加入反馈后，JEV 对轨迹内动作的排名平均变动 1.95 位；看到完整轨迹时，平均变动 3.30 位。<a class="fig-ref" href="#fig-5">图 5</a> 展示其中一条轨迹，可拖动滑块或点击播放。</p>
 <figure class="fig bleed" id="fig-5">
 <div class="fig-box">
 <div class="ctl-row">
 <div>
-<p class="panel-k">JEV 当裁判，Progress 问题</p>
-<p class="panel-t">“把加热过的杯子放进柜子”：看到的回合越多，各步得分怎么变</p>
+<p class="panel-k">JEV 作为裁判，Progress 问题</p>
+<p class="panel-t">“把加热过的杯子放进柜子”：可见回合增加时各步得分的变化</p>
 </div>
 <button class="ctl-btn" id="f5-play" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><path d="M3 1.8v8.4L10 6z" fill="currentColor"></path></svg><span>播放</span></button>
 </div>
 <div class="f5-ctx">
-<span class="f5-ctx-k">能看到的内容</span>
-<div aria-label="能看到的内容" class="seg" id="f5-steps" role="group"></div>
+<span class="f5-ctx-k">可见内容</span>
+<div aria-label="可见内容" class="seg" id="f5-steps" role="group"></div>
 </div>
 <div id="f5"></div>
 <p aria-live="polite" class="f5-callout" id="f5-note"></p>
 </div>
-<figcaption><b>图 5：</b>JEV 对同一回合全部 12 个动作的 Progress 打分（论文表 9）。这个回合里，杯子没加热就放进了柜子（第 6 步），随后取回（7），用微波炉加热（8 到 10），最后放回柜子（12）。每根柱子是裁判对该动作的打分，裁判依次能看到：到该动作为止的回合，加上即时反馈，再加上后续步骤的 25%、50%、75% 或全部。</figcaption>
+<figcaption><b>图 5：</b>JEV 对同一回合全部 12 个动作的 Progress 评分（论文表 9）。该回合中，第 6 步将未加热的杯子放进柜子，第 7 步取回，第 8 至 10 步用微波炉加热，第 12 步放回柜子。每根柱子表示裁判对该动作的评分，裁判依次可见：截至该动作的回合，加入即时反馈，再加入后续步骤的 25%、50%、75% 或全部。</figcaption>
 </figure>
-<p>只看前缀时，JEV 给过早放置（第 6 步）打 0.79，给走向微波炉（8）和打开微波炉（9）只打 0.23 和 0.20。这和执行者偏向容易子目标是同一个毛病。加上即时反馈反而更糟，放置升到 0.90。直到后续步骤逐渐露出来，微波炉那几步才开始得分：一看到加热，打开微波炉就升到 0.66，看到完整轨迹时是 0.76。重复的 <code>look</code>（第 2 步）始终得分很低，因为光看前缀就知道它重复了第 1 步。</p>
-<p>Decider v1.2 和 GPT Decisions 公开了基座模型。问同样的问题，这两个专用决策模型当裁判都比各自的基座更准，每次打分的成本还低 28% 到 43%。</p>
+<p>只看前缀时，JEV 对过早放置（第 6 步）评分 0.79，对走向微波炉（第 8 步）与打开微波炉（第 9 步）仅评 0.23 与 0.20，这与执行者偏向容易子目标属于同一问题。加入即时反馈后结果更差，放置的评分升至 0.90。随着后续步骤逐渐可见，微波炉相关步骤的评分才开始上升：看到加热步骤后，打开微波炉升至 0.66，看到完整轨迹时为 0.76。重复的 <code>look</code>（第 2 步）始终得分很低，因为仅凭前缀即可判断它重复了第 1 步。</p>
+<p>Decider v1.2 与 GPT Decisions 公开了基座模型。对于相同问题，这两个专用决策模型作为裁判的准确性均高于各自的基座，每次评分的成本也低 28% 至 43%。</p>
 </section>
 <section class="chap" id="teacher">
-<h2><span class="n">4</span>当老师：裁判当得最好，教得也最好</h2>
-<div class="finding t"><span class="k">发现 3</span><p>最能分清有用和无用动作的打分方式，训练出的策略也最强；提升最大的，恰恰是老师自己当执行者时做不成的任务。</p></div>
-<h3 id="teacher-signal">从打分到优势</h3>
-<p>GRPO 给一条 rollout 里的所有动作同一个结果优势。对每个任务，策略采样一组轨迹；轨迹跑完后，老师 <span class="mi">D</span> 只看目标和轨迹本身，给每条轨迹 <span class="mi">τ<sub>i</sub></span> 里执行过的每个动作 <span class="mi">t</span> 打分，不用奖励和成功标签，也不看隐藏状态：</p>
+<h2><span class="n">4</span>作为教师：评判最准确的设置，训练效果也最好</h2>
+<div class="finding t"><span class="k">发现 3</span><p>区分有用与无用动作效果最好的评分方式，训练出的策略也最强；提升最大的任务，恰恰是教师自身作为执行者时无法完成的任务。</p></div>
+<h3 id="teacher-signal">从评分到优势</h3>
+<p>GRPO 为一条 rollout 中的所有动作分配相同的结果优势。对每个任务，策略采样一组轨迹；轨迹结束后，教师 <span class="mi">D</span> 仅依据目标与轨迹本身，为每条轨迹 <span class="mi">τ<sub>i</sub></span> 中执行过的每个动作 <span class="mi">t</span> 评分，不使用奖励与成功标签，也不访问隐藏状态：</p>
 <div aria-label="s 下标 i t 等于 D 作用于 g、τ i、t，取值在 0 到 1 之间；A 下标 i t 等于 A out 加上 λ 乘以 s 下标 i t 减去 s 均值" class="eq" role="math">
 <span><i>s</i><sub>i,t</sub> = <i>D</i>(<i>g</i>, <i>τ</i><sub>i</sub>, <i>t</i>) ∈ [0, 1]</span>
 <span><i>A</i><sub>i,t</sub> = <i>A</i><sup>out</sup><sub>i,t</sub> + <i>λ</i> (<i>s</i><sub>i,t</sub> − <i>s̄</i>)</span>
 </div>
-<p>分数先减去组内所有已打分动作的均值 <span class="mi">s̄</span>，再乘以权重 λ = 0.5 加到优势上。这里故意不除以标准差：如果老师在某一组里几乎分不出动作好坏，这一组得到的调整也就很小。<a class="fig-ref" href="#fig-6">图 6</a> 展示了老师项对图 1 那两条 rollout 的影响。</p>
+<p>分数先减去组内所有已评分动作的均值 <span class="mi">s̄</span>，再乘以权重 λ = 0.5 加到优势上。此处有意不除以标准差：若教师在某一组内几乎无法区分动作优劣，该组获得的调整也相应较小。<a class="fig-ref" href="#fig-6">图 6</a> 展示了教师项对图 1 中两条 rollout 的影响。</p>
 <figure class="fig" id="fig-6">
 <div class="fig-box">
 <div class="ctl-row">
 <div>
 <p class="panel-k">示意：同一组的两条 rollout</p>
-<p class="panel-t">老师给每个动作的优势加了多少</p>
+<p class="panel-t">教师项对各动作优势的调整量</p>
 </div>
 <label class="f6-lam"><span>λ = <b id="f6-lv">0.50</b></span><input aria-label="lambda" id="f6-l" max="1" min="0" step="0.05" type="range" value="0.5"/></label>
 </div>
 <div id="f6"></div>
 </div>
-<figcaption><b>图 6：</b>每个动作的 λ(<i>s</i> − <i>s̄</i>)，老师分数取图 1 中的示意值（组均值 0.71）。柱子在零线以上，表示这个动作的优势比单用 GRPO 时大；在零线以下则更小。同一条 rollout 里所有动作的结果优势相同，能把它们区分开的只有老师项。论文训练时取 λ = 0.5。</figcaption>
+<figcaption><b>图 6：</b>各动作的 λ(<i>s</i> − <i>s̄</i>)，教师分数取图 1 中的示意值，组均值为 0.71。柱子位于零线以上，表示该动作的优势高于单用 GRPO 时；位于零线以下则更低。同一条 rollout 中所有动作的结果优势相同，只有教师项能够区分这些动作。论文训练时取 λ = 0.5。</figcaption>
 </figure>
 <h3 id="teacher-results">实验结果</h3>
-<p>我们用 JEV 当老师训练 Qwen2.5-1.5B-Instruct，问题和上下文的四种组合都试了一遍，基线是只用结果奖励的 GRPO（结果取自 GiGPO <a class="cite" href="#ref-gigpo">[3]</a>）。每个策略用三个随机种子评估。<strong>Hindsight + Progress 在两个环境上都最好：ALFWorld 成功率从 72.8% 提升到 82.9%，WebShop 从 56.8% 提升到 71.4%。</strong>ALFWorld 的每一类任务都有提升，<em>Cool</em>（+23.0）和 <em>Look</em>（+20.7）最多。只看前缀时，两种问题效果相当。这个排序和前面裁判分析的结论一致：在 Hindsight 下，Value 问题给同一回合所有动作的分数都差不多，说明不了哪些动作有用。</p>
+<p>以 JEV 为教师训练 Qwen2.5-1.5B-Instruct，遍历问题与上下文的四种组合，基线为仅使用结果奖励的 GRPO，结果取自 GiGPO <a class="cite" href="#ref-gigpo">[3]</a>。每个策略用三个随机种子评估。<strong>Hindsight + Progress 在两个环境上均最优：ALFWorld 成功率由 72.8% 提升至 82.9%，WebShop 由 56.8% 提升至 71.4%。</strong>ALFWorld 的每类任务均有提升，其中 <em>Cool</em>（+23.0）与 <em>Look</em>（+20.7）提升最大。仅提供前缀时，两种问题效果相当。这一排序与前文裁判分析的结论一致：在 Hindsight 设置下，Value 问题对同一回合内所有动作的评分相近，无法区分有用的动作。</p>
 <figure class="fig bleed" id="fig-7">
 <div class="fig-box">
 <div class="ctl-row">
 <div>
-<p class="panel-k">Qwen2.5-1.5B-Instruct，三个种子取平均</p>
-<p class="panel-t">成功率：有老师的策略与 GRPO 对比</p>
+<p class="panel-k">Qwen2.5-1.5B-Instruct，三个种子的平均值</p>
+<p class="panel-t">成功率：教师指导的策略与 GRPO 对比</p>
 </div>
-<div aria-label="老师设置" class="seg" id="f7-set" role="group"></div>
+<div aria-label="教师设置" class="seg" id="f7-set" role="group"></div>
 </div>
 <div class="legend"><span><i style="background:var(--base-2)"></i>GRPO（仅结果奖励）</span><span><i id="f7-key" style="background:var(--tea)"></i><span id="f7-name">Hindsight + Progress</span></span><span>误差线：不同种子间的 ± 标准差</span></div>
 <div id="f7"></div>
 </div>
-<figcaption><b>图 7：</b>以 JEV 为老师、在不同问题与上下文设置下训练的 1.5B 策略的成功率（%），对照为 GRPO。最后两组分别是 ALFWorld 总体和 WebShop 的成功率。可以切换设置对比，Hindsight + Progress 在两个环境上都最好。选 7B 可查看同样做法在 Qwen2.5-7B-Instruct 上的结果。</figcaption>
+<figcaption><b>图 7：</b>以 JEV 为教师、在不同问题与上下文设置下训练的 1.5B 策略的成功率（%），对照为 GRPO。最后两组分别为 ALFWorld 总体与 WebShop 的成功率。切换设置可以看到，Hindsight + Progress 在两个环境上均最优。选择 7B 可查看同一方法在 Qwen2.5-7B-Instruct 上的结果。</figcaption>
 </figure>
-<p>换到 7B，提升依然在：ALFWorld 从 77.6% 到 83.8%，WebShop 从 66.1% 到 73.6%。<strong>这样教出来的 1.5B 策略，在两个环境上都胜过只用结果奖励训练的 7B 策略。</strong>Hindsight + Progress 完成任务也更快：ALFWorld 上 74.5% 的任务在 20 个动作以内完成，其他设置只有 63.6% 到 69.5%；WebShop 上 71.1% 的任务在 10 个动作以内完成，其他设置为 60.9% 到 62.2%。</p>
-<h3 id="teacher-surpass">学生超过老师</h3>
-<p>在同一批 ALFWorld 评估任务上，JEV 亲自执行只完成 42.9%，用它的打分训练出的 1.5B 策略完成 82.9%。<strong>提升最大的，正是 JEV 当执行者时最不擅长的依赖任务</strong>：策略在这类任务上达到 86.8%，比其他问题与上下文设置高 6.9 到 16.2 个百分点，而 JEV 自己只能完成其中的 14.7%（<a class="fig-ref" href="#fig-8">图 8</a>）。老师自己做不成的任务，照样能给出有用的训练信号。</p>
+<p>在 7B 规模上提升依然存在：ALFWorld 由 77.6% 提升至 83.8%，WebShop 由 66.1% 提升至 73.6%。<strong>以此方式训练的 1.5B 策略，在两个环境上均优于仅用结果奖励训练的 7B 策略。</strong>Hindsight + Progress 完成任务所需的步数也更少：ALFWorld 上 74.5% 的任务在 20 个动作以内完成，其他设置为 63.6% 至 69.5%；WebShop 上 71.1% 的任务在 10 个动作以内完成，其他设置为 60.9% 至 62.2%。</p>
+<h3 id="teacher-surpass">学生超过教师</h3>
+<p>在同一批 ALFWorld 评估任务上，JEV 独立执行仅完成 42.9%，以其评分训练的 1.5B 策略完成 82.9%。<strong>提升最大的恰恰是 JEV 作为执行者时最不擅长的依赖任务</strong>：策略在这类任务上达到 86.8%，比其他问题与上下文设置高 6.9 至 16.2 个百分点，而 JEV 自身仅能完成其中的 14.7%（<a class="fig-ref" href="#fig-8">图 8</a>）。教师无法独立完成的任务，仍可由其提供有效的训练信号。</p>
 <figure class="fig" id="fig-8">
 <div class="fig-box">
 <p class="panel-k">ALFWorld，同一批评估任务</p>
-<p class="panel-t">JEV 亲自执行，对比它教出的 1.5B 策略</p>
-<div class="legend" style="margin-top:8px"><span><i style="background:var(--act)"></i>JEV 当执行者</span><span><i style="background:var(--tea)"></i>JEV 教出的 1.5B 策略（Hindsight + Progress）</span></div>
+<p class="panel-t">JEV 独立执行与其指导的 1.5B 策略对比</p>
+<div class="legend" style="margin-top:8px"><span><i style="background:var(--act)"></i>JEV 作为执行者</span><span><i style="background:var(--tea)"></i>JEV 指导的 1.5B 策略（Hindsight + Progress）</span></div>
 <div id="f8"></div>
 </div>
-<figcaption><b>图 8：</b>各类任务的成功率（%）。箭头从 JEV 亲自执行的结果（表 2）指向它教出的策略（表 3）。除 <i>Pick2</i> 外，学生在所有类型上都超过了老师，三类依赖任务上差距最大。</figcaption>
+<figcaption><b>图 8：</b>各类任务的成功率（%）。箭头由 JEV 独立执行的结果（表 2）指向其指导的策略（表 3）。除 <i>Pick2</i> 外，学生在所有类型上均超过教师，三类依赖任务上差距最大。</figcaption>
 </figure>
-<p><strong>成本。</strong>训练中每个执行过的动作都要打分。我们通过 OpenRouter 调用 JEV，输入价格为每百万 token 0.042 美元；训练共 150 步，每批 16 个任务，每个任务 8 条 rollout。一次完整训练的打分费用在 22.21 到 30.07 美元之间。</p>
+<p><strong>成本。</strong>训练中每个执行过的动作都需要评分。JEV 通过 OpenRouter 调用，输入价格为每百万 token 0.042 美元；训练共 150 步，每批 16 个任务，每个任务 8 条 rollout。一次完整训练的评分费用为 22.21 至 30.07 美元。</p>
 <div class="tbl-wrap">
 <table class="btable">
 <thead><tr><th>Hindsight + Progress 训练</th><th>ALFWorld 1.5B</th><th>ALFWorld 7B</th><th>WebShop 1.5B</th><th>WebShop 7B</th></tr></thead>
 <tbody>
 <tr><td>每条 rollout 最多动作数</td><td>30</td><td>30</td><td>15</td><td>15</td></tr>
-<tr><td>老师 API 费用（美元）</td><td>30.07</td><td>24.50</td><td>22.21</td><td>26.83</td></tr>
+<tr><td>教师 API 费用（美元）</td><td>30.07</td><td>24.50</td><td>22.21</td><td>26.83</td></tr>
 </tbody>
 </table>
 </div>
 </section>
 <section class="chap" id="takeaways">
-<h2><span class="n">5</span>给智能体用决策模型的几点启示</h2>
+<h2><span class="n">5</span>对智能体使用决策模型的启示</h2>
 <ol class="takeaways">
-<li><strong>执行者知道该做哪一步，只是注意力被容易的那一步吸走了。</strong>当必须先做的那一步是唯一的子目标时，它们能选对；泛泛的提醒纠正不了这个错误。如果非得让决策模型去执行，把目标拆成有先后的子目标，比多加指令更有希望。</li>
-<li><strong>问题决定信号的粒度。</strong>问最终结果，轨迹里每个动作的分数都差不多，基本是把结果奖励再说一遍；问每个动作的贡献，才能把它们分开。</li>
-<li><strong>Hindsight 针对的正是执行者犯错的地方。</strong>看到完整轨迹，裁判才能给走向必须先完成的子目标的那些步骤记功。所以决策模型最适合在回合结束后给动作打分，比如 RL 训练；不太适合在线筛选动作，因为那时手里只有前缀。</li>
-<li><strong>训练前先挑裁判。</strong>只在已有轨迹上比较评判效果，我们就找到了能训练出最佳策略的问题和上下文，花费只占一次 RL 训练的一小部分。选老师，要看它判得准不准，而不是自己做得好不好。</li>
-<li><strong>步级监督不再昂贵。</strong>决策模型参数冻结，只在每个回合结束后调用，测试时用不到。每次训练花几十美元，就能让小策略超过只用结果奖励训练的大策略。</li>
+<li><strong>执行者知道应执行哪一步，只是注意力被容易的步骤吸引。</strong>当必须先完成的步骤是唯一的子目标时，执行者能够选对；泛化的提醒无法纠正这一错误。若必须由决策模型执行，将目标拆分为有先后顺序的子目标，比增加指令更可能奏效。</li>
+<li><strong>问题决定信号的粒度。</strong>询问最终结果时，轨迹中各动作的评分相近，基本等同于重复结果奖励；询问每个动作的贡献，才能区分这些动作。</li>
+<li><strong>Hindsight 恰好针对执行者的出错之处。</strong>只有看到完整轨迹，裁判才能对走向必须先完成的子目标的步骤给予肯定。因此，决策模型最适合在回合结束后为动作评分，例如用于 RL 训练；不太适合在线筛选动作，因为此时只有前缀可用。</li>
+<li><strong>训练前先选择裁判。</strong>仅在已有轨迹上比较评判效果，即可找到训练出最佳策略的问题与上下文组合，成本只占一次 RL 训练的一小部分。选择教师应依据其评判是否准确，而非其执行能力。</li>
+<li><strong>步级监督的成本不再高昂。</strong>决策模型参数冻结，仅在每个回合结束后调用，测试阶段无需使用。每次训练花费数十美元，即可使小规模策略超过仅用结果奖励训练的大规模策略。</li>
 </ol>
 </section>
 <section class="chap" id="cite">

@@ -167,10 +167,10 @@
 
   /* ================= Result cards ================= */
   var CARDS = [
-    [['JEV 亲自执行', 42.9, C.act], ['JEV 教出的 1.5B 策略', 82.9, C.tea]],
-    [['JEV 亲自执行', 14.7, C.act], ['JEV 教出的 1.5B 策略', 86.8, C.tea]],
-    [['GRPO（仅结果奖励）', 56.8, C.base], ['GRPO + JEV 作老师', 71.4, C.tea]],
-    [['7B，仅 GRPO', 77.6, C.base], ['1.5B，GRPO + JEV 作老师', 82.9, C.tea]]
+    [['JEV 独立执行', 42.9, C.act], ['JEV 指导的 1.5B 策略', 82.9, C.tea]],
+    [['JEV 独立执行', 14.7, C.act], ['JEV 指导的 1.5B 策略', 86.8, C.tea]],
+    [['GRPO（仅结果奖励）', 56.8, C.base], ['GRPO + JEV 作为教师', 71.4, C.tea]],
+    [['7B，仅 GRPO', 77.6, C.base], ['1.5B，GRPO + JEV 作为教师', 82.9, C.tea]]
   ];
   Array.prototype.forEach.call(document.querySelectorAll('.card-chart'), function (el) {
     var rows = CARDS[+el.dataset.card], id = 'card-' + el.dataset.card;
@@ -209,7 +209,7 @@
     if (f2mode === 'grid') {
       var lw = narrow ? 92 : 128, top = 34, rh = narrow ? 34 : 38, gap = 3, cols = TASKS.length;
       var cw = (W - lw - 10 - 2 * gap * cols) / cols, H = top + MODELS.length * rh + 4;
-      var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '各模型当执行者时在各类任务上的成功率' }, host);
+      var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '各模型作为执行者时在各类任务上的成功率' }, host);
       function cx(j) { return lw + j * (cw + 2 * gap) + (j >= 3 ? 6 : 0) + (j >= 6 ? 6 : 0); }
       S('text', { x: cx(0), y: 11, class: 'lbl' }, s, '无依赖');
       S('text', { x: cx(3), y: 11, class: 'lbl-b', fill: C.actInk }, s, '有依赖');
@@ -265,7 +265,7 @@
   var F3S = ['必须先做的一步', '容易的子目标', '其他动作'];
   mount('f3a', function (host, W) {
     var H = 236, top = 18, bot = 34, lx = 30;
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'JEV 的概率给了哪些动作' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'JEV 在各类动作上的概率分配' }, host);
     var ph = H - top - bot, Y = function (v) { return top + ph * (1 - v / 100); };
     [0, 50, 100].forEach(function (v) { S('line', { x1: lx, x2: W, y1: Y(v), y2: Y(v), class: 'grid' }, s); S('text', { x: lx - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s, v); });
     var cw = (W - lx) / 3, bw = Math.min(64, cw * .56), bars = [], vals = [];
@@ -386,7 +386,7 @@
   }
 
   /* ================= Figure 5: scores as the episode becomes visible (Table 9) ================= */
-  var F5A = ['查看', '再次查看', '去咖啡机', '拿起杯子', '去柜子', '放入柜子', '取回杯子', '去微波炉', '打开微波炉', '加热杯子', '去柜子', '放入柜子'];
+  var F5A = ['查看', '再次查看', '前往咖啡机', '拿起杯子', '前往柜子', '放入柜子', '取回杯子', '前往微波炉', '打开微波炉', '加热杯子', '前往柜子', '放入柜子'];
   var F5 = [ // rows = steps 1..12, columns = Prefix, +FB, +25%, +50%, +75%, Full
     [.47, .57, .62, .61, .56, .54], [.25, .25, .24, .23, .24, .23], [.49, .72, .46, .40, .46, .44], [.92, .92, .90, .82, .83, .85],
     [.80, .81, .69, .67, .66, .68], [.79, .90, .52, .47, .52, .60], [.22, .25, .34, .43, .49, .50], [.23, .22, .19, .40, .46, .50],
@@ -394,12 +394,12 @@
   ];
   var F5S = ['Prefix', '+ 反馈', '+ 25%', '+ 50%', '+ 75%', '完整'];
   var F5N = [
-    '只看<b>前缀</b>时，过早放置（6）得 0.79，走向微波炉（8）和打开微波炉（9）只得 0.23 和 0.20。执行者偏向容易子目标的毛病，当裁判时还在。',
-    '加上<b>即时反馈</b>反而更糟：放置（6）升到 0.90，微波炉那两步降到 0.22 和 0.18。',
-    '一看到<b>加热</b>（10），打开微波炉（9）就跳到 0.66，过早放置（6）降到 0.52。',
-    '后续步骤露出<b>一半</b>时，走向微波炉（8）升到 0.40，取回杯子（7）升到 0.43。',
-    '露出 <b>75%</b> 时，加热（10）到 0.70，打开微波炉（9）到 0.76。',
-    '看到<b>整个回合</b>后，为加热做准备的几步（7 到 10）得分在 0.50 到 0.76 之间。重复的查看（2）始终停在 0.23 到 0.25，因为光看前缀就知道它重复了第 1 步。'
+    '只看<b>前缀</b>时，过早放置（6）得 0.79，走向微波炉（8）与打开微波炉（9）仅得 0.23 与 0.20。执行者偏向容易子目标的问题，在裁判中依然存在。',
+    '加入<b>即时反馈</b>后结果更差：放置（6）升至 0.90，微波炉相关的两步降至 0.22 与 0.18。',
+    '看到<b>加热</b>（10）后，打开微波炉（9）升至 0.66，过早放置（6）降至 0.52。',
+    '后续步骤可见<b>一半</b>时，走向微波炉（8）升至 0.40，取回杯子（7）升至 0.43。',
+    '后续步骤可见 <b>75%</b> 时，加热（10）升至 0.70，打开微波炉（9）升至 0.76。',
+    '看到<b>完整回合</b>后，为加热做准备的步骤（7 至 10）得分在 0.50 至 0.76 之间。重复的查看（2）始终为 0.23 至 0.25，因为仅凭前缀即可判断它重复了第 1 步。'
   ];
   function f5col(i) { return i === 5 ? C.act : (i >= 6 && i <= 9) ? C.jud : C.base2; }
   var f5lv = 0, f5cur = F5.map(function (r) { return r[0]; }), f5els = null, f5timer = null, f5played = false;
@@ -425,7 +425,7 @@
       S('text', { x: x + bw / 2, y: H - bot + 15, 'text-anchor': 'middle', class: 'lbl-b' }, s, i + 1);
       if (!narrow) wrapText(a, 11).forEach(function (ln, k) { S('text', { x: x + bw / 2, y: H - bot + 31 + k * 13, 'text-anchor': 'middle', style: 'font-size:11px' }, s, ln); });
     });
-    if (narrow) S('text', { x: lx, y: H - 4, style: 'font-size:11px' }, s, '横轴是步骤序号，悬停或点按柱子可看对应动作。');
+    if (narrow) S('text', { x: lx, y: H - 4, style: 'font-size:11px' }, s, '横轴为步骤序号，悬停或点按柱子可查看对应动作。');
     var lg = S('g', {}, s), lx2 = W - (narrow ? 210 : 320);
     [[C.act, '过早放置'], [C.jud, '为加热做准备的步骤']].forEach(function (p, k) {
       var x = lx2 + k * (narrow ? 105 : 160);
@@ -465,7 +465,7 @@
   var F6M = F6.reduce(function (a, d) { return a + d[1]; }, 0) / F6.length, f6lam = 0.5, f6els = null;
   mount('f6', function (host, W) {
     var narrow = W < 600, H = 250, top = 16, bot = narrow ? 40 : 56, lx = 40, R = 0.7;
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '老师项给每个动作加减了多少' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': '教师项对各动作优势的调整量' }, host);
     var mid = top + (H - top - bot) / 2, Y = function (v) { return mid - (H - top - bot) / 2 * v / R; };
     [-0.5, 0, 0.5].forEach(function (v) { S('line', { x1: lx, x2: W, y1: Y(v), y2: Y(v), class: v === 0 ? 'axis' : 'grid' }, s); S('text', { x: lx - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s, v > 0 ? '+' + v : v === 0 ? '0' : '−' + Math.abs(v)); });
     var gap = 22, cw = (W - lx - gap) / 8, bw = Math.min(42, cw * .6), bars = [], vals = [];
@@ -555,7 +555,7 @@
   var F8 = [['Pick', 77.1, 90.5], ['Look', 46.2, 74.4], ['Pick2', 70.8, 65.3], ['Clean', 11.1, 88.9], ['Heat', 18.8, 89.6], ['Cool', 16.0, 82.7], ['全部', 42.9, 82.9]];
   mount('f8', function (host, W) {
     var narrow = W < 520, lx = narrow ? 52 : 74, rx = W - (narrow ? 44 : 60), top = 10, rh = 34, H = top + F8.length * rh + 34;
-    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'JEV 亲自执行与它教出的策略对比' }, host);
+    var s = S('svg', { class: 'chart', viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'JEV 独立执行与其指导的策略对比' }, host);
     function X(v) { return lx + (rx - lx) * v / 100; }
     var dfs = S('defs', {}, s), mk = S('marker', { id: 'f8a', viewBox: '0 0 10 10', refX: 8.5, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, dfs);
     S('path', { d: 'M0 0L10 5L0 10z', fill: '#9aa3ae' }, mk);
@@ -566,8 +566,8 @@
       S('text', { x: 0, y: y + 4, class: dep || i === 6 ? 'lbl-b' : 'lbl', fill: dep ? C.actInk : null }, s, d[0]);
       var up = d[2] >= d[1];
       S('line', { x1: X(d[1]), x2: X(d[2]) + (up ? -7 : 7), y1: y, y2: y, stroke: '#9aa3ae', 'stroke-width': 1.6, 'marker-end': 'url(#f8a)', class: 'rl', pathLength: 1, style: '--d:' + (i * 110 + 250) + 'ms' }, s);
-      S('circle', { cx: X(d[1]), cy: y, r: 5.5, fill: C.act, class: 'rf', style: '--d:' + (i * 110) + 'ms', 'data-tv': fmt(d[1]) + '%', 'data-tl': 'JEV 当执行者 · ' + d[0], 'data-tc': C.act, tabindex: 0 }, s);
-      S('circle', { cx: X(d[2]), cy: y, r: 6, fill: C.tea, class: 'rf', style: '--d:' + (i * 110 + 650) + 'ms', 'data-tv': fmt(d[2]) + '%', 'data-tl': 'JEV 教出的策略 · ' + d[0], 'data-tc': C.tea, tabindex: 0 }, s);
+      S('circle', { cx: X(d[1]), cy: y, r: 5.5, fill: C.act, class: 'rf', style: '--d:' + (i * 110) + 'ms', 'data-tv': fmt(d[1]) + '%', 'data-tl': 'JEV 作为执行者 · ' + d[0], 'data-tc': C.act, tabindex: 0 }, s);
+      S('circle', { cx: X(d[2]), cy: y, r: 6, fill: C.tea, class: 'rf', style: '--d:' + (i * 110 + 650) + 'ms', 'data-tv': fmt(d[2]) + '%', 'data-tl': 'JEV 指导的策略 · ' + d[0], 'data-tc': C.tea, tabindex: 0 }, s);
       var dv = d[2] - d[1];
       S('text', { x: rx + 10, y: y + 4, class: (dv > 0 ? 'val-b' : 'val') + ' rf', fill: dv > 0 ? C.teaInk : C.bad, style: '--d:' + (i * 110 + 650) + 'ms' }, s, (dv > 0 ? '+' : '−') + fmt(Math.abs(dv)));
     });

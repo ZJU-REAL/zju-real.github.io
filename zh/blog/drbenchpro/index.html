@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DRBench Pro: Measuring the Breadth and Depth of Deep Research · REAL Lab 博客</title>
+<meta content="DRBench Pro 以结构化知识覆盖评价深度研究报告：24 个领域的 144 个维基百科样例，44,102 条挂在知识树上的隐藏评分细则，分别计算广度与深度。共评测 16 个智能体。" name="description"/>
+<link href="https://zjureal.com/zh/blog/drbenchpro/" rel="canonical"/><link href="https://zjureal.com/blog/drbenchpro/" hreflang="en" rel="alternate"/><link href="https://zjureal.com/zh/blog/drbenchpro/" hreflang="zh-CN" rel="alternate"/><link href="https://zjureal.com/blog/drbenchpro/" hreflang="x-default" rel="alternate"/>
+
+
+
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="REAL Lab, Zhejiang University" property="og:site_name"/>
+<meta content="DRBench Pro: A Knowledge-Centric Benchmark for Professional Deep Research Agents" property="og:title"/>
+<meta content="两份报告满足的评分细则数量相同，内容却可能一份宽而浅、一份窄而深。DRBench Pro 分别衡量广度与深度。" property="og:description"/>
+<meta content="https://zjureal.com/images/blog/covers/drbenchpro.svg" property="og:image"/>
+<meta content="https://zjureal.com/zh/blog/drbenchpro/" property="og:url"/>
+<meta content="2026-11-26" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="@zjureal" name="twitter:site"/>
+<link href="../../../assets/logo-mark.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../../styles.css?v=20261126b" rel="stylesheet"/>
+<link href="../../../blog/blog.css?v=20261122h" rel="stylesheet"/>
+<link href="../../../blog/drbenchpro/post.css?v=20261126" rel="stylesheet"/>
+
+</head>
+<body id="top">
+<nav class="topbar">
+<div class="inner">
+<div class="brand"><a href="../../index.html"><img alt="" class="brand-mark" height="34" src="../../../assets/logo-mark.svg" width="34"/>REAL Lab</a></div>
+<input aria-label="展开菜单" class="nav-toggle" id="nav-toggle-post" type="checkbox"/>
+<label aria-hidden="true" class="nav-burger" for="nav-toggle-post"><span></span><span></span><span></span></label>
+<ul>
+<li><a href="../../index.html">首页</a></li>
+<li><a href="../../about.html">关于</a></li>
+<li><a href="../../research.html">研究</a></li>
+<li><a href="../../projects.html">项目</a></li>
+<li><a class="active" href="../../blog.html">博客</a></li>
+<li><a href="../../publications.html">论文</a></li>
+<li><a href="../../people.html">成员</a></li>
+<li><a href="../../join.html">加入我们</a></li>
+
+<li class="lang-switch"><a href="../../../blog/drbenchpro/" hreflang="en" lang="en" title="English">EN</a></li></ul>
+</div>
+</nav>
+<main class="post">
+<header class="post-head">
+<p class="post-kicker"><a href="../../blog.html">博客</a><span class="dot"></span><span>2026 年 11 月 26 日</span><span class="dot"></span><span>深度研究 · 评测基准</span><span class="dot"></span><span>阅读约 13 分钟</span></p>
+<h1>DRBench Pro: A Knowledge-Centric Benchmark for Professional Deep Research Agents</h1>
+<p class="post-dek">两份研究报告可以满足同样数量的评分细则，内容却大不相同：一份面面俱到而浅尝辄止，另一份只聚焦少数方向却深入到底。DRBench Pro 在评分时保留知识的结构，从而分别衡量广度与深度。</p>
+<div class="post-byline">
+<div>
+<p class="post-authors" data-people="../../../people.html" data-pubs="../../../publications.html" data-self="DRBench Pro"><span class="au">Han Huang</span><sup>1*</sup>, <span class="au">Yuchen Yan</span><sup>1*</sup>, <span class="au">Xingyu Wu</span><sup>1,2</sup>, <span class="au">Yijun Li</span><sup>1</sup>, <span class="au">Chao Deng</span><sup>2</sup>, <span class="au">Jie Liu</span><sup>2</sup>, <span class="au">Jin Ma</span><sup>2</sup>, <span class="au">Yongliang Shen</span><sup>1†</sup></p>
+<p class="post-affil"><sup>1</sup>浙江大学 <sup>2</sup>腾讯 · *共同第一作者 †通讯作者</p>
+</div>
+<div class="post-links"><!-- arXiv id: fill in after release (here, in the BibTeX below, and in the JSON-LD) --> <a class="pill-btn solid" href="https://arxiv.org/abs/" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg>论文</a> <a class="pill-btn" href="https://github.com/ZJU-REAL/DRBenchPro" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"></path></svg>代码</a> <a class="pill-btn" href="https://huggingface.co/datasets/zhuiluozhiji/DRBenchPro" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg>数据集</a> <a class="pill-btn" href="https://zjureal.com/DRBenchPro/" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>项目主页</a></div>
+</div>
+<figure class="post-cover"><img alt="动画插图：粗细一致的墨线从同一个根点出发，在撕边纸扇上延伸出长短不一的射线，射线上缀有圆点；淡淡的虚线表示未覆盖的方向" height="400" src="../../../images/blog/covers/drbenchpro-animated.svg" width="600"/></figure>
+</header>
+<div class="post-body">
+<nav aria-label="目录" class="toc">
+<p class="toc-title">目录</p>
+<ol>
+<li><a href="#tldr"><span class="n"></span>要点</a></li>
+<li><a href="#why"><span class="n">1</span>计数掩盖了结构</a></li>
+<li><a href="#build"><span class="n">2</span>从维基百科知识树到隐藏的评分细则</a></li>
+<li><a href="#metric"><span class="n">3</span>广度与深度</a></li>
+<li><a href="#results"><span class="n">4</span>十六个智能体的结果</a></li>
+<li class="sub"><a href="#profiles">分数相同，报告不同</a></li>
+<li><a href="#domains"><span class="n">5</span>二十四个领域</a></li>
+<li><a href="#process"><span class="n">6</span>从检索到报告</a></li>
+<li><a href="#trust"><span class="n">7</span>评分是否可信</a></li>
+<li><a href="#use"><span class="n">8</span>评测自己的智能体</a></li>
+<li><a href="#cite"><span class="n"></span>引用</a></li>
+</ol>
+</nav>
+<article>
+<details class="toc-inline">
+<summary>目录</summary>
+<ol>
+<li><a href="#tldr">要点</a></li>
+<li><a href="#why">计数掩盖了结构</a></li>
+<li><a href="#build">从维基百科知识树到隐藏的评分细则</a></li>
+<li><a href="#metric">广度与深度</a></li>
+<li><a href="#results">十六个智能体的结果</a></li>
+<li><a href="#domains">二十四个领域</a></li>
+<li><a href="#process">从检索到报告</a></li>
+<li><a href="#trust">评分是否可信</a></li>
+<li><a href="#use">评测自己的智能体</a></li>
+<li><a href="#cite">引用</a></li>
+</ol>
+</details>
+<section class="chap" id="tldr">
+<h2>要点</h2>
+<p class="lede">向深度研究智能体提出一个开放问题，它会规划、检索、阅读，最后写出一份长篇报告。评价这份报告，首先要回答它覆盖了哪些内容。多数评测基准的做法是列出一组评分细则，统计报告满足了几条。但计数无法区分两种报告：一种在每个方向上都只点到为止，另一种沿少数方向一路深挖。</p>
+<p>DRBench Pro 保留了这种结构。每个样例都源自一棵由维基百科条目扩展而成的知识树：根节点的子节点是<strong>研究方向</strong>，其下最多三跳的路径是<strong>相关知识链</strong>。树中每条边对应一条以维基百科证据为依据的评分细则。智能体只拿到根据这棵树写成的研究问题，树本身和评分细则都不可见。评判模型逐条对照报告给出判定，再从叶节点向上汇总为<strong>广度</strong>和<strong>深度</strong>：广度衡量各方向覆盖得是否全面，深度衡量知识链追踪得有多远。<strong>总体覆盖率</strong>取两者的几何平均。</p>
+<p><strong>在 24 个领域的 144 个样例（共 44,102 条评分细则）上，16 个智能体中表现最好的 Claude Opus 5 总体覆盖率为 57.04%。广度与深度给出的排名并不一致，同一模型在不同研究流程下的覆盖特征也会明显变化。</strong></p>
+<div class="cards"><a class="card" href="#results"><p class="card-k">总体覆盖率，全部 144 个样例</p><p class="card-t">最好的智能体也只覆盖一半多</p><div class="card-chart" data-card="0"></div></a> <a class="card" href="#results"><p class="card-k">Qwen3.8 Max 的广度</p><p class="card-t">同一模型，流程不同，特征不同</p><div class="card-chart" data-card="1"></div></a> <a class="card" href="#process"><p class="card-k">检索到的知识进入报告的比例，七个基座模型的平均</p><p class="card-t">知识越深，越容易在写作中丢失</p><div class="card-chart" data-card="2"></div></a> <a class="card" href="#trust"><p class="card-k">与专家排序的一致性（Kendall τ<sub>b</sub>，总体）</p><p class="card-t">保留结构，评分更接近专家判断</p><div class="card-chart" data-card="3"></div></a></div>
+</section>
+<section class="chap" id="why">
+<h2><span class="n">1</span>计数掩盖了结构</h2>
+<p>深度研究问题是开放的：好的回答可以有很多种，任何单一的参考答案都无法囊括全部相关知识。事实核查能判断报告中的陈述是否有依据，却无法发现报告遗漏了什么。因此，评测基准通常先写明期望的内容，来源包括专家报告、参考事实或评分细则，再据此检查报告。覆盖度往往只是写作、引用、格式等多项评分中的一项，而且评分细则是平铺累加的：满足任何一条都计同样的分。</p>
+<p>平铺累加丢掉了条目之间的关系。设想针对同一问题的三份报告，各自满足的评分细则数量相同。第一份只写出每个方向开头的事实；第二份沿两个方向一直写到最深处，其余方向一概不提；第三份零散地提到树中较深的细节，却缺少把它们串起来的中间环节。三份报告读起来不同，适合的读者也不同，计数却给出同样的分数。<a class="fig-ref" href="#fig-2">图 2</a> 可以动手构造这样的报告，观察分数的变化。</p>
+<p>DRBench Pro 把<strong>结构化知识覆盖</strong>作为核心评测对象。这需要三个条件：结构已知的参考空间，在其中位置明确的评分细则，以及利用这些位置的评测指标。</p>
+</section>
+<section class="chap" id="build">
+<h2><span class="n">2</span>从维基百科知识树到隐藏的评分细则</h2>
+<p><a class="fig-ref" href="#fig-1">图 1</a> 逐步演示论文中的一个样例。根节点是维基百科条目 <em>Roguelike</em>；图中选取其十个研究方向中两个方向下的 12 条评分细则，判定结果均为评判模型对 o3 Deep Research 所写报告的实际判定。</p>
+<figure class="fig" id="fig-1">
+<div class="d1" data-phase="0">
+<div class="d1-bar">
+<div aria-label="阶段" class="d1-tabs" role="group">
+<button class="d1-tab" data-go="0" type="button"><span class="d1-tn">1</span>构建知识树<i class="d1-prog"></i></button>
+<button class="d1-tab" data-go="1" type="button"><span class="d1-tn">2</span>生成研究问题<i class="d1-prog"></i></button>
+<button class="d1-tab" data-go="2" type="button"><span class="d1-tn">3</span>为报告评分<i class="d1-prog"></i></button>
+</div>
+<button aria-pressed="false" class="ctl-btn d1-pp" hidden="" type="button"><svg aria-hidden="true" viewbox="0 0 12 12"><rect fill="currentColor" height="9" rx=".6" width="2.6" x="2" y="1.5"></rect><rect fill="currentColor" height="9" rx=".6" width="2.6" x="7.4" y="1.5"></rect></svg><span>暂停</span></button>
+</div>
+<div class="d1-main">
+<div class="d1-tree" id="d1-tree"></div>
+<div class="d1-side">
+<div class="d1-pane" data-pane="0">
+<p class="d1-h">构建局部知识树</p>
+<p class="d1-line fx" data-a="200" data-b="700"><span class="d1-k">根节点</span><span class="d1-w">W</span> Roguelike <span class="d1-dom">游戏领域</span></p>
+<p class="d1-line fx" data-a="900" data-b="1400"><span class="d1-k">扩展</span>沿维基百科链接广度优先扩展，每条边都是源条目中陈述的一种关系。</p>
+<ul class="d1-hops">
+<li class="fx" data-a="1200" data-b="1700"><b>第 1 跳</b><span>根节点保留 50 个子节点</span></li>
+<li class="fx" data-a="3000" data-b="3500"><b>第 2 跳</b><span>每个节点最多 5 个子节点</span></li>
+<li class="fx" data-a="4700" data-b="5200"><b>第 3 跳</b><span>停止扩展；每棵树约 1.5K 个节点</span></li>
+</ul>
+<p class="d1-line fx" data-a="6600" data-b="7100"><span class="d1-k">采样</span>每个样例保留根节点和<b>10 个完整分支</b>，共同对应一项研究任务。本例保留了 Dungeons &amp; Dragons、Rogue、ASCII、Colossal Cave Adventure 等十个分支，图中展示其中两个。</p>
+</div>
+<div class="d1-pane" data-pane="1">
+<p class="d1-h">同一子图，生成一个问题和多条评分细则</p>
+<div class="d1-query fx" data-a="9100" data-b="9500"><span class="d1-k">研究问题</span><span class="fx-type" data-a="9300" data-b="11700">I’m trying to understand the origins of the roguelike video game genre … how the hardware and display limitations of the era shaped its distinctive look, and how tabletop role-playing traditions fed into its dungeon-crawling structure.</span></div>
+<div class="d1-rub fx" data-a="12000" data-b="12400"><span class="d1-k">每条边一条评分细则</span><span class="d1-rid">R9</span> The report explicitly states or clearly paraphrases that Ken Arnold wrote the first curses library, released with BSD UNIX and used for games such as Rogue.</div>
+<div class="d1-lock fx" data-a="13800" data-b="14200"><svg aria-hidden="true" viewbox="0 0 16 16"><rect fill="currentColor" height="7" rx="1.5" width="10" x="3" y="7"></rect><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg><span>知识树和评分细则均不公开，智能体只能看到研究问题。</span></div>
+<div class="d1-agent fx" data-a="14800" data-b="15200"><span class="d1-k">o3 Deep Research 撰写报告</span>
+<ol class="d1-report">
+<li class="fx" data-a="15300" data-b="15600">Early Inspirations: D&amp;D and the First Digital Dungeon Crawls</li>
+<li class="fx" data-a="15700" data-b="16000">Text-Only Technology and ASCII Art Dungeons</li>
+<li class="fx" data-a="16100" data-b="16400">Procedural Generation, Challenge, and “Perma-Death”</li>
+<li class="fx" data-a="16500" data-b="16800">The Birth of Rogue and its Founding Developers</li>
+<li class="fx" data-a="16900" data-b="17200">Parallel Evolution: Early Roguelike Variants …</li>
+</ol>
+</div>
+</div>
+<div class="d1-pane" data-pane="2">
+<p class="d1-h">逐条判定，再沿树向上汇总</p>
+<div class="d1-judge">
+<div class="d1-jhead"><span class="d1-rid" id="d1-jid">R1</span><span id="d1-jrel">Roguelike → Rogue</span><span class="d1-verdict" id="d1-jv"></span></div>
+<p class="d1-ev" id="d1-jev"></p>
+</div>
+<div class="d1-score fx" data-a="28200" data-b="28600">
+<div class="d1-meter" data-k="b"><span>广度</span><i><b></b></i><em>0.90</em></div>
+<div class="d1-meter" data-k="d"><span>深度</span><i><b></b></i><em>0.79</em></div>
+<div class="d1-meter" data-k="o"><span>总体</span><i><b></b></i><em>0.84</em></div>
+<p class="d1-note">两处缺失，代价不同：缺少 R6，Hack 之下没有更深的知识链；缺少 R12，Beneath Apple Manor 这条链差一跳未能走完。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption><b>图 1：</b>逐步演示一个样例：<em>Roguelike</em> 知识树、由其生成的研究问题，以及评判模型对 o3 Deep Research 报告的判定（对应论文附录 E.4 的图 10 与表 25）。图中 12 条评分细则选自该样例十个方向中的两个方向，这两个方向共有 60 条，整个样例共 308 条。最后一步中的节点数值（广度 / 深度）和三项得分把这两个方向视为完整样例计算，仅用于说明指标的计算方式。证据引文摘自报告原文。点击上方阶段可直接跳转。</figcaption>
+</figure>
+<h3>构建知识树</h3>
+<p>24 个领域取自 WebOrganizer 的主题分类，每个领域选两个根实体，例如硬件领域的 <em>Xerox Alto</em> 和 <em>Cray-1</em>，健康领域的 <em>Ignaz Semmelweis</em> 和 <em>John Snow</em>。从每个根实体出发，沿维基百科链接广度优先扩展。节点是实体，边是由链接锚文本及其上下文支撑的关系。扩展结果保存为有根树，每个节点只有一个父节点，每条关系都有确定的位置。扩展在第三跳停止，根节点保留 50 个子节点，其余节点最多保留 5 个，由 Claude Opus 4.8 按相关性和研究价值挑选。48 棵树平均各有约 1.5K 个节点。</p>
+<h3>采样研究范围</h3>
+<p>一整棵树的内容远超一次研究请求的合理范围。根节点的一个子节点连同其全部后代构成一个<strong>分支</strong>，即一个研究方向。每个样例保留根节点和<strong>10 个完整分支</strong>，它们从互补的角度服务于同一项研究任务；每个根实体生成三个样例，样例之间不共享分支，共得到 144 个样例。我们最初构建了 720 个样例，并在其上评测了三个深度研究系统。每个领域保留两个根实体时，96.7% 的抽样得分与完整样例池的差距在两个百分点以内，20 次抽样中系统排序全部保持不变，因此基准最终采用每领域两个根实体。</p>
+<h3>一个问题，多条隐藏的评分细则</h3>
+<p>研究问题和评分细则出自同一个子图。研究问题是一段自然的研究请求，围绕根实体和所采样分支的总体主题展开；提示词要求不要罗列隐藏的实体，因此智能体需要自行调研，而不是照着提纲填空。随后，每条保留的边生成一条评分细则，检查报告是否写到了这条边两端实体之间的关系。评分细则只依据给定的证据撰写：两个页面的摘要、锚文本所在句、相关段落和反向链接上下文。每个样例有 236 至 310 条评分细则，平均 306 条，其中 80.45% 位于第三跳。</p>
+<p>评分时，评判模型（Gemini 2.5 Pro）对每条评分细则给出三种判定之一：满足、部分满足、不满足。只有“满足”计为覆盖。<a class="fig-ref" href="#trust">第 7 节</a>说明了采用这种二值映射的原因。</p>
+</section>
+<section class="chap" id="metric">
+<h2><span class="n">3</span>广度与深度</h2>
+<p>两项指标都从叶节点向上计算。每条关系 <span class="mi">v</span> 有一个判定值 <span class="mi">x(v)</span>，覆盖为 1，否则为 0；叶节点的初值为 <span class="mi">B = D = x</span>。</p>
+<p><strong>广度</strong>衡量各方向覆盖得是否全面。在内部节点上，它把该关系自身的判定与子节点广度的均值加权组合：</p>
+<p class="eq"><span class="mi">B(v) = β·x(v) + (1 − β)·mean B(children)</span>，其中 β = 0.6。</p>
+<p>因此，只写到某条关系并不能拿到其下整棵子树的全部分数；反过来，后代被覆盖也能部分弥补上层关系的缺失。样例的广度是十个方向的简单平均，评分细则多的方向不会占更大权重。</p>
+<p><strong>深度</strong>衡量知识链追踪得有多远。子节点的深度值先排序，最好的一条权重最大：权重按名次以 ρ = 0.5 的比例递减并归一化，得到 <span class="mi">d(v)</span>。然后</p>
+<p class="eq"><span class="mi">D(v) = α·x(v) + (1 − α)·d(v)·[η + (1 − η)·x(v)]</span>，其中 α = 0.25，η = 0.75。</p>
+<p>方括号一项奖励连续性：如果节点与父节点之间的关系被覆盖，其下的证据全额计入；如果这条关系缺失，其下的证据乘以 0.75，打折但不清零。样例的深度在十个方向上采用同样的按名次加权。每个样例的<strong>总体覆盖率</strong>为 <span class="mi">√(B·D)</span>，任一维度偏弱都会拉低总分。三项指标最后分别在所有样例上取平均。</p>
+<figure class="fig" id="fig-2">
+<div class="fig-box">
+<div class="ctl-row">
+<div aria-label="示例报告" class="seg" id="f2-pre" role="group"></div>
+</div>
+<div class="d2">
+<div class="d2-tree" id="f2-tree"></div>
+<div class="d2-out" id="f2-out"></div>
+</div>
+</div>
+<figcaption><b>图 2：</b>一棵有四个方向、28 条评分细则的小树。三份示例报告各覆盖 12 条，按平铺计数都得 12/28 = 0.43。广度与深度能把它们区分开：前两份的总体覆盖率几乎相同，但特征截然相反；第三份报告覆盖的事实缺少上层关联，得分最低。点击任意节点可切换其评分细则的覆盖状态，得分按基准的实际参数计算。</figcaption>
+</figure>
+</section>
+<section class="chap" id="results">
+<h2><span class="n">4</span>十六个智能体的结果</h2>
+<p>我们评测了 16 个智能体，按检索与研究流程由谁提供分为三组。</p>
+<ul class="clean">
+<li><strong>深度研究系统</strong>，面向长时间自主调研设计：o3 Deep Research、Perplexity Sonar Deep Research 和 Qwen Deep Research。</li>
+<li><strong>原生搜索大模型</strong>，在生成过程中调用服务商自带的网页搜索：Claude Opus 5、Grok 4.5、GPT-5.6 Sol、Gemini 3.1 Pro Preview、Sonar Reasoning Pro 和 Qwen3.8 Max。</li>
+<li><strong>本地研究框架中的基座模型</strong>：使用同一份固定的维基百科快照、同样的 Search 和 Open 工具、同样的流程和预算，并关闭服务商自带搜索（见<a class="fig-ref" href="#process">第 6 节</a>）。共七个基座模型：Qwen3.8 Max、MiniMax M3、GLM 5.2、DeepSeek V4 Flash、DeepSeek V4 Pro、Qwen3.7 Plus 和 Gemma 4 31B。</li>
+</ul>
+<figure class="fig" id="fig-3">
+<div class="fig-box">
+<div class="ctl-row">
+<div aria-label="指标" class="seg" id="f3-m" role="group"></div>
+<div class="legend" id="f3-legend"></div>
+</div>
+<div class="d3" id="f3"></div>
+</div>
+<figcaption><b>图 3：</b>全部 144 个样例上的主要结果（对应论文表 2，单位为 %）。切换指标可以看到排序的变化。系统的总体覆盖率是各样例得分的平均，并非图中平均广度与平均深度的几何平均。</figcaption>
+</figure>
+<p><strong>Claude Opus 5 在三项指标上均排名第一</strong>：总体覆盖率 57.04%，广度 53.09%，深度 61.91%。Grok 4.5 总体第二（50.98%），广度也是第二，深度却排第五；o3 Deep Research 总体第三，深度第二。其余智能体的排名相互交错：Perplexity Sonar Deep Research 深度第三，广度却只排第十一。即使是最好的智能体，也有四成以上的期望知识没有覆盖。</p>
+<p>模型所处的研究流程与模型本身同样重要。在本地研究框架中，Qwen3.8 Max 的广度比使用自带搜索时高 15.54 个百分点，深度高 6.28 个百分点。该框架要求模型规划三个研究单元并检查覆盖缺口，提升主要体现在广度上。在 Perplexity 的产品中，深度研究产品的深度高于 Sonar Reasoning Pro（54.08 对 50.24），广度则略低（40.00 对 40.86）。在共享本地框架的基座模型中，排名靠前者的广度已经相近，拉开差距的是深度。</p>
+<h3 id="profiles">分数相同，报告不同</h3>
+<p>在单个样例上，汇总分数掩盖的差异最大。以英国传媒大亨 <em>Lew Grade</em> 为题的样例中，Perplexity Sonar Deep Research 和 Grok 4.5 的总体覆盖率几乎相同，分别为 38.83% 和 40.31%，覆盖特征却恰好相反：Perplexity 沿少数知识链走得很远（广度 27.33%，深度 55.19%），Grok 覆盖了多数方向但停留在浅层（广度 54.48%，深度 29.82%）。在<em>禁酒运动</em>样例上，o3 Deep Research 和 GPT-5.6 Sol 的广度和深度都很接近（32.11 对 34.64，48.26 对 50.43），但具体到各个方向，两份报告沿着同一棵树上不同的知识链展开。</p>
+<figure class="fig" id="fig-4">
+<div class="fig-box">
+<div class="ctl-row">
+<div aria-label="视图" class="seg" id="f4-v" role="group"></div>
+</div>
+<div id="f4"></div>
+<p class="d4-note" id="f4-note"></p>
+</div>
+<figcaption><b>图 4：</b>广度与深度的关系。虚线连接 √(B·D) 相等的点，同一条曲线上的点具有相同的样例级总体覆盖率。默认视图为 16 个智能体的平均得分；两个样例视图展示论文图 3 与附录 E 中的单份报告。鼠标悬停于数据点可查看数值。</figcaption>
+</figure>
+</section>
+<section class="chap" id="domains">
+<h2><span class="n">5</span>二十四个领域</h2>
+<p>覆盖率也与主题有关。按智能体平均，覆盖率最高的是软件开发（53.69%）、科学与技术（52.36%）和健康（50.10%），最低的是工业（28.58%）和餐饮（35.45%）。Claude Opus 5 在 24 个领域中的 23 个领先，唯一的例外是文学领域，o3 Deep Research 以 53.2% 对 49.6% 领先。</p>
+<figure class="fig" id="fig-5">
+<div class="fig-box">
+<div class="ctl-row">
+<div aria-label="行排序" class="seg" id="f5-s" role="group"></div>
+<div class="d5-scale" id="f5-scale"></div>
+</div>
+<div class="tbl-wrap"><div id="f5"></div></div>
+</div>
+<figcaption><b>图 5：</b>各智能体在各领域的总体覆盖率（%），每格为该领域六个样例的平均（对应论文图 4）。加框的单元格是该行最好的智能体，最后一列是所有智能体的平均。鼠标悬停于单元格可查看详情。</figcaption>
+</figure>
+</section>
+<section class="chap" id="process">
+<h2><span class="n">6</span>从检索到报告</h2>
+<p>比较不同产品能看出谁覆盖得多，却看不出原因。为进行受控比较，本地研究框架固定了基座模型以外的所有因素。检索在一份英文维基百科快照（enwiki-20260701-v1）上离线进行，只提供 <code>Search</code> 和 <code>Open</code> 两个工具。模型把问题拆成三个并行收集证据的研究单元，做一次覆盖缺口检查，必要时再启动一个补充单元，最后撰写报告。所有基座模型的检索预算和流程相同，证据空间也相同且不随时间变化。规划、工具使用、证据选择和写作则完全交给模型，每条轨迹都可以审计。</p>
+<p>在 1,008 条轨迹（144 个样例 × 7 个基座模型）中，检索次数几乎没有差别，每个样例约 10 到 12 次；阅读的页面数、引用数和报告长度则差别很大，是否启动补充单元与覆盖率只有微弱关联。更多的调研活动也不一定带来更高的覆盖率。在一个 <em>Horn &amp; Hardart</em> 样例上，GLM 5.2 检索次数更多，打开的页面更多，读过 112 个不同页面（DeepSeek V4 Flash 为 43 个），消耗的 token 是后者的两倍，报告也更长，三项指标却都更低。</p>
+<p>同一指标还可以用来评估智能体<em>检索到</em>的内容，而不仅是它写出的内容。我们在 24 个样例上分别对每个基座模型的检索材料和最终报告评分。检索材料中完全覆盖的评分细则，有 <strong>47.0% 在报告中不再完全覆盖</strong>，且知识越深，越容易被丢掉。不同模型丢掉的内容也不同：DeepSeek V4 Pro 保留的深度多于广度（92.4% 对 80.4%），DeepSeek V4 Flash 正好相反（80.7% 对 89.9%），Qwen3.8 Max 两方面都保留得最多，检索到的知识有 65.6% 进入了报告。</p>
+<figure class="fig" id="fig-6">
+<div class="fig-box">
+<div class="ctl-row">
+<div aria-label="视图" class="seg" id="f6-v" role="group"></div>
+<div class="legend" id="f6-legend"></div>
+</div>
+<div id="f6"></div>
+</div>
+<figcaption><b>图 6：</b>本地研究框架内部的情况。<b>调研活动与覆盖率</b>：一个 Horn &amp; Hardart 样例（对应论文表 24），每行按两者中较大的值缩放。<b>检索 → 报告</b>：24 个样例上检索材料与最终报告的广度和深度（对应论文表 20）。<b>按跳数的保留率</b>：检索中完全覆盖的评分细则在报告中仍完全覆盖的比例（对应论文表 21），粗线为七个基座模型的平均。</figcaption>
+</figure>
+<p>这些差异并非只由报告长度造成。要求七个基座模型都写约 1,200 词时，差距依然存在：Qwen3.8 Max 和 DeepSeek V4 Pro 的报告长度几乎相同（1,198 词和 1,239 词），得分仍相差 5.24 个百分点。研究框架同样有影响：LangChain 的 Open Deep Research 搭配 DeepSeek V4 Flash，并使用大得多的检索预算，在 24 个样例的子集上总体覆盖率达到 57.11%，而同一基座模型在我们的本地框架中为 45.43%。</p>
+</section>
+<section class="chap" id="trust">
+<h2><span class="n">7</span>评分是否可信</h2>
+<p>上述所有数字都依赖评判模型对照数百条评分细则阅读长篇报告，也依赖一个含四个参数的指标。我们对这两方面以及任务本身都做了检验。</p>
+<p><strong>评判模型与人工标注。</strong>在 12 份报告（每个领域一份）的 3,695 条评分细则判定上，我们将三个评判模型与人工审核的标签比较。对三个评判模型而言，把判定合并为“覆盖”与“未覆盖”两类，Macro-F1 都高于保留三级判定。Gemini 2.5 Pro 一致性最高（二值 0.893），因此被选为评判模型，其三级判定映射为二值覆盖。</p>
+<p><strong>指标与专家评价。</strong>三位专家独立为 72 份报告（12 个样例上的 6 个智能体）的广度、深度和整体质量打分。在评判结果固定的前提下，结构化指标在每个样例内给出的报告排序比平铺覆盖和按层均衡覆盖都更接近专家（总体维度 Kendall τ<sub>b</sub> 为 0.751，平铺覆盖为 0.508）。去掉广度中的后代融合项或深度中的连续性折扣，一致性都会下降。</p>
+<p><strong>排名与参数选择。</strong>分别上调和下调 β、α、η、ρ，智能体排名几乎不变：与默认参数下排名的 Spearman 相关系数，广度不低于 0.997，深度不低于 0.976。深度对 α 最敏感，在 120 对智能体中最多出现两次实质性的排名反转。</p>
+<figure class="fig" id="fig-7">
+<div class="fig-box">
+<div class="ctl-row">
+<div aria-label="检验项" class="seg" id="f7-v" role="group"></div>
+<div class="legend" id="f7-legend"></div>
+</div>
+<div id="f7"></div>
+</div>
+<figcaption><b>图 7：</b>有效性检验。<b>专家</b>：指标得分与专家平均评分之间的 Kendall τ<sub>b</sub>，在每个样例内计算后取平均（对应论文表 5）。<b>评判模型</b>：与人工审核标签相比的 Macro-F1（对应论文表 6）。<b>参数</b>：各参数扰动后的排名与默认排名之间的 Spearman 相关系数（对应论文表 7），注意横轴从 0.97 开始。</figcaption>
+</figure>
+<p>任务本身也经得起检验。我们逐一审阅了全部 144 个研究问题：每个都值得写成研究报告，都能依据公开资料回答，其中 141 个与所属领域完全吻合，其余 3 个与相邻领域有所交叉。在 24 个样例的 7,385 组问题–实体对中检查问题是否直接点出隐藏实体，共发现 8 处泄露（0.108%），且没有一处位于第一跳。改用另一个构建模型（Kimi K2.6，替代 Claude Opus 4.8）重建 10 个样例后，所有模型得分都有所下降，但 Claude Opus 5 仍排名第一，只是领先幅度缩小。</p>
+</section>
+<section class="chap" id="use">
+<h2><span class="n">8</span>评测自己的智能体</h2>
+<p>基准数据、评判提示词、评测程序和指标均已公开，附带的研究框架可选用。将 <code>queries.jsonl</code> 中的每个问题交给待评测的智能体，每个样例保存一份报告，然后运行：</p>
+<pre class="code"><code>pip install -e .
+drbenchpro validate-reports --cases data/benchmark/cases.jsonl --reports my-reports.jsonl --require-full
+drbenchpro evaluate --cases data/benchmark/cases.jsonl --reports my-reports.jsonl --output out/
+drbenchpro metrics  --cases data/benchmark/cases.jsonl --scores out/scores.jsonl --output out/metrics.json</code></pre>
+<p><code>cases.jsonl</code> 包含评分细则和参考知识树，不要让撰写报告的智能体接触到它。论文使用的评判模型是 Gemini 2.5 Pro；任何兼容 OpenAI 接口的服务都可以使用，但比较不同系统时应保持评判模型不变。本地研究框架也以 Docker 镜像形式发布，内置固定的维基百科索引，可用于在受控条件下测试基座模型。</p>
+<ol class="takeaways">
+<li><strong>评测报告覆盖了哪里，而不只是覆盖了多少。</strong>广度和深度给出的 16 个智能体排名并不相同，分数几乎相同的单个样例也可能对应截然相反的调研策略。</li>
+<li><strong>研究流程决定覆盖特征。</strong>同一个模型在加入规划与缺口检查的研究流程后，广度提高了 15.54 个百分点。</li>
+<li><strong>检索到不等于写进报告。</strong>智能体完全检索到的知识，有近一半没有进入最终报告，越深的知识丢失越多。</li>
+</ol>
+</section>
+<section class="chap" id="cite">
+<h2>引用</h2>
+<div class="bibtex"><button type="button">复制</button><pre>@article{huang2026drbenchpro,
+  title   = {DRBench Pro: A Knowledge-Centric Benchmark for Professional Deep Research Agents},
+  author  = {Huang, Han and Yan, Yuchen and Wu, Xingyu and Li, Yijun and Deng, Chao and Liu, Jie and Ma, Jin and Shen, Yongliang},
+  journal = {arXiv preprint arXiv:},
+  year    = {2026}
+}</pre></div>
+<h3 style="margin-top:32px">参考文献</h3>
+<ol class="refs">
+<li>Du et al. (2026). <a href="https://arxiv.org/abs/2506.11763" rel="noopener" target="_blank">DeepResearch Bench: A Comprehensive Benchmark for Deep Research Agents</a>. ICLR.</li>
+<li>Li et al. (2026). <a href="https://arxiv.org/abs/2601.08536" rel="noopener" target="_blank">DeepResearch Bench II: Diagnosing Deep Research Agents via Rubrics from Expert Report</a>.</li>
+<li>Sharma et al. (2026). <a href="https://arxiv.org/abs/2511.07685" rel="noopener" target="_blank">ResearchRubrics: A Benchmark of Prompts and Rubrics for Evaluating Deep Research Agents</a>. ICLR.</li>
+<li>Min et al. (2023). <a href="https://arxiv.org/abs/2305.14251" rel="noopener" target="_blank">FActScore: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation</a>. EMNLP.</li>
+<li>Wettig et al. (2025). <a href="https://arxiv.org/abs/2502.10341" rel="noopener" target="_blank">Organize the Web: Constructing Domains Enhances Pre-Training Data Curation</a>.</li>
+</ol>
+<p style="margin-top:22px;font-size:14.5px">案例分析、轨迹统计、成本核算和全部提示词见论文附录；基准、评测程序和研究框架发布在 <a class="tx" href="https://github.com/ZJU-REAL/DRBenchPro" rel="noopener" target="_blank">GitHub</a> 和 <a class="tx" href="https://huggingface.co/datasets/zhuiluozhiji/DRBenchPro" rel="noopener" target="_blank">Hugging Face</a>，排行榜见<a class="tx" href="https://zjureal.com/DRBenchPro/" rel="noopener" target="_blank">项目主页</a>。</p>
+</section>
+</article>
+</div>
+</main>
+<footer>
+<div class="foot-panel">
+<div class="foot-cta">
+<h3>面向真实世界的人工智能</h3>
+<p>浙江大学 REAL Lab · 中国杭州</p>
+<a class="foot-btn" href="../../join.html">加入 REAL Lab →</a>
+</div>
+<div class="foot-side">
+<div class="foot-icons">
+<a aria-label="GitHub" class="foot-social" href="https://github.com/ZJU-REAL" rel="noopener" target="_blank" title="GitHub"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+<a aria-label="Hugging Face" class="foot-social" href="https://huggingface.co/ZJU-REAL" rel="noopener" target="_blank" title="Hugging Face"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M1.4446 11.5059c0 1.1021.1673 2.1585.4847 3.1563-.0378-.0028-.0691-.0058-.1058-.0058-.4209 0-.8015.16-1.0704.4512-.3454.3737-.4984.8335-.4316 1.293a1.576 1.576 0 0 0 .2148.5978c-.2319.1864-.4018.4456-.4844.7578-.0646.2448-.131.7543.2149 1.2794a1.4552 1.4552 0 0 0-.0625.1055c-.208.3923-.2207.8372-.0371 1.25.2783.6258.9696 1.1175 2.3126 1.6467.8356.3292 1.5988.5411 1.6056.543 1.1046.2847 2.104.4277 2.969.4277 1.4173 0 2.4754-.3849 3.1525-1.1446 1.538.2651 2.791.1403 3.592.006.6773.7555 1.7332 1.1387 3.1467 1.1387.8649 0 1.8643-.143 2.969-.4278.0068-.0019.77-.2138 1.6056-.543 1.343-.5292 2.0343-1.0208 2.3126-1.6466.1836-.4129.171-.8577-.037-1.25a1.4685 1.4685 0 0 0-.0626-.1056c.346-.525.2795-1.0346.2149-1.2793-.0826-.3122-.2525-.5714-.4844-.7579.11-.1816.1831-.3788.2148-.5977.0669-.4595-.0862-.9193-.4316-1.293-.2688-.2913-.6495-.4513-1.0704-.4513-.0209 0-.0376.0008-.0588.0018.3162-.9966.4846-2.0518.4846-3.1523 0-5.807-4.7362-10.5144-10.5789-10.5144-5.8426 0-10.5788 4.7073-10.5788 10.5144Zm10.5788-9.4831c5.2727 0 9.5476 4.246 9.5476 9.483a9.4201 9.4201 0 0 1-.2696 2.2365c-.0039-.0047-.0079-.011-.0117-.0156-.274-.3255-.6679-.5059-1.1075-.5059-.352 0-.714.1155-1.0763.3438-.2403.1517-.5058.422-.7793.7598-.2534-.3492-.608-.5832-1.0137-.6465a1.5174 1.5174 0 0 0-.2344-.0176c-.9263 0-1.4828.7993-1.6935 1.5177-.1046.2426-.6065 1.3482-1.3614 2.0978-1.1681 1.1601-1.4458 2.3534-.8396 3.6382-.843.1029-1.5836.0927-2.365-.006.5906-1.212.3626-2.4388-.8426-3.6322-.755-.7496-1.2568-1.8552-1.3614-2.0978-.2107-.7184-.7673-1.5177-1.6935-1.5177-.078 0-.1568.0054-.2344.0176-.4057.0633-.7604.2973-1.0137.6465-.2735-.3379-.539-.6081-.7794-.7598-.3622-.2283-.7243-.3438-1.0762-.3438-.4266 0-.8094.171-1.0821.4786a9.4208 9.4208 0 0 1-.2598-2.1936c0-5.237 4.2749-9.483 9.5475-9.483zM8.6443 7.0036c-.4838.0043-.9503.2667-1.1934.7227-.3536.6633-.1006 1.4873.5645 1.84.351.1862.4883-.5261.836-.6485.3107-.1095.841.399 1.0078.086.3536-.6634.1025-1.4874-.5625-1.84a1.3659 1.3659 0 0 0-.6524-.1602Zm6.8403 0c-.2199-.002-.4426.05-.6504.1602-.665.3526-.9181 1.1766-.5645 1.84.1669.313.6971-.1955 1.0079-.086.3476.1224.4867.8347.838.6485.6649-.3527.916-1.1767.5624-1.84-.243-.456-.7096-.7184-1.1934-.7227Zm-9.7565 1.418a.8768.8768 0 0 0-.877.877c0 .4846.3925.877.877.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zm12.6434 0c-.4845 0-.879.3925-.879.877 0 .4846.3945.877.879.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zM8.7927 11.459c-.179-.003-.2793.1107-.2793.416 0 .8097.3874 2.125 1.4279 2.924.207-.7123 1.3453-1.2832 1.5079-1.2012.2315.1167.2191.4417.6074.7266.3884-.285.374-.6098.6056-.7266.1627-.082 1.3009.4889 1.5079 1.2012 1.0404-.799 1.4278-2.1144 1.4278-2.924 0-1.2212-1.583.6402-3.5413.6485-1.4686-.0061-2.7266-1.0558-3.2639-1.0645zM4.312 14.4768c.5792.365 1.6964 2.2751 2.1056 3.0177.1371.2488.371.3536.582.3536.4188 0 .7465-.4138.0391-.9395-1.0636-.791-.6914-2.0846-.1836-2.1642a.4302.4302 0 0 1 .0664-.004c.4616 0 .666.7892.666.7892s.5959 1.4898 1.6213 2.508c.942.9356 1.062 1.703.4961 2.6661-.0164-.004-.0159.0236-.1484.2149-.1853.2673-.4322.4688-.7188.6152-.5062.2269-1.1397.2696-1.7833.2696-1.037 0-2.1017-.1824-2.6975-.336-.0293-.0075-3.6505-.9567-3.1916-1.8224.0771-.1454.2033-.2031.3633-.2031.6463 0 1.823.9551 2.3283.9551.113 0 .196-.0865.2285-.2031.2249-.8045-3.2787-1.0522-2.9846-2.1642.0519-.1967.193-.2757.3907-.2754.854 0 2.7704 1.4923 3.172 1.4923.0307 0 .0525-.0085.0645-.0274.2012-.3227.1096-.5865-1.3087-1.4395-1.4182-.8533-2.4315-1.329-1.8653-1.9416.0651-.0707.1574-.1015.2695-.1015.8611.0002 2.8948 1.84 2.8948 1.84s.5487.5683.8809.5683c.0762 0 .1416-.0315.1855-.1054.2355-.3946-2.1858-2.2183-2.3224-2.971-.0926-.51.0641-.7676.3555-.7676-.0006.008.1701-.0285.4942.1759zm16.2257.5918c-.1366.7526-2.5579 2.5764-2.3224 2.9709.044.074.1092.1055.1855.1055.3321 0 .881-.5684.881-.5684s2.0336-1.8397 2.8947-1.84c.1121 0 .2044.0308.2695.1016.5662.6125-.447 1.0882-1.8653 1.9415-1.4183.853-1.51 1.1168-1.3087 1.4396.012.0188.0337.0273.0644.0273.4016 0 2.3181-1.4923 3.1721-1.4923.1977-.0002.3388.0787.3907.2754.294 1.112-3.2095 1.3597-2.9846 2.1642.0325.1166.1156.2032.2285.2032.5054 0 1.682-.9552 2.3283-.9552.16 0 .2862.0577.3633.2032.459.8656-3.1623 1.8149-3.1916 1.8224-.5958.1535-1.6605.336-2.6975.336-.6351 0-1.261-.0409-1.7638-.2599-.2949-.1472-.5488-.3516-.7383-.625-.0411-.0682-.1026-.1476-.1426-.205-.5726-.9679-.455-1.7371.4903-2.676 1.0254-1.0182 1.6212-2.508 1.6212-2.508s.2044-.7891.666-.7891a.4318.4318 0 0 1 .0665.0039c.5078.0796.88 1.3732-.1836 2.1642-.7074.5257-.3797.9395.039.9395.211 0 .445-.1047.5821-.3535.4092-.7426 1.5264-2.6527 2.1056-3.0178.5588-.3524.99-.1816.8497.5918z"></path></svg></a>
+<a aria-label="小红书" class="foot-social" href="https://www.xiaohongshu.com/user/profile/67d84bef000000000d008f18" rel="noopener" target="_blank" title="小红书"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031-.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034-.38 0 .078-.029-.641-.724-.998z"></path></svg></a>
+<a aria-label="X" class="foot-social" href="https://x.com/zjureal" rel="noopener" target="_blank" title="X"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+<a aria-label="Google Scholar" class="foot-social" href="https://scholar.google.com/citations?user=UT3NzFAAAAAJ" rel="noopener" target="_blank" title="Google Scholar"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></svg></a>
+</div>
+<p>syl [AT] zju.edu.cn</p>
+</div>
+</div>
+<div class="foot-bar"><span>© 2026 浙江大学 REAL Lab</span> <a href="#top">回到顶部 ↑</a></div>
+</footer>
+<script src="../blog.js?v=20261122b"></script>
+<script src="post.js?v=20261126"></script>
+</body>
+</html>

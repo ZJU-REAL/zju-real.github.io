@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="A torn paper fan stands for the space of knowledge a question opens up; thick ink rays of different lengths grow out of one root dot across it, some short and some long, with dots along them, while faint dashed rays mark directions left uncovered">
+  <defs>
+    <filter id="torn" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="11" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="1" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <g transform="translate(0 22)">
+  <path filter="url(#torn)" fill="#cbd8d3" d="M38 330 A262 262 0 0 1 562 330 Z"/>
+  <path filter="url(#torn)" fill="#bccbc5" d="M300 330 L118 142 A262 262 0 0 1 300 68 Z" opacity=".55"/>
+  <g fill="none" stroke="#141414" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".4">
+    <path d="M300 330 L70 246"/>
+    <path d="M300 330 L185 114"/>
+    <path d="M300 330 L363 93"/>
+    <path d="M300 330 L488 172"/>
+    <path d="M300 330 L537 267"/>
+  </g>
+  <g filter="url(#ink)" fill="none" stroke="#141414" stroke-width="12" stroke-linecap="round">
+    <path d="M300 330 L170 262"/>
+    <path d="M300 330 L176 150"/>
+    <path d="M300 330 L300 74"/>
+    <path d="M300 330 L410 180"/>
+    <path d="M300 330 L446 298"/>
+  </g>
+  <g fill="#141414">
+    <circle cx="170" cy="262" r="13"/>
+    <circle cx="238" cy="240" r="11"/>
+    <circle cx="176" cy="150" r="14"/>
+    <circle cx="300" cy="245" r="11"/>
+    <circle cx="300" cy="160" r="12"/>
+    <circle cx="300" cy="74" r="15"/>
+    <circle cx="355" cy="255" r="11"/>
+    <circle cx="410" cy="180" r="13"/>
+    <circle cx="446" cy="298" r="12"/>
+    <circle cx="300" cy="330" r="20"/>
+  </g>
+  </g>
+</svg>

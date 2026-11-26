@@ -31,6 +31,7 @@ PAGES = [('index.html', '', 1.0), ('about.html', 'about.html', .8), ('research.h
          ('blog/easysteer/index.html', 'blog/easysteer/', .8),
          ('blog/gpd/index.html', 'blog/gpd/', .8),
          ('blog/worldmembench/index.html', 'blog/worldmembench/', .8),
+         ('blog/drbenchpro/index.html', 'blog/drbenchpro/', .8),
          ('people.html', 'people.html', .7), ('join.html', 'join.html', .7)]
 
 
@@ -173,7 +174,8 @@ lines = ['# REAL Lab, Zhejiang University', '',
          f'[SWE-Ladder: Learning to Localize, Reproduce, and Patch]({SITE}/blog/swe-ladder/), '
          f'[EasySteer: A Unified Framework for High-Performance and Extensible LLM Steering]({SITE}/blog/easysteer/), '
          f'[GPD: Distilling Routed 3D Privilege for Spatial Reasoning]({SITE}/blog/gpd/), '
-         f'[WorldMemBench: A Comprehensive Benchmark for Memory of Video World Models]({SITE}/blog/worldmembench/)',
+         f'[WorldMemBench: A Comprehensive Benchmark for Memory of Video World Models]({SITE}/blog/worldmembench/), '
+         f'[DRBench Pro: A Knowledge-Centric Benchmark for Professional Deep Research Agents]({SITE}/blog/drbenchpro/)',
          f'- [People]({SITE}/people.html) and [Join Us]({SITE}/join.html)',
          f'- Chinese version of the whole site (中文版): {SITE}/zh/', '',
          '## Links', '',

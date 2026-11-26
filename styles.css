@@ -51,11 +51,11 @@ nav.topbar .inner {
   align-items: center;
   font-size: 16px;
 }
-nav.topbar .brand { font-size: 16px; }
+nav.topbar .brand { font-size: 20px; }
 nav.topbar ul a { font-size: 16px; }
 nav.topbar .brand {
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: var(--ink);
 }
 nav.topbar .brand { display: flex; align-items: center; }
@@ -64,12 +64,12 @@ nav.topbar .brand a {
   border: none;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
   line-height: 1;
 }
 nav.topbar .brand-mark {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   display: block;
   flex: none;
 }
@@ -1794,8 +1794,8 @@ footer a { border-bottom: none; }
 @media (max-width: 640px) {
   /* Nav becomes a hamburger dropdown */
   nav.topbar .inner { padding: 12px 16px; position: relative; }
-  nav.topbar .brand { font-size: 16px; }
-  nav.topbar .brand-mark { width: 28px; height: 28px; }
+  nav.topbar .brand { font-size: 18px; }
+  nav.topbar .brand-mark { width: 32px; height: 32px; }
   nav.topbar .nav-burger { display: block; }
   nav.topbar ul {
     position: absolute;

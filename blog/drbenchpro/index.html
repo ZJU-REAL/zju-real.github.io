@@ -217,7 +217,7 @@
         <div class="d2-out" id="f2-out"></div>
       </div>
     </div>
-    <figcaption><b>Figure 2.</b> A small tree with four directions and 28 rubrics. The three example reports each cover 12 rubrics, so a flat count scores them all 12/28 = 0.43. Breadth and depth tell them apart: the first two land on nearly the same overall coverage from opposite profiles, and the scattered report, whose covered facts have no links above them, scores lowest. Click any node to toggle its rubric; the scores use the benchmark’s own parameters.</figcaption>
+    <figcaption><b>Figure 2.</b> A small tree with four directions and 28 rubrics. The three example reports each cover 12 rubrics, so a flat count scores them all 12/28 = 0.43. Breadth and depth tell them apart: the first two land on nearly the same overall coverage from opposite profiles. The scattered report covers relations at different levels across directions, with some deeper relations missing the links above them. It scores lowest among the three examples. Click any node to toggle its rubric; the scores use the benchmark’s own parameters.</figcaption>
   </figure>
 </section>
 
@@ -313,7 +313,7 @@
     <figcaption><b>Figure 7.</b> Validation. <b>Experts</b>: Kendall τ<sub>b</sub> between scores and mean expert ratings, computed within each case and averaged (paper Table 5). <b>Judges</b>: Macro-F1 against human-reviewed labels (paper Table 6). <b>Parameters</b>: Spearman correlation between each perturbed ranking and the default one (paper Table 7); note the axis starts at 0.97.</figcaption>
   </figure>
 
-  <p>The tasks hold up as well. We read all 144 queries: every one is worth a research report and answerable from public sources, and 141 fit their assigned domain cleanly (the other three overlap neighbouring domains). Checking 7,385 query–entity pairs from 24 cases for hidden entities named in the query found 8 leaks (0.108%), none of them at the first hop. Rebuilding 10 cases with a different construction model (Kimi K2.6 instead of Claude Opus 4.8) lowers all scores but keeps Claude Opus 5 first, with a smaller lead.</p>
+  <p>The tasks hold up as well. We read all 144 queries: every one is worth a research report and answerable from public sources, and 141 fit their assigned domain cleanly (the other three overlap neighbouring domains). Checking 7,385 query–entity pairs from 24 cases for hidden entities named in the query found 8 leaks (0.108%), none of them at the first hop. After we rebuilt 10 cases with Kimi K2.6 instead of Claude Opus 4.8, Claude Opus 5 still achieved the highest mean overall coverage. Its lead over the models that had scored relatively close to it in the original evaluation narrowed.</p>
 </section>
 
 <section class="chap" id="use">
@@ -377,6 +377,6 @@ drbenchpro metrics  --cases data/benchmark/cases.jsonl --scores out/scores.jsonl
 </footer>
 
 <script src="../blog.js?v=20261122b"></script>
-<script src="post.js?v=20261126"></script>
+<script src="post.js?v=20261126b"></script>
 </body>
 </html>

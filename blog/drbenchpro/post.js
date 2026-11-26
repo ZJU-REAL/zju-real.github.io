@@ -317,7 +317,7 @@
     var PRE = [
       ['Broad, shallow', preset(ALL.filter(function (id) { return id[0] !== 'c'; }))],
       ['Focused, continuous', preset(['a0', 'b00', 'b01', 'c000', 'c001', 'c010', 'c011', 'a1', 'b10', 'c100', 'c101', 'b11'])],
-      ['Scattered', preset(['c000', 'c001', 'c010', 'c100', 'c101', 'c110', 'c200', 'c201', 'c210', 'c300', 'c301', 'c310'])],
+      ['Scattered', preset(['a0', 'c100', 'c101', 'c110', 'b20', 'b21', 'c200', 'c210', 'b31', 'c300', 'c301', 'c311'])],
       ['Everything', preset(ALL)]
     ];
     var x = Object.assign({}, PRE[0][1]);

@@ -308,6 +308,13 @@ def build_page(page, write=True):
     for s in soup.select('script[type="application/ld+json"], meta[name=keywords]'):
         s.decompose()
     soup.html['lang'] = 'zh-CN'
+    # Chinese web fonts (Source Han Sans body, Source Han Serif headings), loaded only on the Chinese pages
+    css = soup.head.find('link', href=re.compile(r'styles\.css'))
+    if css is not None:
+        for attrs in ({'rel': 'preconnect', 'href': 'https://fonts.googleapis.com'},
+                      {'rel': 'preconnect', 'href': 'https://fonts.gstatic.com', 'crossorigin': ''},
+                      {'rel': 'stylesheet', 'href': 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap'}):
+            css.insert_before(soup.new_tag('link', attrs=attrs))
     add_alternates(soup, page, zh_url(page))
     for img in soup.find_all('img', src=True):
         for en, zh in RULES.get('img_map', {}).items():

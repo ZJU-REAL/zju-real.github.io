@@ -2185,7 +2185,10 @@ footer a { border-bottom: none; }
 @media (prefers-reduced-motion: reduce) { .px-panel { animation: none; } }
 
 /* Chinese pages: CJK fonts first, no wide tracking or uppercase on labels */
-html[lang="zh-CN"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif; }
+html[lang="zh-CN"] body { font-family: "Noto Sans SC", "Source Sans Pro", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif; }
+html[lang="zh-CN"] main h1, html[lang="zh-CN"] main h2, html[lang="zh-CN"] main h3, html[lang="zh-CN"] footer h3, html[lang="zh-CN"] .px-txt b {
+  font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+}
 html[lang="zh-CN"] main *, html[lang="zh-CN"] footer *, html[lang="zh-CN"] .news-bar * { letter-spacing: normal !important; }
 html[lang="zh-CN"] .lead, html[lang="zh-CN"] main p, html[lang="zh-CN"] main li { line-height: 1.8; }
 html[lang="zh-CN"] em, html[lang="zh-CN"] i:not([class]) { font-style: normal; }
